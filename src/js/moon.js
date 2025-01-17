@@ -1,18 +1,22 @@
-import { Moon, Earth } from "./utils.js";
+import { Moon, Earth, Sun } from "./utils.js";
 
 export const moonRotate = (p) => {
     let moon;
     let earth;
+    let sun;
 
     p.setup = () => {
         p.createCanvas(800, 400, p.WEBGL);
         p.noStroke();
 
         let moonPos = p.createVector(100, 0, 0);
-        moon = new Moon(p, moonPos, 50, 0, 0.2);
+        moon = new Moon(p, moonPos, 50, 0);
 
         let earthPos = p.createVector(-100, 0, 0);
-        earth = new Earth(p, earthPos, 100, 0, 0.2);
+        earth = new Earth(p, earthPos, 100, 0);
+
+        let sunPos = p.createVector(0, 0, -500);
+        sun = new Sun(p, sunPos, 300, 0);
     };
 
     p.draw = () => {
@@ -21,8 +25,10 @@ export const moonRotate = (p) => {
 
         moon.draw();
         earth.draw();
-        moon.rotate(0.01);
-        earth.rotate(0.01);
+        sun.draw();
+        moon.rotate(0.2);
+        earth.rotate(0.1);
+        sun.rotate(0.01);
 
         p.orbitControl(2);
     };
