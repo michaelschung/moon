@@ -4,7 +4,7 @@ export const moonCycle = (p) => {
     p.setup = () => {
         p.createCanvas(300, 300, p.WEBGL);
         p.noStroke();
-        
+
         theta = 0;
     };
 
@@ -14,7 +14,7 @@ export const moonCycle = (p) => {
         p.rotateY(-theta);
         theta += 0.05;
 
-        drawMoon(100, 0.2);
+        drawMoon(100, 0.1);
 
         // p.orbitControl(2);
     };
@@ -48,6 +48,8 @@ export const moonCycle = (p) => {
                 let x4 = p.cos(lat + res) * p.cos(lon + res) * d;
                 let y4 = p.cos(lat + res) * p.sin(lon + res) * d;
                 let z4 = p.sin(lat + res) * d;
+
+                p.fill(255*lat/p.PI/2);
 
                 // Connect adjacent points to form triangles
                 p.vertex(x1, y1, z1);
