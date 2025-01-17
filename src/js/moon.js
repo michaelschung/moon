@@ -1,25 +1,22 @@
-import { Moon, drawMoon } from "./utils.js";
+import { Moon } from "./utils.js";
 
 export const moonRotate = (p) => {
-    let moonPos;
-    let moonRot;
+    let moon;
 
     p.setup = () => {
         p.createCanvas(400, 400, p.WEBGL);
         p.noStroke();
 
-        moonPos = p.createVector(0, 0, 0);
-        moonRot = 0;
+        moon = new Moon(p, p.createVector(0, 0, 0), 100, 0, 0.2);
     };
 
     p.draw = () => {
         p.background(0);
         p.randomSeed(1);
 
-        moonRot += 0.01;
-
-        // (pos, radius, rotation, resolution)
-        drawMoon(p, moonPos, 100, moonRot, 0.2);
+        moon.draw();
+        moon.rotate(0.01);
+        
         p.orbitControl(2);
     };
 };
