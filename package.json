@@ -1,0 +1,19 @@
+{
+  "name": "moon",
+  "version": "1.0.0",
+  "description": "a little explainer for the phases of the moon",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "author": "Michael Chung",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "p5": "^1.11.2"
+  },
+  "devDependencies": {
+    "vite": "^6.0.7"
+  }
+}
