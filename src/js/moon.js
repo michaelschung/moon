@@ -2,7 +2,7 @@ import { Moon, Earth, Sun } from "./utils.js";
 
 export const moonRotate = (p) => {
     let moon;
-    // let earth;
+    let earth;
     // let sun;
 
     p.setup = () => {
@@ -10,11 +10,11 @@ export const moonRotate = (p) => {
         p.noStroke();
         p.frameRate(10);
 
-        let moonPos = p.createVector(0, 0, 0);
-        moon = new Moon(p, moonPos, 100, 0);
+        let moonPos = p.createVector(100, 0, 0);
+        moon = new Moon(p, moonPos, 50, 0);
 
-        // let earthPos = p.createVector(-100, 0, 0);
-        // earth = new Earth(p, earthPos, 100, 0);
+        let earthPos = p.createVector(-100, 0, 0);
+        earth = new Earth(p, earthPos, 100, 0);
 
         // let sunPos = p.createVector(0, 0, -500);
         // sun = new Sun(p, sunPos, 300, 0);
@@ -25,10 +25,10 @@ export const moonRotate = (p) => {
         p.randomSeed(1);
 
         moon.draw();
-        // earth.draw();
+        earth.draw();
         // sun.draw();
         moon.rotate(1);
-        // earth.rotate(0.1);
+        earth.rotate(2);
         // sun.rotate(0.01);
 
         p.orbitControl(2);
