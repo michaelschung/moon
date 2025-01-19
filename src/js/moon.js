@@ -25,10 +25,10 @@ export const moonRotate = (p) => {
         p.randomSeed(1);
 
         moon.draw();
-        earth.draw();
-        // sun.draw();
         moon.rotate(1);
+        earth.draw();
         earth.rotate(2);
+        // sun.draw();
         // sun.rotate(0.01);
 
         p.orbitControl(2);

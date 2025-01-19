@@ -7,7 +7,7 @@ class Body {
      * @param {number} r - Radius of the body
      * @param {number} rot - Rotation angle (in radians)
      * @param {number} res - Resolution of the render (2pi/res)
-     * @param {number} light - Angle from which the light is coming
+     * @param {number} light - Angle from which the light is coming (pass negative value for luminous body)
      */
     constructor(p, pos, r, rot, res=80, light=0) {
         this.p = p;
@@ -42,35 +42,27 @@ class Body {
 }
 
 export class Moon extends Body {
-    constructor(p, pos, r, rot, res) {
-        super(p, pos, r, rot, res);
+    constructor(p, pos, r, rot, res=80, light=0) {
+        super(p, pos, r, rot, res, light);
         this.color = p.color(200);
     }
 }
 
 export class Earth extends Body {
-    constructor(p, pos, r, rot, res) {
-        super(p, pos, r, rot, res);
+    constructor(p, pos, r, rot, res=80, light=0) {
+        super(p, pos, r, rot, res, light);
         this.color = p.color(4, 21, 207);
     }
 }
 
 export class Sun extends Body {
-    constructor(p, pos, r, rot, res) {
-        super(p, pos, r, rot, res);
+    constructor(p, pos, r, rot, res=80) {
+        super(p, pos, r, rot, res, -1);
         this.color = p.color("orange");
-    }
-
-    draw() {
-        const [p, pos, r, c, rot, res] = this.instanceVars();
-        p.push();
-        p.translate(pos);
-        // drawHemisphere(p, r, c, res, false);
-        // drawHemisphere(p, r, c, res, false);
-        p.pop();
     }
 }
 
+// Darkens the given color (representing the shadow side)
 function darkenColor(p, color) {
     return p.color(
         p.red(color) * 0.15,
@@ -79,6 +71,7 @@ function darkenColor(p, color) {
     );
 }
 
+// Adds some noise to the given color (for texture)
 function noisyColor(p, color, grain) {
     let noise = p.random(-grain, grain);
     return p.color(
@@ -88,16 +81,29 @@ function noisyColor(p, color, grain) {
     );
 }
 
-function isLight(p, lon, light) {
-    lon %= p.TWO_PI;
-    return lon < light + p.PI/2 || lon > light + p.PI*3/2;
+// Calculates whether a given longitude is on the lit side
+function isLit(p, lon, light) {
+    // Luminous bodies are lit on all sides
+    if (light < 0) return true;
+    let diff = Math.abs(lon - light) % p.TWO_PI;
+    if (diff > p.PI) diff = p.TWO_PI - diff;
+    return diff < p.PI/2;
 }
 
-function drawLitSphere(p, r, baseColor, rot, res, light) {
+/**
+ * Draws a sphere with the given parameters, lit from the angle
+ * given by `light`.
+ * @param {*} p - The p5 instance
+ * @param {*} r - Radius
+ * @param {*} color - Base color
+ * @param {*} rot - Current rotation angle
+ * @param {*} res - Resolution of the render
+ * @param {*} light - Angle from which the light is shining
+ */
+function drawLitSphere(p, r, color, rot, res, light) {
     p.beginShape(p.TRIANGLES);
     for (let lon = rot; lon < rot+p.TWO_PI; lon += res) {
-        let lightStrip = isLight(p, lon, light);
-        let c = lightStrip ? baseColor : darkenColor(p, baseColor);
+        let c = isLit(p, lon, light) ? color : darkenColor(p, color);
         for (let lat = -p.PI/2; lat < p.PI/2; lat += res) {
             let x1 = p.cos(lat) * p.cos(lon) * r;
             let y1 = p.sin(lat) * r;
@@ -115,7 +121,6 @@ function drawLitSphere(p, r, baseColor, rot, res, light) {
             let y4 = p.sin(lat + res) * r;
             let z4 = p.cos(lat + res) * p.sin(lon + res) * r;
 
-            // let isLight = lon > light - p.PI/2 && lon <= light + p.PI/2;
             p.fill(noisyColor(p, c, 5));
 
             // Connect adjacent points to form triangles
