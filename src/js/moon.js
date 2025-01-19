@@ -1,12 +1,17 @@
 import { Moon, Earth, Sun } from "./utils.js";
 
 export const moonRotate = (p) => {
+    let cam;
     let moon;
     let earth;
     // let sun;
 
     p.setup = () => {
         p.createCanvas(800, 400, p.WEBGL);
+        // Default position (0, 0, 800) - seems false
+        cam = p.createCamera();
+        cam.setPosition(0, 0, 350);
+
         p.noStroke();
         p.frameRate(10);
 
