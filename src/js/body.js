@@ -1,4 +1,4 @@
-class Body {
+export class Body {
     /**
      * Creates a new terrestrial body.
      * 
@@ -93,12 +93,12 @@ function isLit(p, lon, light) {
 /**
  * Draws a sphere with the given parameters, lit from the angle
  * given by `light`.
- * @param {*} p - The p5 instance
- * @param {*} r - Radius
- * @param {*} color - Base color
- * @param {*} rot - Current rotation angle
- * @param {*} res - Resolution of the render
- * @param {*} light - Angle from which the light is shining
+ * @param {object} p - The p5 instance
+ * @param {number} r - Radius
+ * @param {p5.Color} color - Base color
+ * @param {number} rot - Current rotation angle
+ * @param {number} res - Resolution of the render
+ * @param {number} light - Angle from which the light is shining
  */
 function drawLitSphere(p, r, color, rot, res, light) {
     p.beginShape(p.TRIANGLES);
