@@ -45,11 +45,15 @@ export const moonOrbit = (p) => {
     let earth;
     let moon;
     let earthMoonOrbit;
+    let cam;
 
     p.setup = () => {
         p.createCanvas(800, 800, p.WEBGL);
         p.noStroke();
         // p.frameRate(10);
+
+        // cam = p.createCamera();
+        // cam.setPosition(0, 0, 0);
 
         let earthPos = p.createVector(0, 0, 0);
         earth = new Earth(p, earthPos, 50, 0);
@@ -57,7 +61,7 @@ export const moonOrbit = (p) => {
         let moonPos = p.createVector(0, 0, 0);
         moon = new Moon(p, moonPos, 30, 0);
 
-        earthMoonOrbit = new Orbit(p, earth, moon, 300, p.createVector(0, 0, 0));
+        earthMoonOrbit = new Orbit(p, earth, moon, 300, p.createVector(1, 5, 0));
     };
 
     p.draw = () => {
@@ -66,6 +70,8 @@ export const moonOrbit = (p) => {
 
         earthMoonOrbit.render();
         earthMoonOrbit.revolve(0.01);
+
+        // cam.lookAt(moon.pos.x, moon.pos.y, moon.pos.z);
 
         p.orbitControl(2);
     };
