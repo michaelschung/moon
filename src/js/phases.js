@@ -1,5 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
+import { Arrow } from "./utils.js";
 
 export const moonPhases = (p) => {
     let moon;
@@ -36,6 +37,7 @@ export const moonRevolve = (p) => {
     let earthMoonOrbit;
     let cam;
     let rate = p.TWO_PI/80;
+    let sunArrow;
 
     p.setup = () => {
         p.createCanvas(800, 400, p.WEBGL);
@@ -52,7 +54,12 @@ export const moonRevolve = (p) => {
 
         cam = p.createCamera();
         cam.ortho();
+        // (x, y, z, centerX, centerY, centerZ, upX, upY, upZ)
         cam.camera(0, 400, 0, 0, 0, 0, 0, 0, -1);
+
+        let arrowPos = p.createVector(-300, 0, 0);
+        let arrowDir = p.createVector(-1, 0, 0);
+        sunArrow = new Arrow(p, arrowPos, arrowDir, 40);
     };
 
     p.draw = () => {
@@ -61,5 +68,11 @@ export const moonRevolve = (p) => {
 
         earthMoonOrbit.render();
         earthMoonOrbit.revolve(rate);
+        earth.rotate(28);
+        moon.rotate(1);
+
+        sunArrow.draw();
+
+        p.orbitControl();
     };
 };
