@@ -20,6 +20,9 @@ export class Body {
         this.light = light;
     }
 
+    // NOTE TO SELF: might want to update rot and light to vectors
+    // p5.Vector has methods like angleBetween that would make isLit easier
+
     instanceVars() {
         return [
             this.p, this.pos, this.r, this.color,
@@ -37,7 +40,7 @@ export class Body {
 
     // Rotates moon by given angle
     rotate(resAmt) {
-        this.rot = (this.rot + resAmt * this.res) % this.p.TWO_PI;
+        this.rot = (this.rot - resAmt * this.res) % this.p.TWO_PI;
     }
 }
 
@@ -103,7 +106,7 @@ function isLit(p, lon, light) {
 function drawLitSphere(p, r, color, rot, res, light) {
     p.beginShape(p.TRIANGLES);
     for (let lon = rot; lon < rot+p.TWO_PI; lon += res) {
-        let c = isLit(p, lon, light) ? color : darkenColor(p, color);
+        let c = isLit(p, lon+res/2, light) ? color : darkenColor(p, color);
         for (let lat = -p.PI/2; lat < p.PI/2; lat += res) {
             let x1 = p.cos(lat) * p.cos(lon) * r;
             let y1 = p.sin(lat) * r;
@@ -121,6 +124,7 @@ function drawLitSphere(p, r, color, rot, res, light) {
             let y4 = p.sin(lat + res) * r;
             let z4 = p.cos(lat + res) * p.sin(lon + res) * r;
 
+            p.shininess(10);
             p.fill(noisyColor(p, c, 5));
 
             // Connect adjacent points to form triangles
