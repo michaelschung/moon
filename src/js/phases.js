@@ -1,6 +1,8 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { Arrow } from "./utils.js";
+import { Arrow, rotateToCamera, worldAxes } from "./utils.js";
+
+const fontDir = "../../public/assets";
 
 export const moonPhases = (p) => {
     let moon;
@@ -38,6 +40,7 @@ export const moonRevolve = (p) => {
     let cam;
     let rate = p.TWO_PI/80;
     let sunArrow;
+    let font;
 
     p.setup = () => {
         p.createCanvas(800, 400, p.WEBGL);
@@ -54,24 +57,68 @@ export const moonRevolve = (p) => {
 
         cam = p.createCamera();
         cam.ortho();
-        // (x, y, z, centerX, centerY, centerZ, upX, upY, upZ)
-        cam.camera(0, 400, 0, 0, 0, 0, 0, 0, -1);
+        // (above earth, looking at earth, up=-z)
+        cam.camera(0, -400, 0, 0, 0, 0, 0, 0, 1);
 
         let arrowPos = p.createVector(-300, 0, 0);
         let arrowDir = p.createVector(-1, 0, 0);
         sunArrow = new Arrow(p, arrowPos, arrowDir, 40);
+
+        font = p.loadFont(`${fontDir}/TimesNewRoman.ttf`);
+        p.textFont(font);
     };
 
     p.draw = () => {
         p.background(0);
         p.randomSeed(1);
 
-        earthMoonOrbit.render();
+        // earthMoonOrbit.render();
         earthMoonOrbit.revolve(rate);
         earth.rotate(28);
         moon.rotate(1);
 
         sunArrow.draw();
+
+        p.push();
+        p.translate(-280, 0, 0);
+        rotateToCamera(p, cam);
+        p.textSize(20);
+        p.fill("red");
+        p.text("Sun", 0, p.textAscent()/3, 0);
+        p.pop();
+
+        worldAxes(p, 100);
+
+        p.orbitControl();
+    };
+};
+
+export const rotateTest = (p) => {
+    let font;
+    let cam;
+
+    p.setup = () => {
+        p.createCanvas(800, 400, p.WEBGL);
+        p.noStroke();
+
+        cam = p.createCamera();
+
+        font = p.loadFont(`${fontDir}/TimesNewRoman.ttf`);
+        p.textFont(font);
+    };
+
+    p.draw = () => {
+        p.background(0);
+
+        p.push();
+        p.translate(-100, 0, 0);
+        rotateToCamera(p, cam);
+        p.textSize(20);
+        p.fill("red");
+        p.text("Sun", 0, 0, 0);
+        p.pop();
+
+        worldAxes(p);
 
         p.orbitControl();
     };

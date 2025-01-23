@@ -1,4 +1,4 @@
-import { moonPhases, moonRevolve } from "./phases.js";
+import { moonPhases, moonRevolve, rotateTest } from "./phases.js";
 import { sketch2 } from "./sketch2.js";
 import { sketch3 } from "./sketch3.js";
 
