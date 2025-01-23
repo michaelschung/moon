@@ -12,6 +12,20 @@ export const sketchTemplate = (p) => {
     }
 };
 
+export function alignWithVector(p, vec) {
+    let nHat = vec;
+    let w = p.createVector(1, 1, 1);
+    let uHat = nHat.cross(w).normalize();
+    let vHat = nHat.cross(uHat).normalize();
+    let matrix = [
+        uHat.x, uHat.y, uHat.z, 0,
+        vHat.x, vHat.y, vHat.z, 0,
+        nHat.x, nHat.y, nHat.z, 0,
+        0, 0, 0, 1
+    ];
+    p.applyMatrix(...matrix);
+}
+
 /**
  * Rotates the world axes to "face" the camera.
  * Generally will want to push and pop around this.

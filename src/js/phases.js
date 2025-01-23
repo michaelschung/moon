@@ -49,7 +49,7 @@ export const moonRevolve = (p) => {
 
         moon = new Moon(p, null, 10, 0, 80);
 
-        earthMoonOrbit = new Orbit(p, earth, moon, 180, p.createVector(0, 1, 0));
+        earthMoonOrbit = new Orbit(p, earth, moon, 180, p.createVector(0, -1, 0));
 
         cam = p.createCamera();
         cam.ortho();
@@ -93,6 +93,7 @@ export const moonQuarters = (p) => {
     let rate = p.TWO_PI/80;
     let totalRotate = 0;
     let nextStop = 0;
+    let angle = 0;
 
     p.setup = () => {
         p.createCanvas(600, 600, p.WEBGL);
@@ -101,18 +102,21 @@ export const moonQuarters = (p) => {
 
         cam = p.createCamera();
         cam.camera(0, -400, 0, 0, 0, 0, 0, 0, 1);
-        cam.ortho();
 
         let earthPos = p.createVector(0, 0, 0);
         earth = new Earth(p, earthPos, 60, 0, 80);
         moon = new Moon(p, null, 15, 0, 80);
-        earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, 1, 0));
+        earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, -1, 0));
     };
 
     p.draw = () => {
         p.background(0);
         p.randomSeed(1);
 
+        // p.rotateX(angle);
+        // angle += 0.1;
+
+        // earthMoonOrbit.drawOrbit(cam);
         earthMoonOrbit.render();
 
         if (totalRotate < nextStop) {
@@ -121,6 +125,9 @@ export const moonQuarters = (p) => {
             moon.rotate(1);
             totalRotate += rate;
         }
+
+        // worldAxes(p, 100);
+        // p.orbitControl();
     };
 
     p.mouseClicked = () => {

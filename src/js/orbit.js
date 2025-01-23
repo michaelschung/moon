@@ -1,3 +1,5 @@
+import { alignWithVector } from "./utils";
+
 export class Orbit {
     /**
      * 
@@ -15,6 +17,7 @@ export class Orbit {
         this.tilt = orbitTilt.normalize();
         // Current angle in the revolution
         this.rev = p.HALF_PI;
+        this.showOrbitPath = true;
     }
 
     instanceVariables() {
@@ -31,11 +34,14 @@ export class Orbit {
         let rCosUHat = uHat.mult(r * p.cos(rev));
         let rSinVHat = vHat.mult(r * p.sin(rev));
         let primaryPos = pri.pos.copy();
-        return primaryPos.add(rCosUHat.add(rSinVHat));
+        return primaryPos.add(rCosUHat).add(rSinVHat);
     }
 
     render() {
         const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
+        if (this.showOrbitPath) {
+            this.drawOrbit();
+        }
         pri.draw();
         sat.pos = this.calculateCoords();
         sat.draw();
@@ -43,6 +49,18 @@ export class Orbit {
 
     revolve(angle) {
         // const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
-        this.rev += angle;
+        this.rev -= angle;
+    }
+
+    drawOrbit() {
+        const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
+        p.push();
+        
+        alignWithVector(p, tilt);
+
+        p.fill(255, 255, 255, 30);
+        p.strokeWeight(0.5);
+        p.torus(r, 1, 50);
+        p.pop();
     }
 }
