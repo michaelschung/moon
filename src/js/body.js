@@ -3,21 +3,21 @@ export class Body {
      * Creates a new terrestrial body.
      * 
      * @param {object} p - The p5 instance
-     * @param {p5.Vector} pos - Location of the body
+     * @param {p5.Vector} pos - Location of the body (pass null for origin)
      * @param {number} r - Radius of the body
      * @param {number} rot - Rotation angle (in radians)
      * @param {number} res - Resolution of the render (2pi/res)
      * @param {number} light - Angle from which the light is coming (pass negative value for luminous body)
      */
-    constructor(p, pos, r, rot, res=80, light=0) {
+    constructor(p, pos, r, rot, res=80, light=null) {
         this.p = p;
-        this.pos = pos;
+        this.pos = pos || p.createVector(0, 0, 0);
         this.r = r;
         this.color = p.color(255);
         this.rot = rot;
         this.res = p.TWO_PI/res;
         // Default light comes from the direction of sun (pos X)
-        this.light = light;
+        this.light = light || p.PI;
     }
 
     // NOTE TO SELF: might want to update rot and light to vectors

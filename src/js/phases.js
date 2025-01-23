@@ -4,7 +4,7 @@ import { Arrow, rotateToCamera, worldAxes } from "./utils.js";
 
 export const moonPhases = (p) => {
     let moon;
-    let angle = p.HALF_PI;
+    let angle = -p.HALF_PI;
     let rate = p.TWO_PI/80;
 
     p.setup = () => {
@@ -45,16 +45,15 @@ export const moonRevolve = (p) => {
         p.frameRate(10);
 
         let earthPos = p.createVector(0, 0, 0);
-        earth = new Earth(p, earthPos, 40, 0, 80, p.PI);
+        earth = new Earth(p, earthPos, 40, 0, 80);
 
-        let moonPos = p.createVector(0, 0, 0);
-        moon = new Moon(p, moonPos, 10, 0, 80, p.PI);
+        moon = new Moon(p, null, 10, 0, 80);
 
-        earthMoonOrbit = new Orbit(p, earth, moon, 180, p.createVector(1, 5, 0));
+        earthMoonOrbit = new Orbit(p, earth, moon, 180, p.createVector(0, 1, 0));
 
         cam = p.createCamera();
         cam.ortho();
-        // (above earth, looking at earth, up=-z)
+        // (above earth, looking at earth, up=+z bc z is backwards)
         cam.camera(0, -400, 0, 0, 0, 0, 0, 0, 1);
 
         let arrowPos = p.createVector(-300, 0, 0);
@@ -83,5 +82,48 @@ export const moonRevolve = (p) => {
         p.fill("red");
         p.text("Sun", 0, p.textAscent()/3, 0);
         p.pop();
+    };
+};
+
+export const moonQuarters = (p) => {
+    let cam;
+    let earth;
+    let moon;
+    let earthMoonOrbit;
+    let rate = p.TWO_PI/80;
+    let totalRotate = 0;
+    let nextStop = 0;
+
+    p.setup = () => {
+        p.createCanvas(600, 600, p.WEBGL);
+        p.noStroke();
+        p.frameRate(10);
+
+        cam = p.createCamera();
+        cam.camera(0, -400, 0, 0, 0, 0, 0, 0, 1);
+        cam.ortho();
+
+        let earthPos = p.createVector(0, 0, 0);
+        earth = new Earth(p, earthPos, 60, 0, 80);
+        moon = new Moon(p, null, 15, 0, 80);
+        earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, 1, 0));
+    };
+
+    p.draw = () => {
+        p.background(0);
+        p.randomSeed(1);
+
+        earthMoonOrbit.render();
+
+        if (totalRotate < nextStop) {
+            earthMoonOrbit.revolve(rate);
+            earth.rotate(28);
+            moon.rotate(1);
+            totalRotate += rate;
+        }
+    };
+
+    p.mouseClicked = () => {
+        nextStop += p.HALF_PI;
     };
 };

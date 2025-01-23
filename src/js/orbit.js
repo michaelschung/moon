@@ -14,7 +14,7 @@ export class Orbit {
         this.r = r;
         this.tilt = orbitTilt.normalize();
         // Current angle in the revolution
-        this.rev = 0;
+        this.rev = p.HALF_PI;
     }
 
     instanceVariables() {
