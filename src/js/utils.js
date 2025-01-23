@@ -12,6 +12,13 @@ export const sketchTemplate = (p) => {
     }
 };
 
+/**
+ * Rotates world axes to align z-axis with given vector.
+ * No specific orientation; only good for drawing shapes at origin.
+ * 
+ * @param {object} p - The p5 instance
+ * @param {p5.Vector} vec - The vector to align z-axis with
+ */
 export function alignWithVector(p, vec) {
     let nHat = vec;
     let w = p.createVector(1, 1, 1);

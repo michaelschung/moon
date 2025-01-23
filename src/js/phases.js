@@ -93,7 +93,7 @@ export const moonQuarters = (p) => {
     let rate = p.TWO_PI/80;
     let totalRotate = 0;
     let nextStop = 0;
-    let angle = 0;
+    let isMoving = false;
 
     p.setup = () => {
         p.createCanvas(600, 600, p.WEBGL);
@@ -101,36 +101,36 @@ export const moonQuarters = (p) => {
         p.frameRate(10);
 
         cam = p.createCamera();
-        cam.camera(0, -400, 0, 0, 0, 0, 0, 0, 1);
+        cam.camera(0, -800, 0, 0, 0, 0, 0, 0, 1);
+        p.perspective(p.PI/5, p.width/p.height, 0.1, 1000);
 
         let earthPos = p.createVector(0, 0, 0);
         earth = new Earth(p, earthPos, 60, 0, 80);
         moon = new Moon(p, null, 15, 0, 80);
-        earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, -1, 0));
+        earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0.1, -1, 0));
     };
 
     p.draw = () => {
         p.background(0);
         p.randomSeed(1);
 
-        // p.rotateX(angle);
-        // angle += 0.1;
-
         // earthMoonOrbit.drawOrbit(cam);
         earthMoonOrbit.render();
 
-        if (totalRotate < nextStop) {
+        if (isMoving) {
             earthMoonOrbit.revolve(rate);
             earth.rotate(28);
             moon.rotate(1);
             totalRotate += rate;
+            // Moon stops moving when it hits the "next stop"
+            isMoving = totalRotate < nextStop;
         }
-
-        // worldAxes(p, 100);
-        // p.orbitControl();
     };
 
     p.mouseClicked = () => {
-        nextStop += p.HALF_PI;
+        if (!isMoving) {
+            isMoving = true;
+            nextStop += p.HALF_PI;
+        }
     };
 };
