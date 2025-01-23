@@ -2,8 +2,6 @@ import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
 import { Arrow, rotateToCamera, worldAxes } from "./utils.js";
 
-const fontDir = "../../public/assets";
-
 export const moonPhases = (p) => {
     let moon;
     let angle = p.HALF_PI;
@@ -11,7 +9,6 @@ export const moonPhases = (p) => {
 
     p.setup = () => {
         p.createCanvas(800, 400, p.WEBGL);
-
         p.noStroke();
         p.frameRate(10);
 
@@ -62,9 +59,9 @@ export const moonRevolve = (p) => {
 
         let arrowPos = p.createVector(-300, 0, 0);
         let arrowDir = p.createVector(-1, 0, 0);
-        sunArrow = new Arrow(p, arrowPos, arrowDir, 40);
+        sunArrow = new Arrow(p, arrowPos, arrowDir, 30);
 
-        font = p.loadFont(`${fontDir}/TimesNewRoman.ttf`);
+        font = p.loadFont("/assets/TimesNewRoman.ttf");
         p.textFont(font);
     };
 
@@ -72,7 +69,7 @@ export const moonRevolve = (p) => {
         p.background(0);
         p.randomSeed(1);
 
-        // earthMoonOrbit.render();
+        earthMoonOrbit.render();
         earthMoonOrbit.revolve(rate);
         earth.rotate(28);
         moon.rotate(1);
@@ -80,46 +77,11 @@ export const moonRevolve = (p) => {
         sunArrow.draw();
 
         p.push();
-        p.translate(-280, 0, 0);
+        p.translate(-290, 0, 0);
         rotateToCamera(p, cam);
         p.textSize(20);
         p.fill("red");
         p.text("Sun", 0, p.textAscent()/3, 0);
         p.pop();
-
-        worldAxes(p, 100);
-
-        p.orbitControl();
-    };
-};
-
-export const rotateTest = (p) => {
-    let font;
-    let cam;
-
-    p.setup = () => {
-        p.createCanvas(800, 400, p.WEBGL);
-        p.noStroke();
-
-        cam = p.createCamera();
-
-        font = p.loadFont(`${fontDir}/TimesNewRoman.ttf`);
-        p.textFont(font);
-    };
-
-    p.draw = () => {
-        p.background(0);
-
-        p.push();
-        p.translate(-100, 0, 0);
-        rotateToCamera(p, cam);
-        p.textSize(20);
-        p.fill("red");
-        p.text("Sun", 0, 0, 0);
-        p.pop();
-
-        worldAxes(p);
-
-        p.orbitControl();
     };
 };

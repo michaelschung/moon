@@ -43,6 +43,6 @@ export class Orbit {
 
     revolve(angle) {
         // const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
-        this.rev -= angle;
+        this.rev += angle;
     }
 }
