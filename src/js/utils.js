@@ -20,7 +20,7 @@ export function cameraAwareText(p, cam, text, pos, xMode=0, yMode=0) {
     let textH = p.textAscent();
     let x = -textW/2 + xMode*textW/2;
     let y = textH/2 + yMode*textH/2;
-    p.text(text, x, y, 0);
+    p.text(text, x, y, 0, textW*2);
     p.pop();
 }
 

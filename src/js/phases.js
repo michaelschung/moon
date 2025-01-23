@@ -83,6 +83,7 @@ export const moonRevolve = (p) => {
 
 export const moonQuarters = (p) => {
     let cam;
+    let font;
     let earth;
     let moon;
     let earthMoonOrbit;
@@ -96,6 +97,9 @@ export const moonQuarters = (p) => {
         p.noStroke();
         p.frameRate(10);
 
+        font = p.loadFont("/assets/TimesNewRoman.ttf");
+        p.textFont(font);
+
         cam = p.createCamera();
         cam.camera(0, -800, 0, 0, 0, 0, 0, 0, 1);
         p.perspective(p.PI/5, p.width/p.height, 0.1, 1000);
@@ -105,6 +109,14 @@ export const moonQuarters = (p) => {
         moon = new Moon(p, null, 15, 0, 80);
         earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0.1, -1, 0));
     };
+
+    function getText() {
+        let revAngle = totalRotate % p.TWO_PI;
+        if (revAngle < p.HALF_PI) return "new moon";
+        else if (revAngle < p.PI) return "first quarter";
+        else if (revAngle < p.PI*3/2) return "full moon";
+        else return "third quarter";
+    }
 
     p.draw = () => {
         p.background(0);
@@ -120,7 +132,10 @@ export const moonQuarters = (p) => {
             // Moon stops moving when it hits the "next stop"
             isMoving = totalRotate < nextStop;
         } else {
-
+            p.textSize(15);
+            p.fill("white");
+            let textPos = moon.pos.copy().add(p.createVector(0, 0, 30));
+            cameraAwareText(p, cam, getText(), textPos);
         }
     };
 
