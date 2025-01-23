@@ -1,3 +1,17 @@
+// Purely just a template for a new 3D sketch
+export const sketchTemplate = (p) => {
+    p.setup = () => {
+        p.createCanvas(800, 400, p.WEBGL);
+        p.noStroke();
+        p.frameRate(10);
+    };
+
+    p.draw = () => {
+        p.background(0);
+        p.randomSeed(1);
+    }
+};
+
 /**
  * Rotates the world axes to "face" the camera.
  * Generally will want to push and pop around this.
