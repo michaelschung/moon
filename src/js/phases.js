@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { Arrow, rotateToCamera, worldAxes } from "./utils.js";
+import { Arrow, cameraAwareText, rotateToCamera, worldAxes } from "./utils.js";
 
 export const moonPhases = (p) => {
     let moon;
@@ -75,13 +75,9 @@ export const moonRevolve = (p) => {
 
         sunArrow.draw();
 
-        p.push();
-        p.translate(-290, 0, 0);
-        rotateToCamera(p, cam);
         p.textSize(20);
         p.fill("red");
-        p.text("Sun", 0, p.textAscent()/3, 0);
-        p.pop();
+        cameraAwareText(p, cam, "Sun", p.createVector(-290, 0, 0), 1);
     };
 };
 
@@ -114,7 +110,6 @@ export const moonQuarters = (p) => {
         p.background(0);
         p.randomSeed(1);
 
-        // earthMoonOrbit.drawOrbit(cam);
         earthMoonOrbit.render();
 
         if (isMoving) {
@@ -124,6 +119,8 @@ export const moonQuarters = (p) => {
             totalRotate += rate;
             // Moon stops moving when it hits the "next stop"
             isMoving = totalRotate < nextStop;
+        } else {
+
         }
     };
 

@@ -12,6 +12,18 @@ export const sketchTemplate = (p) => {
     }
 };
 
+export function cameraAwareText(p, cam, text, pos, xMode=0, yMode=0) {
+    p.push();
+    p.translate(pos);
+    rotateToCamera(p, cam);
+    let textW = p.textWidth(text);
+    let textH = p.textAscent();
+    let x = -textW/2 + xMode*textW/2;
+    let y = textH/2 + yMode*textH/2;
+    p.text(text, x, y, 0);
+    p.pop();
+}
+
 /**
  * Rotates world axes to align z-axis with given vector.
  * No specific orientation; only good for drawing shapes at origin.
