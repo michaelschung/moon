@@ -110,8 +110,6 @@ export const moonQuarters = (p) => {
         earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0.1, -1, 0));
     };
 
-    // TODO: figure out why text is wrapping, make user click *button* to advance
-
     function getText() {
         let revAngle = totalRotate % p.TWO_PI;
         if (revAngle < p.HALF_PI) return "new moon";
@@ -145,7 +143,9 @@ export const moonQuarters = (p) => {
         } else {
             p.textSize(15);
             p.fill("white");
-            let textPos = moon.pos.copy().add(p.createVector(0, 0, 30));
+            // Position text 30% of the way to the earth
+            let earthDir = earth.pos.copy().sub(moon.pos);
+            let textPos = moon.pos.copy().add(earthDir.mult(0.3));
             cameraAwareText(p, cam, getText(), textPos);
         }
     };

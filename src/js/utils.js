@@ -18,15 +18,16 @@ export function mouseInCanvas(p) {
     return xRange && yRange;
 }
 
-export function cameraAwareText(p, cam, text, pos, xMode=0, yMode=0) {
+export function cameraAwareText(p, cam, text, pos, alignMode=null, coordMode=[0, 0]) {
     p.push();
+    if (alignMode) p.textAlign(alignMode);
     p.translate(pos);
     rotateToCamera(p, cam);
     let textW = p.textWidth(text);
     let textH = p.textAscent();
-    let x = -textW/2 + xMode*textW/2;
-    let y = textH/2 + yMode*textH/2;
-    p.text(text, x, y, 0, textW*2);
+    let x = alignMode == p.CENTER ? 0 : -textW/2;
+    let y = textH/2;
+    p.text(text, x, y);
     p.pop();
 }
 
