@@ -224,6 +224,20 @@ export const quarterView = (quarter) => {
                 currLook.x, currLook.y, currLook.z,
                 currUp.x, currUp.y, currUp.z
             );
+
+            let textPos = moon.pos.copy();
+            let currCamUp = p.createVector(cam.upX, cam.upY, cam.upZ);
+            textPos.add(currCamUp.mult(30));
+            let size = p.map(slider.value(), slider.elt.min, slider.elt.max, 20, 5);
+            p.textSize(size);
+            cameraAwareText(p, cam, getText(), textPos);
+        };
+
+        function getText() {
+            if (quarter == 0) return "new moon";
+            if (quarter == 1) return "first quarter";
+            if (quarter == 2) return "full moon";
+            return "third quarter";
         }
     };
 };

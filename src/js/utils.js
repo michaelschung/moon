@@ -28,7 +28,7 @@ export const sketchTemplate = (p) => {
     p.draw = () => {
         p.background(0);
         p.randomSeed(1);
-    }
+    };
 };
 
 /**
