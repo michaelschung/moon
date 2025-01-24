@@ -159,20 +159,21 @@ export const moonQuarters = (p) => {
     };
 };
 
-export const quarterView = (quarter) => {
+export const phaseView = (quarter) => {
     return (p) => {
         let cam;
         let font;
         let earth;
         let moon;
         let earthMoonOrbit;
+        let rate = p.TWO_PI/80;
         let slider;
         let camPos = p.createVector(0, -800, 0);
         let camLook = p.createVector(0, 0, 0);
         let camUp = p.createVector(0, 0, 1);
 
         p.setup = () => {
-            p.createCanvas(400, 400, p.WEBGL);
+            p.createCanvas(300, 300, p.WEBGL);
             p.noStroke();
             p.frameRate(10);
 
@@ -205,6 +206,7 @@ export const quarterView = (quarter) => {
             p.randomSeed(1);
 
             earthMoonOrbit.render();
+            earthMoonOrbit.revolve(rate);
 
             // End on the surface of the Earth closest to Moon
             let earthToMoonVec = moon.pos.copy().sub(earth.pos).normalize();
@@ -226,7 +228,119 @@ export const quarterView = (quarter) => {
             );
 
             let textPos = moon.pos.copy();
-            let currCamUp = p.createVector(cam.upX, cam.upY, cam.upZ);
+            let currCamUp = currUp.copy();
+            textPos.add(currCamUp.mult(30));
+            let size = p.map(slider.value(), slider.elt.min, slider.elt.max, 20, 5);
+            p.textSize(size);
+            cameraAwareText(p, cam, getText(), textPos);
+        };
+
+        /*
+        quarter angle   vec
+        0       pi/2    (-1, 0, 0)
+        1       0       (0, 0, 1)
+        2       -pi/2   (1, 0, 0)
+        3       -pi     (0, 0, -1)
+
+        angle = pi/2 - quarter * pi/2
+        vec = ( -sin(angle), 0, cos(angle) )
+         */
+        function angleToVec(angle) {
+            return p.createVector(-p.sin(angle), 0, p.cos(angle));
+        }
+
+        function quarterToVec(q) {
+            return angleToVec(p.HALF_PI - q/2 * p.HALF_PI);
+        }
+
+        // Get the phase name based on current orbit angle
+        function getText() {
+            let phaseNames = [
+                "new moon",
+                "waxing crescent",
+                "first quarter",
+                "waxing gibbous",
+                "full moon",
+                "waning gibbous",
+                "third quarter",
+                "waning crescent"
+            ];
+            let orbitVec = angleToVec(earthMoonOrbit.rev);
+            for (let i = 0; i < 8; i++) {
+                if (orbitVec.angleBetween(quarterToVec(i)) < p.PI/8) {
+                    return phaseNames[i];
+                }
+            }
+            return "";
+        }
+    };
+};
+
+export const phaseView2 = (phase) => {
+    return (p) => {
+        let cam;
+        let font;
+        let earth;
+        let moon;
+        let earthMoonOrbit;
+        let slider;
+        let camPos = p.createVector(0, -800, 0);
+        let camLook = p.createVector(0, 0, 0);
+        let camUp = p.createVector(0, 0, 1);
+
+        p.setup = () => {
+            p.createCanvas(300, 300, p.WEBGL);
+            p.noStroke();
+            p.frameRate(10);
+
+            font = p.loadFont("/assets/TimesNewRoman.ttf");
+            p.textFont(font);
+
+            cam = p.createCamera();
+            cam.camera(
+                camPos.x, camPos.y, camPos.z,
+                camLook.x, camLook.y, camLook.z,
+                camUp.x, camUp.y, camUp.z
+            );
+            p.perspective(p.PI/5, p.width/p.height, 0.1, 1000);
+
+            let earthPos = p.createVector(0, 0, 0);
+            earth = new Earth(p, earthPos, 60, 0, 80);
+            moon = new Moon(p, null, 15, 0, 80);
+            earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, -1, 0));
+            earthMoonOrbit.setOrbitAngle(p.HALF_PI - phase * p.HALF_PI);
+            earthMoonOrbit.showOrbit();
+
+            slider = p.createSlider(0, 100, 0);
+            slider.size(p.width-10);
+            let canvasPos = p.canvas.getBoundingClientRect();
+            slider.position(canvasPos.left+2, canvasPos.bottom + 10);
+        };
+
+        p.draw = () => {
+            p.background(0);
+            p.randomSeed(1);
+
+            earthMoonOrbit.render();
+
+            // End on the surface of the Earth closest to Moon
+            let earthToMoonVec = moon.pos.copy().sub(earth.pos).normalize();
+            let endPos = earth.pos.copy().add(earthToMoonVec.mult(earth.r+1));
+            let endLook = moon.pos.copy();
+            let endUp = p.createVector(0, 1, 0);
+
+            let currPos = interpolate(p, camPos, endPos, slider);
+            let currLook = interpolate(p, camLook, endLook, slider);
+            let currUp = interpolate(p, camUp, endUp, slider);
+
+            cam.camera(
+                currPos.x, currPos.y, currPos.z,
+                currLook.x, currLook.y, currLook.z,
+                currUp.x, currUp.y, currUp.z
+            );
+
+            let textPos = moon.pos.copy();
+            let currCamUp = currUp.copy();
             textPos.add(currCamUp.mult(30));
             let size = p.map(slider.value(), slider.elt.min, slider.elt.max, 20, 5);
             p.textSize(size);
@@ -234,9 +348,9 @@ export const quarterView = (quarter) => {
         };
 
         function getText() {
-            if (quarter == 0) return "new moon";
-            if (quarter == 1) return "first quarter";
-            if (quarter == 2) return "full moon";
+            if (phase == 0) return "new moon";
+            if (phase == 1) return "first quarter";
+            if (phase == 2) return "full moon";
             return "third quarter";
         }
     };
