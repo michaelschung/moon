@@ -195,9 +195,9 @@ export const quarterView = (quarter) => {
             earthMoonOrbit.showOrbit();
 
             slider = p.createSlider(0, 100, 0);
-            slider.size(p.width);
+            slider.size(p.width-10);
             let canvasPos = p.canvas.getBoundingClientRect();
-            slider.position(canvasPos.left, canvasPos.bottom + 10);
+            slider.position(canvasPos.left+2, canvasPos.bottom + 10);
         };
 
         p.draw = () => {
@@ -206,16 +206,20 @@ export const quarterView = (quarter) => {
 
             earthMoonOrbit.render();
 
+            // End on the surface of the Earth closest to Moon
             let earthToMoonVec = moon.pos.copy().sub(earth.pos).normalize();
-            let endPos = earth.pos.copy().add(earthToMoonVec.mult(earth.r));
+            let endPos = earth.pos.copy().add(earthToMoonVec.mult(earth.r+1));
             let endLook = moon.pos.copy();
             let endUp = p.createVector(0, 1, 0);
 
-            let currPos = interpolate(camPos, endPos, slider);
-            let currLook = interpolate(camLook, endLook, slider);
-            let currUp = interpolate(camUp, endUp, slider);
+            let currPos = interpolate(p, camPos, endPos, slider);
+            let currLook = interpolate(p, camLook, endLook, slider);
+            let currUp = interpolate(p, camUp, endUp, slider);
 
-            console.log(slider.value());
+            console.log(`===${slider.value()}===`)
+            console.log("START UP", camUp.x, camUp.y, camUp.z);
+            console.log("CURR UP ", currUp.x, currUp.y, currUp.z);
+            console.log("END UP  ", endUp.x, endUp.y, endUp.z);
 
             cam.camera(
                 currPos.x, currPos.y, currPos.z,
