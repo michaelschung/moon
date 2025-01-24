@@ -1,9 +1,28 @@
 // Purely just a template for a new 3D sketch
 export const sketchTemplate = (p) => {
+    let cam;
+    let font;
+    let earth;
+    let moon;
+    let earthMoonOrbit;
+    let rate = p.TWO_PI/80;
+
     p.setup = () => {
         p.createCanvas(800, 400, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
+
+        font = p.loadFont("/assets/TimesNewRoman.ttf");
+        p.textFont(font);
+
+        cam = p.createCamera();
+        cam.camera(0, -800, 0, 0, 0, 0, 0, 0, 1);
+        p.perspective(p.PI/5, p.width/p.height, 0.1, 1000);
+
+        let earthPos = p.createVector(0, 0, 0);
+        earth = new Earth(p, earthPos, 60, 0, 80);
+        moon = new Moon(p, null, 15, 0, 80);
+        earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, -1, 0));
     };
 
     p.draw = () => {
