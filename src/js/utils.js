@@ -40,9 +40,25 @@ export const sketchTemplate = (p) => {
  * @param {object} slider - Slider to base the interpolation
  * @returns Interpolated vector between start and end
  */
-export function interpolate(p, start, end, slider) {
+export function interpolate(p, start, end, slider, isQ1=false) {
+    let sliderRange = slider.elt.max - slider.elt.min;
+    let newStart = start.copy();
+    let newEnd = end.copy();
+    // Default interpolation (a.k.a. not first quarter)
     let step = p.map(slider.value(), slider.elt.min, slider.elt.max, 0, 1);
-    return start.copy().lerp(end, step);
+    // Change start, end, step if we're in first quarter
+    if (isQ1) {
+        if (slider.value() < sliderRange/2) {
+            newStart = start.copy();
+            newEnd = p.createVector(1, 1, 0);
+            step = p.map(slider.value(), slider.elt.min, sliderRange/2, 0, 1);
+        } else {
+            newStart = p.createVector(1, 1, 0);
+            newEnd = p.createVector(0, 1, 0);
+            step = p.map(slider.value()-sliderRange/2, slider.elt.min, sliderRange/2, 0, 1);
+        }
+    }
+    return newStart.copy().lerp(newEnd, step);
 }
 
 export function mouseInCanvas(p) {

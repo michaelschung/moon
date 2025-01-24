@@ -214,12 +214,10 @@ export const quarterView = (quarter) => {
 
             let currPos = interpolate(p, camPos, endPos, slider);
             let currLook = interpolate(p, camLook, endLook, slider);
-            let currUp = interpolate(p, camUp, endUp, slider);
-
-            console.log(`===${slider.value()}===`)
-            console.log("START UP", camUp.x, camUp.y, camUp.z);
-            console.log("CURR UP ", currUp.x, currUp.y, currUp.z);
-            console.log("END UP  ", endUp.x, endUp.y, endUp.z);
+            // TODO: generalize this to "lining up with bottom of camera" instead
+            // of assuming the bottom of the camera always coincides with Q1
+            let isQ1 = p.abs(earthMoonOrbit.rev, p.PI) < p.PI/8;
+            let currUp = interpolate(p, camUp, endUp, slider, isQ1);
 
             cam.camera(
                 currPos.x, currPos.y, currPos.z,
