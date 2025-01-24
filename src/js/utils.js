@@ -12,6 +12,12 @@ export const sketchTemplate = (p) => {
     }
 };
 
+export function mouseInCanvas(p) {
+    let xRange = p.mouseX >= 0 && p.mouseX < p.width;
+    let yRange = p.mouseY >= 0 && p.mouseY < p.height;
+    return xRange && yRange;
+}
+
 export function cameraAwareText(p, cam, text, pos, xMode=0, yMode=0) {
     p.push();
     p.translate(pos);
@@ -40,7 +46,7 @@ export function alignWithVector(p, vec) {
         uHat.x, uHat.y, uHat.z, 0,
         vHat.x, vHat.y, vHat.z, 0,
         nHat.x, nHat.y, nHat.z, 0,
-        0, 0, 0, 1
+        0,      0,      0,      1
     ];
     p.applyMatrix(...matrix);
 }
@@ -76,9 +82,9 @@ export function rotateToCamera(p, cam, options=[1, 1, 1]) {
     // Flip x and z since to "face" the camera
     let matrix = [
         -xPosVec.x, -xPosVec.y, -xPosVec.z, 0,
-        yPosVec.x, yPosVec.y, yPosVec.z, 0,
+         yPosVec.x,  yPosVec.y,  yPosVec.z, 0,
         -zPosVec.x, -zPosVec.y, -zPosVec.z, 0,
-        0, 0, 0, 1
+         0,          0,          0,         1
     ];
 
     // Apply the transformation

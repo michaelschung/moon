@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { Arrow, cameraAwareText, rotateToCamera, worldAxes } from "./utils.js";
+import { Arrow, cameraAwareText, rotateToCamera, mouseInCanvas } from "./utils.js";
 
 export const moonPhases = (p) => {
     let moon;
@@ -110,12 +110,23 @@ export const moonQuarters = (p) => {
         earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0.1, -1, 0));
     };
 
+    // TODO: figure out why text is wrapping, make user click *button* to advance
+
     function getText() {
         let revAngle = totalRotate % p.TWO_PI;
         if (revAngle < p.HALF_PI) return "new moon";
         else if (revAngle < p.PI) return "first quarter";
         else if (revAngle < p.PI*3/2) return "full moon";
         else return "third quarter";
+    }
+
+    function drawButton() {
+        p.push();
+        p.translate(0, 0, 0);
+        rotateToCamera(p, cam);
+        p.fill(100);
+        p.rect(200, 200, 50);
+        p.pop();
     }
 
     p.draw = () => {
@@ -140,7 +151,7 @@ export const moonQuarters = (p) => {
     };
 
     p.mouseClicked = () => {
-        if (!isMoving) {
+        if (mouseInCanvas(p) && !isMoving) {
             isMoving = true;
             nextStop += p.HALF_PI;
         }
