@@ -17,7 +17,8 @@ export class Orbit {
         this.tilt = orbitTilt.normalize();
         // Current angle in the revolution
         this.rev = p.HALF_PI;
-        this.showOrbitPath = true;
+        this.showOrbitPath = false;
+        this.showPrimary = true;
     }
 
     instanceVariables() {
@@ -42,7 +43,7 @@ export class Orbit {
         if (this.showOrbitPath) {
             this.drawOrbit();
         }
-        pri.draw();
+        if (this.showPrimary) pri.draw();
         sat.pos = this.calculateCoords();
         sat.draw();
     }
@@ -62,5 +63,17 @@ export class Orbit {
         p.strokeWeight(0.5);
         p.torus(r, 1, 50);
         p.pop();
+    }
+
+    showOrbit() {
+        this.showOrbitPath = true;
+    }
+
+    hideOrbit() {
+        this.showOrbitPath = false;
+    }
+
+    setOrbitAngle(angle) {
+        this.rev = angle;
     }
 }

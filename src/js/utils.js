@@ -31,6 +31,21 @@ export const sketchTemplate = (p) => {
     }
 };
 
+/**
+ * Interpolates between two vectors based on slider value
+ * 
+ * @param {p5.Vector} start - Start vector
+ * @param {p5.Vector} end - End vector
+ * @param {obj} slider - Slider to base the interpolation
+ * @returns Interpolated vector between start and end
+ */
+export function interpolate(start, end, slider) {
+    let range = slider.elt.max - slider.elt.min;
+    let stepSize = end.copy().sub(start).div(range);
+    let step = stepSize.mult(slider.value());
+    return start.copy().add(step);
+}
+
 export function mouseInCanvas(p) {
     let xRange = p.mouseX >= 0 && p.mouseX < p.width;
     let yRange = p.mouseY >= 0 && p.mouseY < p.height;

@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { Arrow, cameraAwareText, rotateToCamera, mouseInCanvas } from "./utils.js";
+import { Arrow, cameraAwareText, rotateToCamera, mouseInCanvas, interpolate } from "./utils.js";
 
 export const moonPhases = (p) => {
     let moon;
@@ -108,6 +108,7 @@ export const moonQuarters = (p) => {
         earth = new Earth(p, earthPos, 60, 0, 80);
         moon = new Moon(p, null, 15, 0, 80);
         earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0.1, -1, 0));
+        earthMoonOrbit.showOrbit();
     };
 
     function getText() {
@@ -154,6 +155,73 @@ export const moonQuarters = (p) => {
         if (mouseInCanvas(p) && !isMoving) {
             isMoving = true;
             nextStop += p.HALF_PI;
+        }
+    };
+};
+
+export const quarterView = (quarter) => {
+    return (p) => {
+        let cam;
+        let font;
+        let earth;
+        let moon;
+        let earthMoonOrbit;
+        let slider;
+        let camPos = p.createVector(0, -800, 0);
+        let camLook = p.createVector(0, 0, 0);
+        let camUp = p.createVector(0, 0, 1);
+
+        p.setup = () => {
+            p.createCanvas(400, 400, p.WEBGL);
+            p.noStroke();
+            p.frameRate(10);
+
+            font = p.loadFont("/assets/TimesNewRoman.ttf");
+            p.textFont(font);
+
+            cam = p.createCamera();
+            cam.camera(
+                camPos.x, camPos.y, camPos.z,
+                camLook.x, camLook.y, camLook.z,
+                camUp.x, camUp.y, camUp.z
+            );
+            p.perspective(p.PI/5, p.width/p.height, 0.1, 1000);
+
+            let earthPos = p.createVector(0, 0, 0);
+            earth = new Earth(p, earthPos, 60, 0, 80);
+            moon = new Moon(p, null, 15, 0, 80);
+            earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, -1, 0));
+            earthMoonOrbit.setOrbitAngle(p.HALF_PI - quarter * p.HALF_PI);
+            earthMoonOrbit.showOrbit();
+
+            slider = p.createSlider(0, 100, 0);
+            slider.size(p.width);
+            let canvasPos = p.canvas.getBoundingClientRect();
+            slider.position(canvasPos.left, canvasPos.bottom + 10);
+        };
+
+        p.draw = () => {
+            p.background(0);
+            p.randomSeed(1);
+
+            earthMoonOrbit.render();
+
+            let earthToMoonVec = moon.pos.copy().sub(earth.pos).normalize();
+            let endPos = earth.pos.copy().add(earthToMoonVec.mult(earth.r));
+            let endLook = moon.pos.copy();
+            let endUp = p.createVector(0, 1, 0);
+
+            let currPos = interpolate(camPos, endPos, slider);
+            let currLook = interpolate(camLook, endLook, slider);
+            let currUp = interpolate(camUp, endUp, slider);
+
+            console.log(slider.value());
+
+            cam.camera(
+                currPos.x, currPos.y, currPos.z,
+                currLook.x, currLook.y, currLook.z,
+                currUp.x, currUp.y, currUp.z
+            );
         }
     };
 };
