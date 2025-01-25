@@ -1,3 +1,3 @@
 # Phases of the Moon
 
-A simple webpage exploring the phases of the moon.
+A simple webpage exploring the phases of the moon. In progress.
