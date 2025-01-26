@@ -8,7 +8,7 @@ export const moonPhases = (p) => {
     let rate = p.TWO_PI/80;
 
     p.setup = () => {
-        p.createCanvas(800, 400, p.WEBGL);
+        p.createCanvas(600, 400, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -40,7 +40,7 @@ export const moonRevolve = (p) => {
     let font;
 
     p.setup = () => {
-        p.createCanvas(800, 400, p.WEBGL);
+        p.createCanvas(600, 400, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -56,7 +56,7 @@ export const moonRevolve = (p) => {
         // (above earth, looking at earth, up=+z bc z is backwards)
         cam.camera(0, -400, 0, 0, 0, 0, 0, 0, 1);
 
-        let arrowPos = p.createVector(-300, 0, 0);
+        let arrowPos = p.createVector(-250, 0, 0);
         let arrowDir = p.createVector(-1, 0, 0);
         sunArrow = new Arrow(p, arrowPos, arrowDir, 30);
 
@@ -77,7 +77,7 @@ export const moonRevolve = (p) => {
 
         p.textSize(20);
         p.fill("red");
-        cameraAwareText(p, cam, "Sun", p.createVector(-290, 0, 0), 1);
+        cameraAwareText(p, cam, "Sun", p.createVector(-265, 0, 20), 1);
     };
 };
 
@@ -159,7 +159,7 @@ export const moonQuarters = (p) => {
     };
 };
 
-export const phaseView = (quarter) => {
+export const phaseView = (quarter, doAnimate) => {
     return (p) => {
         let cam;
         let font;
@@ -173,7 +173,8 @@ export const phaseView = (quarter) => {
         let camUp = p.createVector(0, 0, 1);
 
         p.setup = () => {
-            p.createCanvas(300, 300, p.WEBGL);
+            let size = doAnimate ? 600 : 300;
+            p.createCanvas(size, size, p.WEBGL);
             p.noStroke();
             p.frameRate(10);
 
@@ -197,16 +198,27 @@ export const phaseView = (quarter) => {
 
             slider = p.createSlider(0, 100, 0);
             slider.size(p.width-10);
-            let canvasPos = p.canvas.getBoundingClientRect();
-            slider.position(canvasPos.left+2, canvasPos.bottom + 10);
+            // let canvasPos = p.canvas.getBoundingClientRect();
+            // slider.position(canvasPos.left+2, canvasPos.bottom + 10);
         };
 
         p.draw = () => {
             p.background(0);
             p.randomSeed(1);
 
+            let canvasPos = p.canvas.getBoundingClientRect();
+            slider.position(
+                canvasPos.left + window.scrollX + 2, // Add horizontal scroll offset
+                canvasPos.top + window.scrollY + p.height + 10  // Add vertical scroll offset
+            );
+
+            // TODO: WHY does revolving make the moon pull ahead in its orbit?
             earthMoonOrbit.render();
-            earthMoonOrbit.revolve(rate);
+            if (doAnimate) {
+                earthMoonOrbit.revolve(rate);
+                earth.rotate(28);
+                moon.rotate(1);
+            }
 
             // End on the surface of the Earth closest to Moon
             let earthToMoonVec = moon.pos.copy().sub(earth.pos).normalize();
@@ -220,6 +232,7 @@ export const phaseView = (quarter) => {
             // of assuming the bottom of the camera always coincides with Q1
             let isQ1 = p.abs(earthMoonOrbit.rev, p.PI) < p.PI/8;
             let currUp = interpolate(p, camUp, endUp, slider, isQ1);
+            // currLook.add(currUp.copy().cross(currLook).normalize().mult(20));
 
             cam.camera(
                 currPos.x, currPos.y, currPos.z,
@@ -272,86 +285,6 @@ export const phaseView = (quarter) => {
                 }
             }
             return "";
-        }
-    };
-};
-
-export const phaseView2 = (phase) => {
-    return (p) => {
-        let cam;
-        let font;
-        let earth;
-        let moon;
-        let earthMoonOrbit;
-        let slider;
-        let camPos = p.createVector(0, -800, 0);
-        let camLook = p.createVector(0, 0, 0);
-        let camUp = p.createVector(0, 0, 1);
-
-        p.setup = () => {
-            p.createCanvas(300, 300, p.WEBGL);
-            p.noStroke();
-            p.frameRate(10);
-
-            font = p.loadFont("/assets/TimesNewRoman.ttf");
-            p.textFont(font);
-
-            cam = p.createCamera();
-            cam.camera(
-                camPos.x, camPos.y, camPos.z,
-                camLook.x, camLook.y, camLook.z,
-                camUp.x, camUp.y, camUp.z
-            );
-            p.perspective(p.PI/5, p.width/p.height, 0.1, 1000);
-
-            let earthPos = p.createVector(0, 0, 0);
-            earth = new Earth(p, earthPos, 60, 0, 80);
-            moon = new Moon(p, null, 15, 0, 80);
-            earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, -1, 0));
-            earthMoonOrbit.setOrbitAngle(p.HALF_PI - phase * p.HALF_PI);
-            earthMoonOrbit.showOrbit();
-
-            slider = p.createSlider(0, 100, 0);
-            slider.size(p.width-10);
-            let canvasPos = p.canvas.getBoundingClientRect();
-            slider.position(canvasPos.left+2, canvasPos.bottom + 10);
-        };
-
-        p.draw = () => {
-            p.background(0);
-            p.randomSeed(1);
-
-            earthMoonOrbit.render();
-
-            // End on the surface of the Earth closest to Moon
-            let earthToMoonVec = moon.pos.copy().sub(earth.pos).normalize();
-            let endPos = earth.pos.copy().add(earthToMoonVec.mult(earth.r+1));
-            let endLook = moon.pos.copy();
-            let endUp = p.createVector(0, 1, 0);
-
-            let currPos = interpolate(p, camPos, endPos, slider);
-            let currLook = interpolate(p, camLook, endLook, slider);
-            let currUp = interpolate(p, camUp, endUp, slider);
-
-            cam.camera(
-                currPos.x, currPos.y, currPos.z,
-                currLook.x, currLook.y, currLook.z,
-                currUp.x, currUp.y, currUp.z
-            );
-
-            let textPos = moon.pos.copy();
-            let currCamUp = currUp.copy();
-            textPos.add(currCamUp.mult(30));
-            let size = p.map(slider.value(), slider.elt.min, slider.elt.max, 20, 5);
-            p.textSize(size);
-            cameraAwareText(p, cam, getText(), textPos);
-        };
-
-        function getText() {
-            if (phase == 0) return "new moon";
-            if (phase == 1) return "first quarter";
-            if (phase == 2) return "full moon";
-            return "third quarter";
         }
     };
 };
