@@ -286,5 +286,13 @@ export const phaseView = (quarter, doAnimate) => {
             }
             return "";
         }
+
+        p.hideSlider = () => {
+            slider.hide();
+        };
+
+        p.showSlider = () => {
+            slider.show();
+        };
     };
 };
