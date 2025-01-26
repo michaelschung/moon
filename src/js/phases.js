@@ -119,15 +119,6 @@ export const moonQuarters = (p) => {
         else return "third quarter";
     }
 
-    function drawButton() {
-        p.push();
-        p.translate(0, 0, 0);
-        rotateToCamera(p, cam);
-        p.fill(100);
-        p.rect(200, 200, 50);
-        p.pop();
-    }
-
     p.draw = () => {
         p.background(0);
         p.randomSeed(1);
@@ -198,8 +189,6 @@ export const phaseView = (quarter, doAnimate) => {
 
             slider = p.createSlider(0, 100, 0);
             slider.size(p.width-10);
-            // let canvasPos = p.canvas.getBoundingClientRect();
-            // slider.position(canvasPos.left+2, canvasPos.bottom + 10);
         };
 
         p.draw = () => {
@@ -230,9 +219,8 @@ export const phaseView = (quarter, doAnimate) => {
             let currLook = interpolate(p, camLook, endLook, slider);
             // TODO: generalize this to "lining up with bottom of camera" instead
             // of assuming the bottom of the camera always coincides with Q1
-            let isQ1 = p.abs(earthMoonOrbit.rev, p.PI) < p.PI/8;
+            let isQ1 = !doAnimate && p.abs(earthMoonOrbit.rev, p.PI) < p.PI/8;
             let currUp = interpolate(p, camUp, endUp, slider, isQ1);
-            // currLook.add(currUp.copy().cross(currLook).normalize().mult(20));
 
             cam.camera(
                 currPos.x, currPos.y, currPos.z,
@@ -248,20 +236,12 @@ export const phaseView = (quarter, doAnimate) => {
             cameraAwareText(p, cam, getText(), textPos);
         };
 
-        /*
-        quarter angle   vec
-        0       pi/2    (-1, 0, 0)
-        1       0       (0, 0, 1)
-        2       -pi/2   (1, 0, 0)
-        3       -pi     (0, 0, -1)
-
-        angle = pi/2 - quarter * pi/2
-        vec = ( -sin(angle), 0, cos(angle) )
-         */
+        // Convert angle [0, 2π) to vector
         function angleToVec(angle) {
             return p.createVector(-p.sin(angle), 0, p.cos(angle));
         }
 
+        // Convert quarter [0, 4) to vector
         function quarterToVec(q) {
             return angleToVec(p.HALF_PI - q/2 * p.HALF_PI);
         }
