@@ -140,6 +140,10 @@ export const moonQuarters = (p) => {
             let textPos = moon.pos.copy().add(earthDir.mult(0.3));
             cameraAwareText(p, cam, getText(), textPos);
         }
+
+        let instrPos = earth.pos.copy().add(p.createVector(0, -earth.r, -10));
+        p.fill(200);
+        cameraAwareText(p, cam, "Click for\nnext quarter", instrPos, p.CENTER);
     };
 
     p.mouseClicked = () => {
