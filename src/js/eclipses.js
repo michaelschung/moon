@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { cameraAwareText, mouseInCanvas, interpolate, rotateToCamera } from "./utils.js";
+import { cameraAwareText, mouseInCanvas, interpolate, rotateToCamera, draw2DText } from "./utils.js";
 
 export const lunarEclipse = (p) => {
     let cam;
@@ -78,14 +78,12 @@ export const lunarEclipse = (p) => {
             currUp.x, currUp.y, currUp.z
         );
 
-        p.push();
-        p.translate(0, 0, 0);
-        rotateToCamera(p, cam);
+        // let lookVec = currLook.copy().sub(currPos).normalize();
+        // let textPos = currPos.copy().add(lookVec.mult(200));
+        // textPos.add(currUp.copy().normalize().mult(30));
+        // cameraAwareText(p, cam, "(distances not to scale)", textPos);
         p.fill(200);
-        p.textSize(40);
-        p.textAlign(p.CENTER);
-        p.text("(distances not to scale)", 0, p.height);
-        p.pop();
+        draw2DText(p, cam, "(distances not to scale)", 1, [0, 8]);
     };
 
     p.hideSlider = () => {

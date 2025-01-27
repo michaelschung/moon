@@ -67,17 +67,27 @@ export function mouseInCanvas(p) {
     return xRange && yRange;
 }
 
-export function draw2DText(p, cam, text, x, y, size) {
-    
-  
-    // Draw the text at the screen position
-    p.push();
-    p.noStroke();
-    p.fill(255); // White text for visibility
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(adjustedSize);
-    p.text(text, screenX, screenY);
-    p.pop();
+export function draw2DText(p, cam, text, size, offset=[0, 0]) {
+    let camPos = p.createVector(cam.eyeX, cam.eyeY, cam.eyeZ);
+    let camLook = p.createVector(cam.centerX, cam.centerY, cam.centerZ);
+    let upVec = p.createVector(cam.upX, -cam.upY, -cam.upZ).normalize();
+    let lookVec = camLook.copy().sub(camPos).normalize();
+    let rightVec = lookVec.copy().cross(upVec).normalize();
+    let textPos = camPos.copy().add(lookVec.copy().mult(40));
+    if (offset) {
+        textPos.add(rightVec.mult(offset[0]));
+        textPos.sub(upVec.mult(offset[1]));
+        textPos.add(lookVec.mult(size));
+    }
+    p.textSize(2);
+    cameraAwareText(p, cam, text, textPos);
+    // p.textSize(size/2);
+    // p.push();
+    // p.translate(textPos);
+    // rotateToCamera(p, cam);
+    // if (offset) p.translate(offset);
+    // cameraAwareText(p, cam, text, p.createVector(0, 0, 0));
+    // p.pop();
 }
 
 export function cameraAwareText(p, cam, text, pos, alignMode=null, coordMode=[0, 0]) {
