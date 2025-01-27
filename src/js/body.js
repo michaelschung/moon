@@ -1,3 +1,5 @@
+import { alignWithVector } from "./utils";
+
 export class Body {
     /**
      * Creates a new terrestrial body.
@@ -18,6 +20,7 @@ export class Body {
         this.res = p.TWO_PI/res;
         // Default light comes from the direction of sun (pos X)
         this.light = light || p.PI;
+        this.shadowOn = false;
     }
 
     // NOTE TO SELF: might want to update rot and light to vectors
@@ -38,9 +41,29 @@ export class Body {
         p.pop();
     }
 
+    drawShadow(dist) {
+        const [p, pos, r, c, rot, res, light] = this.instanceVars();
+        p.push();
+        p.translate(pos);
+        p.rotateY(p.PI-light);
+        p.rotateZ(-p.HALF_PI);
+        p.translate(0, dist/2, 0);
+        p.fill(30, 30, 30, 200);
+        p.cylinder(r+1, dist);
+        p.pop();
+    }
+
     // Rotates moon by given angle
     rotate(resAmt) {
         this.rot = (this.rot - resAmt * this.res) % this.p.TWO_PI;
+    }
+
+    showShadow() {
+        this.shadowOn = true;
+    }
+
+    hideShadow() {
+        this.shadowOn = false;
     }
 }
 

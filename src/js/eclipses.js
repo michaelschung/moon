@@ -61,11 +61,20 @@ export const lunarEclipse = (p) => {
             sunEarthOrbit.render();
             earthMoonOrbit.render();
         }
+        earth.drawShadow(earthMoonOrbit.r*2);
         moon.draw();
 
-        let earthToMoonVec = moon.pos.copy().sub(earth.pos).normalize();
-        let endPos = earth.pos.copy().add(earthToMoonVec.mult(earth.r+1));
-        let endLook = moon.pos.copy();
+        // sunEarthOrbit.revolve(rate);
+        // earth.light -= rate;
+
+        let earthToSunVec = sun.pos.copy().sub(earth.pos);
+        let endPos = p.createVector(
+            earth.pos.x + earthToSunVec.x/5,
+            earth.pos.y - earth.r*1.5,
+            earth.pos.z + earth.r*2
+        );
+        let earthToMoonVec = moon.pos.copy().sub(earth.pos);
+        let endLook = moon.pos.copy().sub(earthToMoonVec.mult(0.5));
         let endUp = p.createVector(0, 1, 0);
 
         let currPos = interpolate(p, camPos, endPos, slider);
@@ -84,6 +93,8 @@ export const lunarEclipse = (p) => {
         // cameraAwareText(p, cam, "(distances not to scale)", textPos);
         p.fill(200);
         draw2DText(p, cam, "(distances not to scale)", 1, [0, 8]);
+
+        p.orbitControl();
     };
 
     p.hideSlider = () => {
@@ -92,5 +103,43 @@ export const lunarEclipse = (p) => {
 
     p.showSlider = () => {
         slider.show();
+    };
+};
+
+export const testShadow = (p) => {
+    let cam;
+    let font;
+    let earth;
+    let moon;
+    let earthMoonOrbit;
+    let rate = p.TWO_PI/80;
+
+    p.setup = () => {
+        p.createCanvas(600, 400, p.WEBGL);
+        p.noStroke();
+        p.frameRate(10);
+
+        font = p.loadFont("/assets/TimesNewRoman.ttf");
+        p.textFont(font);
+
+        cam = p.createCamera();
+        cam.camera(0, 0, 400, 0, 0, 0, 0, 1, 0);
+        p.perspective(p.PI/5, p.width/p.height, 0.1, 1000);
+
+        let earthPos = p.createVector(0, 0, 0);
+        earth = new Earth(p, earthPos, 60, 0, 80);
+        moon = new Moon(p, null, 15, 0, 80);
+        earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, -1, 0));
+    };
+
+    p.draw = () => {
+        p.background(0);
+        p.randomSeed(1);
+
+        earth.draw();
+        earth.drawShadow(earth.r);
+        earth.rotate(1);
+
+        p.orbitControl();
     };
 };
