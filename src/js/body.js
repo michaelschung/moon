@@ -48,7 +48,7 @@ export class Body {
         p.rotateY(p.PI-light);
         p.rotateZ(-p.HALF_PI);
         p.translate(0, dist/2, 0);
-        p.fill(30, 30, 30, 200);
+        p.fill(50, 50, 50, 150);
         p.cylinder(r+1, dist);
         p.pop();
     }
