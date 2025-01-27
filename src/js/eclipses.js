@@ -30,7 +30,6 @@ export const lunarEclipse = (p) => {
             camLook.x, camLook.y, camLook.z,
             camUp.x, camUp.y, camUp.z
         );
-        // cam.camera(461, 0, 0, 600, 0, 0, 0, 1, 0);
         p.perspective(p.PI/6, p.width/p.height, 0.1, 2000);
 
         let sunPos = p.createVector(-500, 0, 0);
@@ -64,9 +63,6 @@ export const lunarEclipse = (p) => {
         earth.drawShadow(earthMoonOrbit.r*2);
         moon.draw();
 
-        // sunEarthOrbit.revolve(rate);
-        // earth.light -= rate;
-
         let earthToSunVec = sun.pos.copy().sub(earth.pos);
         let endPos = p.createVector(
             earth.pos.x + earthToSunVec.x/5,
@@ -87,14 +83,8 @@ export const lunarEclipse = (p) => {
             currUp.x, currUp.y, currUp.z
         );
 
-        // let lookVec = currLook.copy().sub(currPos).normalize();
-        // let textPos = currPos.copy().add(lookVec.mult(200));
-        // textPos.add(currUp.copy().normalize().mult(30));
-        // cameraAwareText(p, cam, "(distances not to scale)", textPos);
         p.fill(200);
         draw2DText(p, cam, "(distances not to scale)", 1, [0, 8]);
-
-        p.orbitControl();
     };
 
     p.hideSlider = () => {

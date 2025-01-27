@@ -4,21 +4,20 @@ import { lunarEclipse, testShadow } from "./eclipses.js";
 // Map ids to p5 instances
 const sketchMap = {
     // Why does the Moon have phases?
-    // moonPhases: moonPhases,
-    // moonRevolve: moonRevolve,
-    // moonQuarters: moonQuarters,
-    // quarterView0: phaseView(0, false),
-    // quarterView1: phaseView(1, false),
-    // quarterView2: phaseView(2, false),
-    // quarterView3: phaseView(3, false),
-    // waxingCrescent: phaseView(0.5, false),
-    // waxingGibbous: phaseView(1.5, false),
-    // waningGibbous: phaseView(2.5, false),
-    // waningCrescent: phaseView(3.5, false),
-    // phaseView: phaseView(0, true),
+    moonPhases: moonPhases,
+    moonRevolve: moonRevolve,
+    moonQuarters: moonQuarters,
+    quarterView0: phaseView(0, false),
+    quarterView1: phaseView(1, false),
+    quarterView2: phaseView(2, false),
+    quarterView3: phaseView(3, false),
+    waxingCrescent: phaseView(0.5, false),
+    waxingGibbous: phaseView(1.5, false),
+    waningGibbous: phaseView(2.5, false),
+    waningCrescent: phaseView(3.5, false),
+    phaseView: phaseView(0, true),
     // What about eclipses?
     lunarEclipse: lunarEclipse,
-    // testShadow: testShadow
 };
 
 // Store active p5 instances
