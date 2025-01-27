@@ -1,6 +1,6 @@
-import { Moon, Earth, Sun } from "./body.js";
+import { Moon, Earth } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { Arrow, cameraAwareText, rotateToCamera, mouseInCanvas, interpolate } from "./utils.js";
+import { Arrow, cameraAwareText, mouseInCanvas, interpolate } from "./utils.js";
 
 export const moonPhases = (p) => {
     let moon;

@@ -8,7 +8,7 @@ export const sketchTemplate = (p) => {
     let rate = p.TWO_PI/80;
 
     p.setup = () => {
-        p.createCanvas(800, 400, p.WEBGL);
+        p.createCanvas(600, 400, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -65,6 +65,19 @@ export function mouseInCanvas(p) {
     let xRange = p.mouseX >= 0 && p.mouseX < p.width;
     let yRange = p.mouseY >= 0 && p.mouseY < p.height;
     return xRange && yRange;
+}
+
+export function draw2DText(p, cam, text, x, y, size) {
+    
+  
+    // Draw the text at the screen position
+    p.push();
+    p.noStroke();
+    p.fill(255); // White text for visibility
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(adjustedSize);
+    p.text(text, screenX, screenY);
+    p.pop();
 }
 
 export function cameraAwareText(p, cam, text, pos, alignMode=null, coordMode=[0, 0]) {
