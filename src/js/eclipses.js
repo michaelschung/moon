@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { cameraAwareText, mouseInCanvas, interpolate, rotateToCamera, draw2DText, alignWithVector, Font } from "./utils.js";
+import { mouseInCanvas, interpolate, draw2DText, Font } from "./utils.js";
 
 export const lunarEclipse = (p) => {
     let cam;
@@ -17,7 +17,7 @@ export const lunarEclipse = (p) => {
     let camUp = p.createVector(0, 0, 1);
 
     p.preload = () => {
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
+        font = new Font(p, "Roboto", true);
     }
 
     p.setup = () => {
@@ -25,7 +25,7 @@ export const lunarEclipse = (p) => {
         p.noStroke();
         p.frameRate(10);
 
-        p.textFont(font);
+        p.textFont(font.italic());
 
         cam = p.createCamera();
         cam.camera(
@@ -114,7 +114,7 @@ export const solarEclipse = (p) => {
     let camUp = p.createVector(0, 0, 1);
 
     p.preload = () => {
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
+        font = new Font(p, "Roboto", true);
     }
 
     p.setup = () => {
@@ -122,7 +122,7 @@ export const solarEclipse = (p) => {
         p.noStroke();
         p.frameRate(10);
 
-        p.textFont(font);
+        p.textFont(font.italic());
 
         cam = p.createCamera();
         cam.camera(

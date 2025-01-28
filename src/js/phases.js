@@ -1,6 +1,6 @@
 import { Moon, Earth } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { Arrow, cameraAwareText, mouseInCanvas, interpolate, draw2DText } from "./utils.js";
+import { Arrow, cameraAwareText, mouseInCanvas, interpolate, draw2DText, Font } from "./utils.js";
 
 export const moonPhases = (p) => {
     let moon;
@@ -40,7 +40,7 @@ export const moonRevolve = (p) => {
     let font;
 
     p.preload = () => {
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
+        font = new Font(p, "Roboto", true);
     }
 
     p.setup = () => {
@@ -64,7 +64,7 @@ export const moonRevolve = (p) => {
         let arrowDir = p.createVector(-1, 0, 0);
         sunArrow = new Arrow(p, arrowPos, arrowDir, 30);
 
-        p.textFont(font);
+        p.textFont(font.regular());
     };
 
     p.draw = () => {
@@ -96,7 +96,7 @@ export const moonQuarters = (p) => {
     let isMoving = false;
 
     p.preload = () => {
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
+        font = new Font(p, "Roboto", true);
     }
 
     p.setup = () => {
@@ -104,7 +104,7 @@ export const moonQuarters = (p) => {
         p.noStroke();
         p.frameRate(10);
 
-        p.textFont(font);
+        p.textFont(font.regular());
 
         cam = p.createCamera();
         cam.camera(0, -800, 0, 0, 0, 0, 0, 0, 1);
@@ -174,7 +174,7 @@ export const phaseView = (quarter, allowAnimate) => {
         let doAnimate = false;
 
         p.preload = () => {
-            font = p.loadFont("/assets/TimesNewRoman.ttf");
+            font = new Font(p, "Roboto", true);
         }
 
         p.setup = () => {
@@ -183,7 +183,7 @@ export const phaseView = (quarter, allowAnimate) => {
             p.noStroke();
             p.frameRate(10);
 
-            p.textFont(font);
+            p.textFont(font.regular());
 
             cam = p.createCamera();
             cam.camera(
