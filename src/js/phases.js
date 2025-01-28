@@ -1,6 +1,6 @@
 import { Moon, Earth } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { Arrow, cameraAwareText, mouseInCanvas, interpolate } from "./utils.js";
+import { Arrow, cameraAwareText, mouseInCanvas, interpolate, draw2DText } from "./utils.js";
 
 export const moonPhases = (p) => {
     let moon;
@@ -141,9 +141,8 @@ export const moonQuarters = (p) => {
             cameraAwareText(p, cam, getText(), textPos);
         }
 
-        let instrPos = earth.pos.copy().add(p.createVector(0, -earth.r, -10));
         p.fill(200);
-        cameraAwareText(p, cam, "Click for\nnext quarter", instrPos, p.CENTER);
+        draw2DText(p, cam, "Click for\nnext quarter", 2, [0, -7.5]);
     };
 
     p.mouseClicked = () => {
