@@ -1,5 +1,6 @@
 import { moonPhases, moonRevolve, moonQuarters, phaseView } from "./phases.js";
 import { lunarEclipse, solarEclipse, moonTilt } from "./eclipses.js";
+import { timeView } from "./fov.js";
 
 // Map ids to p5 instances
 const sketchMap = {
@@ -20,7 +21,9 @@ const sketchMap = {
     lunarEclipse: lunarEclipse,
     solarEclipse: solarEclipse,
     allEcliptic: moonTilt(false),
-    moonTilt: moonTilt(true)
+    moonTilt: moonTilt(true),
+    // What about daytime?
+    timeViewNew: timeView(0, 0),
 };
 
 // Store active p5 instances
@@ -76,8 +79,8 @@ function handleIntersect(entries) {
 
 const observer = new IntersectionObserver(handleIntersect, {
     root: null,
-    rootMargin: "300px", // Expand viewport by 500px (keeps just-offscreen elements loaded)
-    threshold: 0, // Load when at least 1% of the element is in the viewport
+    rootMargin: "500px", // Expand viewport by 500px (keeps just-offscreen elements loaded)
+    threshold: 0, // Load when any fraction of the element is in the viewport
 });
 
 // Observe all sketch containers

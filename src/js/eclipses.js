@@ -261,7 +261,6 @@ export const moonTilt = (tiltedMoon) => {
             earth.drawShadow(earthMoonOrbit.r*2);
             moon.drawShadow(earthMoonOrbit.r);
             sunEarthOrbit.drawOrbitalPlane(p.color(0, 150, 255, 40));
-            // earthMoonOrbit.drawOrbitalPlane(p.color(255, 0, 255, 40));
 
             if (doAnimate) {
                 let earthOrbitRate = rate/6;
