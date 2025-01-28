@@ -16,5 +16,15 @@ term {
 .sketch-container {
     /* display: inline-block; */
     margin: 10px 0px;
+    /* position: relative; */
     /* border: 1px solid #ccc; */
+}
+
+.caption {
+    color: rgb(200, 200, 200);
+    position: relative;
+    left: 300px;
+    bottom: 42px;
+    width:fit-content;
+    transform: translate(-50%, 0);
 }

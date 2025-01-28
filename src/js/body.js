@@ -21,6 +21,7 @@ export class Body {
         // Default light comes from the direction of sun (pos X)
         this.light = light || p.PI;
         this.shadowOn = false;
+        this.shadowColor = p.color(50, 150);
     }
 
     // NOTE TO SELF: might want to update rot and light to vectors
@@ -48,7 +49,7 @@ export class Body {
         p.rotateY(p.PI-light);
         p.rotateZ(-p.HALF_PI);
         p.translate(0, dist/2, 0);
-        p.fill(50, 50, 50, 150);
+        p.fill(this.shadowColor);
         p.cylinder(r+1, dist);
         p.pop();
     }
@@ -78,6 +79,7 @@ export class Earth extends Body {
     constructor(p, pos, r, rot, res=80, light=0) {
         super(p, pos, r, rot, res, light);
         this.color = p.color(4, 21, 207);
+        this.shadowColor = p.color(30, 200);
     }
 }
 

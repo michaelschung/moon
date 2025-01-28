@@ -83,8 +83,8 @@ export const lunarEclipse = (p) => {
             currUp.x, currUp.y, currUp.z
         );
 
-        p.fill(200);
-        draw2DText(p, cam, "(distances not to scale)", 1, [0, 8]);
+        // p.fill(200);
+        // draw2DText(p, cam, "(distances not to scale)", 1, [0, 8]);
     };
 
     p.hideSlider = () => {
@@ -171,8 +171,8 @@ export const solarEclipse = (p) => {
             currUp.x, currUp.y, currUp.z
         );
 
-        p.fill(200);
-        draw2DText(p, cam, "(distances not to scale)", 1, [0, 8]);
+        // p.fill(200);
+        // draw2DText(p, cam, "(distances not to scale)", 1, [0, 8]);
     };
 
     p.hideSlider = () => {
