@@ -40,9 +40,7 @@ export class Orbit {
 
     render() {
         const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
-        if (this.showOrbitPath) {
-            this.drawOrbit();
-        }
+        if (this.showOrbitPath) this.drawOrbit();
         if (this.showPrimary) pri.draw();
         sat.pos = this.calculateCoords();
         sat.draw();
@@ -62,6 +60,17 @@ export class Orbit {
         p.fill(255, 255, 255, 30);
         p.strokeWeight(0.5);
         p.torus(r, 1, 50);
+        p.pop();
+    }
+
+    drawOrbitalPlane(planeColor) {
+        const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
+        p.push();
+        p.translate(pri.pos);
+        alignWithVector(p, tilt);
+        p.fill(planeColor);
+        let diam = r * 3;
+        p.circle(0, 0, diam);
         p.pop();
     }
 

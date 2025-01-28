@@ -241,6 +241,7 @@ export const allEcliptic = (p) => {
         earthMoonOrbit.render();
         earth.drawShadow(earthMoonOrbit.r*2);
         moon.drawShadow(earthMoonOrbit.r);
+        sunEarthOrbit.drawOrbitalPlane(p.color(0, 150, 255, 40));
 
         if (doAnimate) {
             let earthOrbitRate = rate/6;
@@ -268,14 +269,6 @@ export const allEcliptic = (p) => {
             currLook.x, currLook.y, currLook.z,
             currUp.x, currUp.y, currUp.z
         );
-
-        p.push();
-        p.translate(0, 0, 0);
-        alignWithVector(p, p.createVector(0, 1, 0));
-        p.fill(0, 150, 255, 30);
-        let diam = sunEarthOrbit.r*2 + earthMoonOrbit.r*3;
-        p.circle(0, 0, diam);
-        p.pop();
 
         p.fill(200);
         draw2DText(p, cam, "(Sizes and distances not to scale)", 4, [0, 90]);
