@@ -18,6 +18,7 @@ export const lunarEclipse = (p) => {
 
     p.preload = () => {
         font = new Font(p, "Roboto", true);
+        slider = p.createSlider(0, 100, 0);
     }
 
     p.setup = () => {
@@ -44,7 +45,6 @@ export const lunarEclipse = (p) => {
         earthMoonOrbit = new Orbit(p, earth, moon, 200, p.createVector(0, -1, 0));
         earthMoonOrbit.rev = -p.HALF_PI;
 
-        slider = p.createSlider(0, 100, 0);
         slider.size(p.width-10);
     };
 
@@ -115,6 +115,7 @@ export const solarEclipse = (p) => {
 
     p.preload = () => {
         font = new Font(p, "Roboto", true);
+        slider = p.createSlider(0, 100, 0);
     }
 
     p.setup = () => {
@@ -140,7 +141,6 @@ export const solarEclipse = (p) => {
         sunEarthOrbit.rev = -p.HALF_PI;
         earthMoonOrbit = new Orbit(p, earth, moon, 190, p.createVector(0, -1, 0));
 
-        slider = p.createSlider(0, 100, 0);
         slider.size(p.width-10);
     };
 
@@ -188,7 +188,7 @@ export const solarEclipse = (p) => {
     p.showSlider = () => {
         slider.show();
     };
-}
+};
 
 export const moonTilt = (tiltedMoon) => {
     return (p) => {
@@ -208,6 +208,7 @@ export const moonTilt = (tiltedMoon) => {
 
         p.preload = () => {
             font = new Font(p, "Roboto", true);
+            slider = p.createSlider(0, 100, 0);
         }
 
         p.setup = () => {
@@ -240,7 +241,6 @@ export const moonTilt = (tiltedMoon) => {
             earthMoonOrbit.showPrimary = false;
             earthMoonOrbit.showOrbit();
 
-            slider = p.createSlider(0, 100, 0);
             slider.size(p.width-10);
         };
 
@@ -315,4 +315,4 @@ export const moonTilt = (tiltedMoon) => {
             slider.show();
         };
     };
-}
+};

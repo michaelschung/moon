@@ -54,7 +54,7 @@ function unloadSketch(sketchID) {
             sketch.stopAnimation();
         }
         const canvas = document.getElementById(sketchID).querySelector("canvas");
-        canvas.style.display = "none";
+        if (canvas) canvas.style.display = "none";
         sketch.noLoop();
     }
 }
