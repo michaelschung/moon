@@ -287,8 +287,8 @@ export const allEcliptic = (p) => {
         }
     };
 
-    p.animate = (isAnimating) => {
-        doAnimate = isAnimating;
+    p.stopAnimation = () => {
+        doAnimate = false;
     };
 
     p.hideSlider = () => {

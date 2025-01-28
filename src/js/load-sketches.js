@@ -49,6 +49,9 @@ function unloadSketch(sketchID) {
         if (sketch.hideSlider) {
             sketch.hideSlider();
         }
+        if (sketch.stopAnimation) {
+            sketch.stopAnimation();
+        }
         const canvas = document.getElementById(sketchID).querySelector("canvas");
         canvas.style.display = "none";
         sketch.noLoop();
