@@ -153,7 +153,7 @@ export const moonQuarters = (p) => {
     };
 };
 
-export const phaseView = (quarter, doAnimate) => {
+export const phaseView = (quarter, allowAnimate) => {
     return (p) => {
         let cam;
         let font;
@@ -165,9 +165,10 @@ export const phaseView = (quarter, doAnimate) => {
         let camPos = p.createVector(0, -800, 0);
         let camLook = p.createVector(0, 0, 0);
         let camUp = p.createVector(0, 0, 1);
+        let doAnimate = false;
 
         p.setup = () => {
-            let size = doAnimate ? 600 : 300;
+            let size = allowAnimate ? 600 : 300;
             p.createCanvas(size, size, p.WEBGL);
             p.noStroke();
             p.frameRate(10);
@@ -206,10 +207,15 @@ export const phaseView = (quarter, doAnimate) => {
 
             // TODO: WHY does revolving make the moon pull ahead in its orbit?
             earthMoonOrbit.render();
-            if (doAnimate) {
-                earthMoonOrbit.revolve(rate);
-                earth.rotate(28);
-                moon.rotate(1);
+            if (allowAnimate) {
+                if (doAnimate) {
+                    earthMoonOrbit.revolve(rate);
+                    earth.rotate(28);
+                    moon.rotate(1);
+                } else {
+                    p.fill(200);
+                    draw2DText(p, cam, "Click to start animation", 2, [0, -29])
+                }
             }
 
             // End on the surface of the Earth closest to Moon
@@ -269,6 +275,16 @@ export const phaseView = (quarter, doAnimate) => {
             }
             return "";
         }
+
+        p.mouseClicked = () => {
+            if (mouseInCanvas(p)) {
+                doAnimate = !doAnimate;
+            }
+        };
+
+        p.stopAnimation = () => {
+            doAnimate = false;
+        };
 
         p.hideSlider = () => {
             slider.hide();
