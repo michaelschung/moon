@@ -22,6 +22,7 @@ term {
 
 .caption {
     color: rgb(200, 200, 200);
+    font-style: italic;
     position: relative;
     left: 300px;
     bottom: 42px;

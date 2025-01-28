@@ -61,44 +61,56 @@ export function interpolate(p, start, end, slider, isQ1=false) {
     return newStart.copy().lerp(newEnd, step);
 }
 
+/**
+ * Checks if the mouse is within the canvas for the given p5 instance.
+ * 
+ * @param {object} p - The p5 instance
+ * @returns Boolean indicating whether the mouse is within the canvas
+ */
 export function mouseInCanvas(p) {
     let xRange = p.mouseX >= 0 && p.mouseX < p.width;
     let yRange = p.mouseY >= 0 && p.mouseY < p.height;
     return xRange && yRange;
 }
 
+/**
+ * Draws "2D" text that stays in the same place regardless of camera position
+ * or movement.
+ * 
+ * @param {object} p - The p5 instance
+ * @param {p5.Camera} cam - Camera that the text must face
+ * @param {string} text - Text to display
+ * @param {number} size - Size of the text
+ * @param {[number]} offset - X- and Y-offsets (from canvas center)
+ */
 export function draw2DText(p, cam, text, size, offset=[0, 0]) {
-    let camPos = p.createVector(cam.eyeX, cam.eyeY, cam.eyeZ);
     let camLook = p.createVector(cam.centerX, cam.centerY, cam.centerZ);
-    let upVec = p.createVector(cam.upX, -cam.upY, -cam.upZ).normalize();
-    let lookVec = camLook.copy().sub(camPos).normalize();
-    let rightVec = lookVec.copy().cross(upVec).normalize();
-    let textPos = camPos.copy().add(lookVec.copy().mult(40));
-    if (offset) {
-        textPos.add(rightVec.mult(offset[0]));
-        textPos.sub(upVec.mult(offset[1]));
-        textPos.add(lookVec.mult(size));
-    }
-    p.textSize(2);
-    cameraAwareText(p, cam, text, textPos);
-    // p.textSize(size/2);
-    // p.push();
-    // p.translate(textPos);
-    // rotateToCamera(p, cam);
-    // if (offset) p.translate(offset);
-    // cameraAwareText(p, cam, text, p.createVector(0, 0, 0));
-    // p.pop();
+    let camPos = p.createVector(cam.eyeX, cam.eyeY, cam.eyeZ);
+    let camLookVec = camLook.sub(camPos).normalize();
+    let textPos = camPos.copy().add(camLookVec.mult(100));
+    p.textSize(size);
+    cameraAwareText(p, cam, text, textPos, p.CENTER, offset);
 }
 
-export function cameraAwareText(p, cam, text, pos, alignMode=null, coordMode=[0, 0]) {
+/**
+ * Draws text that always faces the camera.
+ * 
+ * @param {object} p - The p5 instance
+ * @param {p5.Camera} cam - Camera that the text must face
+ * @param {string} text - Text to display
+ * @param {p5.Vector} pos - Position of the text in 3D space
+ * @param {*} alignMode - p.CENTER, p.LEFT, or p.RIGHT
+ * @param {[number]} offset - X- and Y-offsets (from pos)
+ */
+export function cameraAwareText(p, cam, text, pos, alignMode=null, offset=[0, 0]) {
     p.push();
     if (alignMode) p.textAlign(alignMode);
     p.translate(pos);
     rotateToCamera(p, cam);
     let textW = p.textWidth(text);
     let textH = p.textAscent();
-    let x = alignMode == p.CENTER ? 0 : -textW/2;
-    let y = textH/2;
+    let x = alignMode == p.CENTER ? 0 : -textW/2 + offset[0];
+    let y = textH/2 + offset[1];
     p.text(text, x, y);
     p.pop();
 }
