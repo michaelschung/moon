@@ -277,7 +277,7 @@ export const allEcliptic = (p) => {
         p.circle(0, 0, diam);
         p.pop();
 
-        p.fill(255, 255, 255, 200);
+        p.fill(200);
         draw2DText(p, cam, "(Sizes and distances not to scale)", 4, [0, 90]);
     };
 
