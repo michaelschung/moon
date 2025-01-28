@@ -2,6 +2,8 @@ import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
 import { mouseInCanvas, interpolate, draw2DText, Font } from "./utils.js";
 
+const width = document.getElementById("main").getBoundingClientRect().width;
+
 export const lunarEclipse = (p) => {
     let cam;
     let font;
@@ -22,7 +24,7 @@ export const lunarEclipse = (p) => {
     }
 
     p.setup = () => {
-        p.createCanvas(600, 200, p.WEBGL);
+        p.createCanvas(width, width/3, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -119,7 +121,7 @@ export const solarEclipse = (p) => {
     }
 
     p.setup = () => {
-        p.createCanvas(600, 200, p.WEBGL);
+        p.createCanvas(width, width/2, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -212,7 +214,7 @@ export const moonTilt = (tiltedMoon) => {
         }
 
         p.setup = () => {
-            p.createCanvas(600, 600, p.WEBGL);
+            p.createCanvas(width, width, p.WEBGL);
             p.noStroke();
             p.frameRate(10);
 

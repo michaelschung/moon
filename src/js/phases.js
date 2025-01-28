@@ -2,13 +2,15 @@ import { Moon, Earth } from "./body.js";
 import { Orbit } from "./orbit.js";
 import { Arrow, cameraAwareText, mouseInCanvas, interpolate, draw2DText, Font } from "./utils.js";
 
+const width = document.getElementById("main").getBoundingClientRect().width;
+
 export const moonPhases = (p) => {
     let moon;
     let angle = -p.HALF_PI;
     let rate = p.TWO_PI/80;
 
     p.setup = () => {
-        p.createCanvas(600, 400, p.WEBGL);
+        p.createCanvas(width, width*2/3, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -44,7 +46,7 @@ export const moonRevolve = (p) => {
     }
 
     p.setup = () => {
-        p.createCanvas(600, 400, p.WEBGL);
+        p.createCanvas(width, width*2/3, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -100,7 +102,7 @@ export const moonQuarters = (p) => {
     }
 
     p.setup = () => {
-        p.createCanvas(600, 600, p.WEBGL);
+        p.createCanvas(width, width, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -178,7 +180,7 @@ export const phaseView = (quarter, allowAnimate) => {
         }
 
         p.setup = () => {
-            let size = allowAnimate ? 600 : 300;
+            let size = allowAnimate ? width : width/2;
             p.createCanvas(size, size, p.WEBGL);
             p.noStroke();
             p.frameRate(10);
