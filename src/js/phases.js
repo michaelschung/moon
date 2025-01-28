@@ -296,11 +296,11 @@ export const phaseView = (quarter, allowAnimate) => {
         };
 
         p.hideSlider = () => {
-            slider.hide();
+            if (slider) slider.hide();
         };
 
         p.showSlider = () => {
-            slider.show();
+            if (slider) slider.show();
         };
     };
 };

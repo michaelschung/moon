@@ -91,11 +91,11 @@ export const lunarEclipse = (p) => {
     };
 
     p.hideSlider = () => {
-        slider.hide();
+        if (slider) slider.hide();
     };
 
     p.showSlider = () => {
-        slider.show();
+        if (slider) slider.show();
     };
 };
 
@@ -182,11 +182,11 @@ export const solarEclipse = (p) => {
     };
 
     p.hideSlider = () => {
-        slider.hide();
+        if (slider) slider.hide();
     };
 
     p.showSlider = () => {
-        slider.show();
+        if (slider) slider.show();
     };
 };
 
@@ -308,11 +308,11 @@ export const moonTilt = (tiltedMoon) => {
         };
 
         p.hideSlider = () => {
-            slider.hide();
+            if (slider) slider.hide();
         };
 
         p.showSlider = () => {
-            slider.show();
+            if (slider) slider.show();
         };
     };
 };
