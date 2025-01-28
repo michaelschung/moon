@@ -39,6 +39,10 @@ export const moonRevolve = (p) => {
     let sunArrow;
     let font;
 
+    p.preload = () => {
+        font = p.loadFont("/assets/TimesNewRoman.ttf");
+    }
+
     p.setup = () => {
         p.createCanvas(600, 400, p.WEBGL);
         p.noStroke();
@@ -60,7 +64,6 @@ export const moonRevolve = (p) => {
         let arrowDir = p.createVector(-1, 0, 0);
         sunArrow = new Arrow(p, arrowPos, arrowDir, 30);
 
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
         p.textFont(font);
     };
 
@@ -92,12 +95,15 @@ export const moonQuarters = (p) => {
     let nextStop = 0;
     let isMoving = false;
 
+    p.preload = () => {
+        font = p.loadFont("/assets/TimesNewRoman.ttf");
+    }
+
     p.setup = () => {
         p.createCanvas(600, 600, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
         p.textFont(font);
 
         cam = p.createCamera();
@@ -167,13 +173,16 @@ export const phaseView = (quarter, allowAnimate) => {
         let camUp = p.createVector(0, 0, 1);
         let doAnimate = false;
 
+        p.preload = () => {
+            font = p.loadFont("/assets/TimesNewRoman.ttf");
+        }
+
         p.setup = () => {
             let size = allowAnimate ? 600 : 300;
             p.createCanvas(size, size, p.WEBGL);
             p.noStroke();
             p.frameRate(10);
 
-            font = p.loadFont("/assets/TimesNewRoman.ttf");
             p.textFont(font);
 
             cam = p.createCamera();

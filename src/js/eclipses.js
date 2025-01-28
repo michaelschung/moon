@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { cameraAwareText, mouseInCanvas, interpolate, rotateToCamera, draw2DText, alignWithVector } from "./utils.js";
+import { cameraAwareText, mouseInCanvas, interpolate, rotateToCamera, draw2DText, alignWithVector, Font } from "./utils.js";
 
 export const lunarEclipse = (p) => {
     let cam;
@@ -16,12 +16,15 @@ export const lunarEclipse = (p) => {
     let camLook = p.createVector(0, 0, 0);
     let camUp = p.createVector(0, 0, 1);
 
+    p.preload = () => {
+        font = p.loadFont("/assets/TimesNewRoman.ttf");
+    }
+
     p.setup = () => {
         p.createCanvas(600, 200, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
         p.textFont(font);
 
         cam = p.createCamera();
@@ -110,12 +113,15 @@ export const solarEclipse = (p) => {
     let camLook = p.createVector(0, 0, 0);
     let camUp = p.createVector(0, 0, 1);
 
+    p.preload = () => {
+        font = p.loadFont("/assets/TimesNewRoman.ttf");
+    }
+
     p.setup = () => {
         p.createCanvas(600, 200, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
         p.textFont(font);
 
         cam = p.createCamera();
@@ -184,111 +190,129 @@ export const solarEclipse = (p) => {
     };
 }
 
-export const allEcliptic = (p) => {
-    let cam;
-    let font;
-    let sun;
-    let earth;
-    let moon;
-    let sunEarthOrbit;
-    let earthMoonOrbit;
-    let rate = p.TWO_PI/80;
-    let slider;
-    let camPos = p.createVector(0, -1500, 0);
-    let camLook = p.createVector(0, 0, 0);
-    let camUp = p.createVector(0, 0, 1);
-    let doAnimate = false;
+export const moonTilt = (tiltedMoon) => {
+    return (p) => {
+        let cam;
+        let font;
+        let sun;
+        let earth;
+        let moon;
+        let sunEarthOrbit;
+        let earthMoonOrbit;
+        let rate = p.TWO_PI/80;
+        let slider;
+        let camPos = p.createVector(0, -1500, 0);
+        let camLook = p.createVector(0, 0, 0);
+        let camUp = p.createVector(0, 0, 1);
+        let doAnimate = false;
 
-    p.setup = () => {
-        p.createCanvas(600, 600, p.WEBGL);
-        p.noStroke();
-        p.frameRate(10);
-
-        font = p.loadFont("/assets/TimesNewRoman.ttf");
-        p.textFont(font);
-
-        cam = p.createCamera();
-        cam.camera(
-            camPos.x, camPos.y, camPos.z,
-            camLook.x, camLook.y, camLook.z,
-            camUp.x, camUp.y, camUp.z
-        );
-        p.perspective(p.PI/2, p.width/p.height, 0.1, 2000);
-
-        let sunPos = p.createVector(0, 0, 0);
-        sun = new Sun(p, sunPos, 100, 0);
-        earth = new Earth(p, null, 60, 0);
-        moon = new Moon(p, null, 15, 0);
-        sunEarthOrbit = new Orbit(p, sun, earth, 950, p.createVector(0, -1, 0));
-        sunEarthOrbit.rev = -p.HALF_PI;
-        earthMoonOrbit = new Orbit(p, earth, moon, 190, p.createVector(0, -1, 0));
-
-        slider = p.createSlider(0, 100, 0);
-        slider.size(p.width-10);
-    };
-
-    p.draw = () => {
-        p.background(0);
-        p.randomSeed(1);
-
-        let canvasPos = p.canvas.getBoundingClientRect();
-        slider.position(
-            canvasPos.left + window.scrollX + 2, // Add horizontal scroll offset
-            canvasPos.top + window.scrollY + p.height + 10  // Add vertical scroll offset
-        );
-
-        sunEarthOrbit.render();
-        earthMoonOrbit.render();
-        earth.drawShadow(earthMoonOrbit.r*2);
-        moon.drawShadow(earthMoonOrbit.r);
-        sunEarthOrbit.drawOrbitalPlane(p.color(0, 150, 255, 40));
-
-        if (doAnimate) {
-            let earthOrbitRate = rate/6;
-            sunEarthOrbit.revolve(earthOrbitRate);
-            earthMoonOrbit.revolve(earthOrbitRate * 12);
-            earth.light -= earthOrbitRate;
-            moon.light -= earthOrbitRate;
-            earth.rotate(12);
-            moon.rotate(1);
-        } else {
-            p.fill(255, 255, 255, 200);
-            draw2DText(p, cam, "Click to start animation", 5, [0, -90]);
+        p.preload = () => {
+            font = new Font(p, "Roboto", true);
         }
 
-        let endPos = sun.pos.copy().sub(p.createVector(0, sun.r*1.2, 0));
-        let endLook = earth.pos.copy();
-        let endUp = p.createVector(0, 1, 0);
+        p.setup = () => {
+            p.createCanvas(600, 600, p.WEBGL);
+            p.noStroke();
+            p.frameRate(10);
 
-        let currPos = interpolate(p, camPos, endPos, slider);
-        let currLook = interpolate(p, camLook, endLook, slider);
-        let currUp = interpolate(p, camUp, endUp, slider);
+            p.textFont(font.regular());
 
-        cam.camera(
-            currPos.x, currPos.y, currPos.z,
-            currLook.x, currLook.y, currLook.z,
-            currUp.x, currUp.y, currUp.z
-        );
+            cam = p.createCamera();
+            cam.camera(
+                camPos.x, camPos.y, camPos.z,
+                camLook.x, camLook.y, camLook.z,
+                camUp.x, camUp.y, camUp.z
+            );
+            p.perspective(p.PI/2, p.width/p.height, 0.1, 2000);
 
-        p.fill(200);
-        draw2DText(p, cam, "(Sizes and distances not to scale)", 4, [0, 90]);
-    };
+            let sunPos = p.createVector(0, 0, 0);
+            sun = new Sun(p, sunPos, 100, 0);
+            earth = new Earth(p, null, 60, 0);
+            moon = new Moon(p, null, 15, 0);
+            sunEarthOrbit = new Orbit(p, sun, earth, 950, p.createVector(0, -1, 0));
+            sunEarthOrbit.rev = -p.HALF_PI;
+            let moonTiltAngle = p.radians(20);
+            let moonTiltVec = tiltedMoon
+                ? p.createVector(-p.sin(moonTiltAngle), -p.cos(moonTiltAngle), 0)
+                : p.createVector(0, -1, 0);
+            let moonOrbitRadius = tiltedMoon ? 300 : 190;
+            earthMoonOrbit = new Orbit(p, earth, moon, moonOrbitRadius, moonTiltVec);
+            earthMoonOrbit.showPrimary = false;
+            earthMoonOrbit.showOrbit();
 
-    p.mouseClicked = () => {
-        if (mouseInCanvas(p)) {
-            doAnimate = !doAnimate;
-        }
-    };
+            slider = p.createSlider(0, 100, 0);
+            slider.size(p.width-10);
+        };
 
-    p.stopAnimation = () => {
-        doAnimate = false;
-    };
+        p.draw = () => {
+            p.background(0);
+            p.randomSeed(1);
 
-    p.hideSlider = () => {
-        slider.hide();
-    };
+            let canvasPos = p.canvas.getBoundingClientRect();
+            slider.position(
+                canvasPos.left + window.scrollX + 2, // Add horizontal scroll offset
+                canvasPos.top + window.scrollY + p.height + 10  // Add vertical scroll offset
+            );
 
-    p.showSlider = () => {
-        slider.show();
+            sunEarthOrbit.render();
+            earthMoonOrbit.render();
+            earth.drawShadow(earthMoonOrbit.r*2);
+            moon.drawShadow(earthMoonOrbit.r);
+            sunEarthOrbit.drawOrbitalPlane(p.color(0, 150, 255, 40));
+            // earthMoonOrbit.drawOrbitalPlane(p.color(255, 0, 255, 40));
+
+            if (doAnimate) {
+                let earthOrbitRate = rate/6;
+                sunEarthOrbit.revolve(earthOrbitRate);
+                earthMoonOrbit.revolve(earthOrbitRate * 12);
+                earth.light -= earthOrbitRate;
+                moon.light -= earthOrbitRate;
+                earth.rotate(12);
+                moon.rotate(1);
+            } else {
+                p.fill(255, 255, 255, 200);
+                p.textFont(font.regular());
+                draw2DText(p, cam, "Click to start animation", 5, [0, -90]);
+            }
+
+            let endPos = sun.pos.copy().sub(p.createVector(0, sun.r*1.2, 0));
+            let endLook = earth.pos.copy();
+            let endUp = p.createVector(0, 1, 0);
+
+            let currPos = interpolate(p, camPos, endPos, slider);
+            let currLook = interpolate(p, camLook, endLook, slider);
+            let currUp = interpolate(p, camUp, endUp, slider);
+
+            cam.camera(
+                currPos.x, currPos.y, currPos.z,
+                currLook.x, currLook.y, currLook.z,
+                currUp.x, currUp.y, currUp.z
+            );
+
+            p.fill(200);
+            let captionText = tiltedMoon
+                ? "(Moon's orbit angle exaggerated to 20°)"
+                : "(Sizes and distances not to scale)";
+            p.textFont(font.italic());
+            draw2DText(p, cam, captionText, 5, [0, 90]);
+        };
+
+        p.mouseClicked = () => {
+            if (mouseInCanvas(p)) {
+                doAnimate = !doAnimate;
+            }
+        };
+
+        p.stopAnimation = () => {
+            doAnimate = false;
+        };
+
+        p.hideSlider = () => {
+            slider.hide();
+        };
+
+        p.showSlider = () => {
+            slider.show();
+        };
     };
 }

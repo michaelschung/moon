@@ -176,6 +176,41 @@ export function rotateToCamera(p, cam, options=[1, 1, 1]) {
     p.applyMatrix(...matrix);
 }
 
+export class Font {
+    constructor(p, family, isTTF) {
+        this.p = p;
+        this.fam = family;
+        this.isTTF = isTTF;
+        this.fonts = this.loadFonts();
+    }
+
+    loadFonts() {
+        const [p, fam] = [this.p, this.fam];
+        let ext = this.isTTF ? ".ttf" : ".otf";
+        let regular = p.loadFont(`/assets/${fam}/${fam}-Regular${ext}`);
+        let bold = p.loadFont(`/assets/${fam}/${fam}-Bold${ext}`);
+        let italic = p.loadFont(`/assets/${fam}/${fam}-Italic${ext}`);
+        let bolditalic = p.loadFont(`/assets/${fam}/${fam}-BoldItalic${ext}`);
+        return [regular, bold, italic, bolditalic];
+    }
+
+    regular() {
+        return this.fonts[0];
+    }
+
+    bold() {
+        return this.fonts[1];
+    }
+
+    italic() {
+        return this.fonts[2];
+    }
+
+    bolditalic() {
+        return this.fonts[3];
+    }
+}
+
 export class Arrow {
     constructor(p, pos, dir, size) {
         this.p = p;

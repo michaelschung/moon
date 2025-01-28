@@ -1,5 +1,5 @@
 import { moonPhases, moonRevolve, moonQuarters, phaseView } from "./phases.js";
-import { lunarEclipse, solarEclipse, allEcliptic } from "./eclipses.js";
+import { lunarEclipse, solarEclipse, moonTilt } from "./eclipses.js";
 
 // Map ids to p5 instances
 const sketchMap = {
@@ -19,7 +19,8 @@ const sketchMap = {
     // What about eclipses?
     lunarEclipse: lunarEclipse,
     solarEclipse: solarEclipse,
-    allEcliptic: allEcliptic
+    allEcliptic: moonTilt(false),
+    moonTilt: moonTilt(true)
 };
 
 // Store active p5 instances

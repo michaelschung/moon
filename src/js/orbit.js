@@ -54,9 +54,8 @@ export class Orbit {
     drawOrbit() {
         const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
         p.push();
-        
+        p.translate(pri.pos);
         alignWithVector(p, tilt);
-
         p.fill(255, 255, 255, 30);
         p.strokeWeight(0.5);
         p.torus(r, 1, 50);
