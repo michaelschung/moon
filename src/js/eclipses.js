@@ -121,7 +121,7 @@ export const solarEclipse = (p) => {
     }
 
     p.setup = () => {
-        p.createCanvas(width, width/2, p.WEBGL);
+        p.createCanvas(width, width/3, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
