@@ -151,7 +151,7 @@ export const everythingView = (p) => {
     p.preload = () => {
         font = new Font(p, "Roboto", true);
         slider = p.createSlider(0, 80, 0);
-        vSlider = p.createSlider(0, 100, 0);
+        vSlider = p.createSlider(0, 100, 50);
     }
 
     p.setup = () => {
@@ -218,8 +218,6 @@ export const everythingView = (p) => {
         let currUp = interpolate(p, camUp, overUp, vSlider);
 
         setCamera(cam, currPos, currLook, currUp);
-
-        // setCamera(cam, ...getCamCoords());
 
         if (mouseInCanvas(p) && p.mouseIsPressed) {
             earthMoonOrbit.revolve(rate);

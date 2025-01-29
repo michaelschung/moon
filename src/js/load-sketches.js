@@ -38,7 +38,7 @@ function loadSketch(sketchID) {
     } else {
         const sketch = sketches[sketchID];
         const canvas = document.getElementById(sketchID).querySelector("canvas");
-        canvas.style.display = "block";
+        if (canvas) canvas.style.display = "block";
         sketch.loop();
 
         // Call the p5 instance"s showSlider (if it exists)
