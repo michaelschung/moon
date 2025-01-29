@@ -1,6 +1,6 @@
 import { Moon, Earth } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { Arrow, cameraAwareText, mouseInCanvas, interpolate, draw2DText, Font } from "./utils.js";
+import { Arrow, cameraAwareText, mouseInCanvas, interpolate, draw2DText, Font, setCamera } from "./utils.js";
 
 const width = document.getElementById("main").getBoundingClientRect().width;
 
@@ -59,7 +59,6 @@ export const moonRevolve = (p) => {
         earthMoonOrbit.showOrbit();
 
         cam = p.createCamera();
-        cam.ortho();
         // (above earth, looking at earth, up=+z bc z is backwards)
         cam.camera(0, -400, 0, 0, 0, 0, 0, 0, 1);
 
@@ -189,11 +188,7 @@ export const phaseView = (quarter, allowAnimate) => {
             p.textFont(font.regular());
 
             cam = p.createCamera();
-            cam.camera(
-                camPos.x, camPos.y, camPos.z,
-                camLook.x, camLook.y, camLook.z,
-                camUp.x, camUp.y, camUp.z
-            );
+            setCamera(cam, camPos, camLook, camUp);
             p.perspective(p.PI/5, p.width/p.height, 0.1, 1000);
 
             let earthPos = p.createVector(0, 0, 0);
@@ -213,8 +208,8 @@ export const phaseView = (quarter, allowAnimate) => {
 
             let canvasPos = p.canvas.getBoundingClientRect();
             slider.position(
-                canvasPos.left + window.scrollX + 2, // Add horizontal scroll offset
-                canvasPos.top + window.scrollY + p.height + 10  // Add vertical scroll offset
+                canvasPos.left + window.scrollX + 2,
+                canvasPos.top + window.scrollY + p.height + 10
             );
 
             // TODO: WHY does revolving make the moon pull ahead in its orbit?
@@ -238,16 +233,10 @@ export const phaseView = (quarter, allowAnimate) => {
 
             let currPos = interpolate(p, camPos, endPos, slider);
             let currLook = interpolate(p, camLook, endLook, slider);
-            // TODO: generalize this to "lining up with bottom of camera" instead
-            // of assuming the bottom of the camera always coincides with Q1
             let isQ1 = !doAnimate && p.abs(earthMoonOrbit.rev, p.PI) < p.PI/8;
             let currUp = interpolate(p, camUp, endUp, slider, isQ1);
 
-            cam.camera(
-                currPos.x, currPos.y, currPos.z,
-                currLook.x, currLook.y, currLook.z,
-                currUp.x, currUp.y, currUp.z
-            );
+            setCamera(cam, currPos, currLook, currUp);
 
             let textPos = moon.pos.copy();
             let currCamUp = currUp.copy();

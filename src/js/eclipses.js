@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { mouseInCanvas, interpolate, draw2DText, Font } from "./utils.js";
+import { mouseInCanvas, interpolate, draw2DText, setCamera, Font } from "./utils.js";
 
 const width = document.getElementById("main").getBoundingClientRect().width;
 
@@ -30,11 +30,7 @@ export const lunarEclipse = (p) => {
         p.textFont(font.italic());
 
         cam = p.createCamera();
-        cam.camera(
-            camPos.x, camPos.y, camPos.z,
-            camLook.x, camLook.y, camLook.z,
-            camUp.x, camUp.y, camUp.z
-        );
+        setCamera(cam, camPos, camLook, camUp);
         p.perspective(p.PI/6, p.width/p.height, 0.1, 2000);
 
         let sunPos = p.createVector(-550, 0, 0);
@@ -81,12 +77,8 @@ export const lunarEclipse = (p) => {
         let currLook = interpolate(p, camLook, endLook, slider);
         let currUp = interpolate(p, camUp, endUp, slider);
 
-        cam.camera(
-            currPos.x, currPos.y, currPos.z,
-            currLook.x, currLook.y, currLook.z,
-            currUp.x, currUp.y, currUp.z
-        );
-
+        setCamera(cam, currPos, currLook, currUp);
+        
         p.fill(200);
         draw2DText(p, cam, "(Sizes and distances not to scale)", 4, [0, 20]);
     };
@@ -126,11 +118,7 @@ export const solarEclipse = (p) => {
         p.textFont(font.italic());
 
         cam = p.createCamera();
-        cam.camera(
-            camPos.x, camPos.y, camPos.z,
-            camLook.x, camLook.y, camLook.z,
-            camUp.x, camUp.y, camUp.z
-        );
+        setCamera(cam, camPos, camLook, camUp);
         p.perspective(p.PI/6, p.width/p.height, 0.1, 2000);
 
         let sunPos = p.createVector(-550, 0, 0);
@@ -171,11 +159,7 @@ export const solarEclipse = (p) => {
         let currLook = interpolate(p, camLook, endLook, slider);
         let currUp = interpolate(p, camUp, endUp, slider);
 
-        cam.camera(
-            currPos.x, currPos.y, currPos.z,
-            currLook.x, currLook.y, currLook.z,
-            currUp.x, currUp.y, currUp.z
-        );
+        setCamera(cam, currPos, currLook, currUp);
 
         p.fill(200);
         draw2DText(p, cam, "(Sizes and distances not to scale)", 4, [0, 20]);
@@ -219,11 +203,7 @@ export const moonTilt = (tiltedMoon) => {
             p.textFont(font.regular());
 
             cam = p.createCamera();
-            cam.camera(
-                camPos.x, camPos.y, camPos.z,
-                camLook.x, camLook.y, camLook.z,
-                camUp.x, camUp.y, camUp.z
-            );
+            setCamera(cam, camPos, camLook, camUp);
             p.perspective(p.PI/2, p.width/p.height, 0.1, 2000);
 
             let sunPos = p.createVector(0, 0, 0);
@@ -282,11 +262,7 @@ export const moonTilt = (tiltedMoon) => {
             let currLook = interpolate(p, camLook, endLook, slider);
             let currUp = interpolate(p, camUp, endUp, slider);
 
-            cam.camera(
-                currPos.x, currPos.y, currPos.z,
-                currLook.x, currLook.y, currLook.z,
-                currUp.x, currUp.y, currUp.z
-            );
+            setCamera(cam, currPos, currLook, currUp);
 
             p.fill(200);
             let captionText = tiltedMoon
