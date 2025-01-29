@@ -75,10 +75,9 @@ export class Body {
             p.translate(pos);
             p.rotateY(-rot);
             p.translate(r, 0, 0);
-            p.rotateZ(-p.PI/4);
-            alignWithVector(p, vec);
-            p.fill(255, 255, 0, 10);
-            p.cone(r*4, 0);
+            p.fill(255, 255, 0, 30);
+            alignWithVector(p, p.createVector(0, 0, 0).sub(pos));
+            p.circle(0, 0, r*6);
             p.pop();
         }
         
