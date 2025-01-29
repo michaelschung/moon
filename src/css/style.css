@@ -81,3 +81,14 @@ term {
     width:fit-content;
     transform: translate(-105%, 0);
 }
+
+.solution {
+    padding-left: 1em;
+    display: flex;
+    flex-direction: column;
+    font-style: italic;
+}
+
+.solution li {
+    font-style: italic;
+}
