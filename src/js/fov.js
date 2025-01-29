@@ -1,8 +1,10 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { mouseInCanvas, interpolate, draw2DText, Font, getTimeText, Arrow, cameraAwareText } from "./utils.js";
+import { mouseInCanvas, interpolate, draw2DText, Font, getTimeText, setCamera } from "./utils.js";
 
-const width = document.getElementById("main").getBoundingClientRect().width;
+const mainElement = document.getElementById("main");
+const width = mainElement.getBoundingClientRect().width;
+const em = parseFloat(getComputedStyle(mainElement).fontSize);
 
 export const timeView = (quarter, time) => {
     return (p) => {
@@ -54,6 +56,7 @@ export const timeView = (quarter, time) => {
             sunEarthOrbit.render();
 
             [camPos, camLook, camUp] = getCamCoords();
+            setCamera(cam, camPos, camLook, camUp);
         };
 
         p.draw = () => {
@@ -72,13 +75,7 @@ export const timeView = (quarter, time) => {
             earth.rot = -(time + slider.value()) * rate;
             currTime = time + slider.value();
 
-            let [currPos, currLook, currUp] = getCamCoords();
-
-            cam.camera(
-                currPos.x, currPos.y, currPos.z,
-                currLook.x, currLook.y, currLook.z,
-                currUp.x, currUp.y, currUp.z
-            );
+            setCamera(cam, ...getCamCoords());
 
             let eRVec = getERVec();
             earth.drawPerson(eRVec.normalize(), true);
@@ -154,11 +151,11 @@ export const everythingView = (p) => {
     p.preload = () => {
         font = new Font(p, "Roboto", true);
         slider = p.createSlider(0, 80, 0);
-        vSlider = p.createSlider(0, 100, 100);
+        vSlider = p.createSlider(0, 100, 0);
     }
 
     p.setup = () => {
-        p.createCanvas(width-25, width-25, p.WEBGL);
+        p.createCanvas(width-em*1.5, width-em*1.5, p.WEBGL);
         p.noStroke();
         p.frameRate(10);
 
@@ -186,11 +183,11 @@ export const everythingView = (p) => {
         vSlider.size(p.height-10);
         vSlider.style('transform', 'rotate(-90deg)');
         vSlider.style('transform-origin', 'left top');
-        // vSlider.id = "test";
 
         sunEarthOrbit.render();
 
         [camPos, camLook, camUp] = getCamCoords();
+        setCamera(cam, camPos, camLook, camUp);
     };
 
     p.draw = () => {
@@ -213,13 +210,7 @@ export const everythingView = (p) => {
         currTime = slider.value();
         earth.rot = -currTime * rate;
 
-        let [currPos, currLook, currUp] = getCamCoords();
-
-        cam.camera(
-            currPos.x, currPos.y, currPos.z,
-            currLook.x, currLook.y, currLook.z,
-            currUp.x, currUp.y, currUp.z
-        );
+        setCamera(cam, ...getCamCoords());
 
         if (mouseInCanvas(p) && p.mouseIsPressed) {
             earthMoonOrbit.revolve(rate);
@@ -245,10 +236,12 @@ export const everythingView = (p) => {
 
     p.hideSlider = () => {
         if (slider) slider.hide();
+        if (vSlider) vSlider.hide();
     };
 
     p.showSlider = () => {
         if (slider) slider.show();
+        if (vSlider) vSlider.show();
     };
 
     function getERVec() {

@@ -31,6 +31,14 @@ export const sketchTemplate = (p) => {
     };
 };
 
+export function setCamera(cam, pos, look, up) {
+    cam.camera(
+        pos.x, pos.y, pos.z,
+        look.x, look.y, look.z,
+        up.x, up.y, up.z
+    );
+}
+
 export function getTimeText(time) {
     time %= 80;
     let hourNum = Math.floor(time / 80 * 24) % 24;
