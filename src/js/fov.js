@@ -32,20 +32,22 @@ export const timeView = (quarter, time) => {
             p.textFont(font.regular());
 
             cam = p.createCamera();
-            p.perspective(p.PI/3, p.width/p.height, 0.1, 2500);
-            // p.perspective(p.PI, p.width/p.height, 0.1, 2500);
-            // cam.ortho();
+            // p.perspective(p.PI/3, p.width/p.height, 0.1, 2500);
+            p.perspective(p.PI/2, p.width/p.height, 0.1, 3000);
+            cam.ortho();
 
-            let sunPos = p.createVector(-900, 0, 0);
-            sun = new Sun(p, sunPos, 150, 0);
+            let sunPos = p.createVector(-200, 0, 0);
+            let sunSize = quarter === 0 ? 30 : 80;
+            sun = new Sun(p, sunPos, sunSize, 0);
             earth = new Earth(p, null, 60, 0);
-            moon = new Moon(p, null, 30, 0);
-            sunEarthOrbit = new Orbit(p, sun, earth, 1600, p.createVector(0, -1, 0));
+            moon = new Moon(p, null, 15, 0);
+            let sunEarthDistance = quarter === 0 ? 400 : 500;
+            sunEarthOrbit = new Orbit(p, sun, earth, sunEarthDistance, p.createVector(0, -1, 0));
             sunEarthOrbit.rev = -p.HALF_PI;
             let moonTiltAngle = p.radians(5);
             // let moonTiltVec = p.createVector(-p.sin(moonTiltAngle), -p.cos(moonTiltAngle), 0);
             let moonTiltVec = p.createVector(0, -1, 0);
-            earthMoonOrbit = new Orbit(p, earth, moon, 600, moonTiltVec);
+            earthMoonOrbit = new Orbit(p, earth, moon, 200, moonTiltVec);
             earthMoonOrbit.setOrbitAngle(p.HALF_PI - quarter * p.HALF_PI);
             earthMoonOrbit.showPrimary = false;
             earthMoonOrbit.showOrbit();
@@ -108,19 +110,21 @@ export const timeView = (quarter, time) => {
 
             p.fill(200);
             p.textFont(font.regular());
-            draw2DText(p, cam, getTimeText(currTime), 5, [0, -50]);
+            draw2DText(p, cam, getTimeText(currTime), 18, [0, -200]);
 
-            let earthToSunVec = sun.pos.copy().sub(earth.pos).normalize();
-            let arrowPos = earth.pos.copy().add(earthToSunVec.copy().mult(earth.r*3));
-            let sunArrow = new Arrow(p, arrowPos, earthToSunVec, 20);
-            if (quarter === 2) {
-                sunArrow.draw();
-                p.textSize(10);
-                p.fill("red");
-                let arrowTextPos = arrowPos.copy().sub(earthToSunVec.mult(10));
-                cameraAwareText(p, cam, "Sun", arrowTextPos);
-            }
+            p.textFont(font.italic());
+            draw2DText(p, cam, "(Sizes and distances not to scale)", 12, [0, 210]);
 
+            // let earthToSunVec = sun.pos.copy().sub(earth.pos).normalize();
+            // let arrowPos = earth.pos.copy().add(earthToSunVec.copy().mult(earth.r*3));
+            // let sunArrow = new Arrow(p, arrowPos, earthToSunVec, 20);
+            // if (quarter === 2) {
+            //     sunArrow.draw();
+            //     p.textSize(10);
+            //     p.fill("red");
+            //     let arrowTextPos = arrowPos.copy().sub(earthToSunVec.mult(10));
+            //     cameraAwareText(p, cam, "Sun", arrowTextPos);
+            // }
         };
 
         p.mouseClicked = () => {
@@ -163,12 +167,13 @@ export const timeView = (quarter, time) => {
             
             let currPos = earth.pos.copy();
             let newMoon = quarter === 0;
-            let scale = 1;
             currPos
-                .sub(eFVec.mult((newMoon ? 300 : -300) * scale))
-                .sub(eUVec.mult(120 * scale))
-                .add(eRVec.mult((newMoon ? 100 : -100) * scale));
-            let currLook = earth.pos.copy();
+                .sub(eFVec.mult(newMoon ? 300 : -400))
+                .sub(eUVec.mult(newMoon ? 120 : 120))
+                .add(eRVec.mult(newMoon ? 100 : 100));
+            let currLook = newMoon
+                ? earth.pos.copy().add(earthToSunVec.mult(0.5))
+                : earth.pos.copy();
             let currUp = p.createVector(0, 1, 0);
 
             return [currPos, currLook, currUp];
