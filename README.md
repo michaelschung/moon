@@ -56,6 +56,8 @@ The architecture of this page is incredibly simple – just a plain, static web
 - Maintains a map of sketch IDs to their p5 instances.
 - Uses an `IntersectionObserver` to detect when sketches enter and exit the viewport, loading and unloading as appropriate.
 
+This dynamic sketch loading is necessary since rendering all sketches simultaneously slows them all down. But it exhibits slightly glitchy behavior when scrolling too quickly, or when the taller sketches load or unload and pull the page with them. There may be a smart way to fix this, but I'm already planning to move the whole thing to React which I *think* will be a better long-term solution.
+
 ## Updates
 
 ### Releases
