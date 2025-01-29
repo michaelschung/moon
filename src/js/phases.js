@@ -56,6 +56,7 @@ export const moonRevolve = (p) => {
         moon = new Moon(p, null, 10, 0, 80);
 
         earthMoonOrbit = new Orbit(p, earth, moon, 180, p.createVector(0, -1, 0));
+        earthMoonOrbit.showOrbit();
 
         cam = p.createCamera();
         cam.ortho();
