@@ -56,8 +56,8 @@ export const lunarEclipse = (p) => {
 
         let canvasPos = p.canvas.getBoundingClientRect();
         slider.position(
-            canvasPos.left + window.scrollX + 2, // Add horizontal scroll offset
-            canvasPos.top + window.scrollY + p.height + 10  // Add vertical scroll offset
+            canvasPos.left + window.scrollX + 2,
+            canvasPos.top + window.scrollY + p.height + 10
         );
 
         let pos = p.createVector(cam.eyeX, cam.eyeY, cam.eyeZ);
@@ -152,8 +152,8 @@ export const solarEclipse = (p) => {
 
         let canvasPos = p.canvas.getBoundingClientRect();
         slider.position(
-            canvasPos.left + window.scrollX + 2, // Add horizontal scroll offset
-            canvasPos.top + window.scrollY + p.height + 10  // Add vertical scroll offset
+            canvasPos.left + window.scrollX + 2,
+            canvasPos.top + window.scrollY + p.height + 10
         );
 
         let pos = p.createVector(cam.eyeX, cam.eyeY, cam.eyeZ);
@@ -252,8 +252,8 @@ export const moonTilt = (tiltedMoon) => {
 
             let canvasPos = p.canvas.getBoundingClientRect();
             slider.position(
-                canvasPos.left + window.scrollX + 2, // Add horizontal scroll offset
-                canvasPos.top + window.scrollY + p.height + 10  // Add vertical scroll offset
+                canvasPos.left + window.scrollX + 2,
+                canvasPos.top + window.scrollY + p.height + 10
             );
 
             sunEarthOrbit.render();

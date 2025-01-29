@@ -32,7 +32,6 @@ export const timeView = (quarter, time) => {
             p.textFont(font.regular());
 
             cam = p.createCamera();
-            // p.perspective(p.PI/3, p.width/p.height, 0.1, 2500);
             p.perspective(p.PI/2, p.width/p.height, 0.1, 3000);
             cam.ortho();
 
@@ -44,8 +43,6 @@ export const timeView = (quarter, time) => {
             let sunEarthDistance = quarter === 0 ? 400 : 500;
             sunEarthOrbit = new Orbit(p, sun, earth, sunEarthDistance, p.createVector(0, -1, 0));
             sunEarthOrbit.rev = -p.HALF_PI;
-            let moonTiltAngle = p.radians(5);
-            // let moonTiltVec = p.createVector(-p.sin(moonTiltAngle), -p.cos(moonTiltAngle), 0);
             let moonTiltVec = p.createVector(0, -1, 0);
             earthMoonOrbit = new Orbit(p, earth, moon, 200, moonTiltVec);
             earthMoonOrbit.setOrbitAngle(p.HALF_PI - quarter * p.HALF_PI);
@@ -65,29 +62,12 @@ export const timeView = (quarter, time) => {
 
             let canvasPos = p.canvas.getBoundingClientRect();
             slider.position(
-                canvasPos.left + window.scrollX + 2, // Add horizontal scroll offset
-                canvasPos.top + window.scrollY + p.height + 10  // Add vertical scroll offset
+                canvasPos.left + window.scrollX + 2,
+                canvasPos.top + window.scrollY + p.height + 10
             );
 
             sunEarthOrbit.render();
             earthMoonOrbit.render();
-
-            // earth.drawShadow(earthMoonOrbit.r*2);
-            // moon.drawShadow(earthMoonOrbit.r);
-
-            if (doAnimate) {
-                let earthOrbitRate = rate/6;
-                // sunEarthOrbit.revolve(earthOrbitRate);
-                // earthMoonOrbit.revolve(earthOrbitRate * 12);
-                // earth.light -= earthOrbitRate;
-                // moon.light -= earthOrbitRate;
-                // earth.rotate(1);
-                moon.rotate(1);
-            } else {
-                // p.fill(255, 255, 255, 200);
-                // p.textFont(font.regular());
-                // draw2DText(p, cam, "Click to start animation", 5, [0, -90]);
-            }
 
             earth.rot = -(time + slider.value()) * rate;
             currTime = time + slider.value();
@@ -103,34 +83,12 @@ export const timeView = (quarter, time) => {
             let eRVec = getERVec();
             earth.drawPerson(eRVec.normalize(), true);
 
-            // p.fill(200);
-            // let captionText = "(Moon's orbit angle exaggerated to 20°)";
-            // p.textFont(font.italic());
-            // draw2DText(p, cam, captionText, 5, [0, 90]);
-
             p.fill(200);
             p.textFont(font.regular());
             draw2DText(p, cam, getTimeText(currTime), 18, [0, -200]);
 
             p.textFont(font.italic());
             draw2DText(p, cam, "(Sizes and distances not to scale)", 12, [0, 210]);
-
-            // let earthToSunVec = sun.pos.copy().sub(earth.pos).normalize();
-            // let arrowPos = earth.pos.copy().add(earthToSunVec.copy().mult(earth.r*3));
-            // let sunArrow = new Arrow(p, arrowPos, earthToSunVec, 20);
-            // if (quarter === 2) {
-            //     sunArrow.draw();
-            //     p.textSize(10);
-            //     p.fill("red");
-            //     let arrowTextPos = arrowPos.copy().sub(earthToSunVec.mult(10));
-            //     cameraAwareText(p, cam, "Sun", arrowTextPos);
-            // }
-        };
-
-        p.mouseClicked = () => {
-            // if (mouseInCanvas(p)) {
-            //     doAnimate = !doAnimate;
-            // }
         };
 
         p.stopAnimation = () => {
@@ -154,12 +112,6 @@ export const timeView = (quarter, time) => {
         }
 
         function getCamCoords() {
-            // return [
-            //     p.createVector(0, -1000, 0),
-            //     p.createVector(0, 0, 0),
-            //     p.createVector(0, 0, 1)
-            // ];
-
             let earthToSunVec = sun.pos.copy().sub(earth.pos);
             let eFVec = earthToSunVec.copy().normalize();
             let eUVec = p.createVector(0, 1, 0);
