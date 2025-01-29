@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { mouseInCanvas, interpolate, draw2DText, Font, getTimeText } from "./utils.js";
+import { mouseInCanvas, interpolate, draw2DText, Font, getTimeText, Arrow, cameraAwareText } from "./utils.js";
 
 const width = document.getElementById("main").getBoundingClientRect().width;
 
@@ -16,9 +16,6 @@ export const timeView = (quarter, time) => {
         let rate = p.TWO_PI/80;
         let slider;
         let camPos, camLook, camUp;
-        // let camPos = p.createVector(0, -1500, 0);
-        // let camLook = p.createVector(0, 0, 0);
-        // let camUp = p.createVector(0, 0, 1);
         let doAnimate = false;
         let currTime = time;
 
@@ -34,22 +31,10 @@ export const timeView = (quarter, time) => {
 
             p.textFont(font.regular());
 
-            if (quarter === 0) {
-                camPos = p.createVector(1000, -120, -100);
-                camLook = p.createVector(350, 0, 0);
-            } else {
-                camPos = p.createVector(0, 0, 0);
-                camLook = p.createVector(0, 0, 0);
-            }
-            camUp = p.createVector(0, 1, 0);
-
             cam = p.createCamera();
-            cam.camera(
-                camPos.x, camPos.y, camPos.z,
-                camLook.x, camLook.y, camLook.z,
-                camUp.x, camUp.y, camUp.z
-            );
             p.perspective(p.PI/3, p.width/p.height, 0.1, 2500);
+            // p.perspective(p.PI, p.width/p.height, 0.1, 2500);
+            // cam.ortho();
 
             let sunPos = p.createVector(-900, 0, 0);
             sun = new Sun(p, sunPos, 150, 0);
@@ -60,7 +45,7 @@ export const timeView = (quarter, time) => {
             let moonTiltAngle = p.radians(5);
             // let moonTiltVec = p.createVector(-p.sin(moonTiltAngle), -p.cos(moonTiltAngle), 0);
             let moonTiltVec = p.createVector(0, -1, 0);
-            earthMoonOrbit = new Orbit(p, earth, moon, 400, moonTiltVec);
+            earthMoonOrbit = new Orbit(p, earth, moon, 600, moonTiltVec);
             earthMoonOrbit.setOrbitAngle(p.HALF_PI - quarter * p.HALF_PI);
             earthMoonOrbit.showPrimary = false;
             earthMoonOrbit.showOrbit();
@@ -69,22 +54,7 @@ export const timeView = (quarter, time) => {
 
             sunEarthOrbit.render();
 
-            // let earthToSunVec = sun.pos.copy().sub(earth.pos).normalize();
-            // let currPos = earth.pos.copy().sub(earthToSunVec.mult(earthMoonOrbit.r*1.2));
-            // currPos.sub(p.createVector(0, earth.r*1.2, 0));
-            // let currLook = sun.pos.copy();
-            // let currUp = p.createVector(0, 1, 0);
-
-            // cam.camera(
-            //     currPos.x, currPos.y, currPos.z,
-            //     currLook.x, currLook.y, currLook.z,
-            //     currUp.x, currUp.y, currUp.z
-            // );
-            // cam.camera(
-            //     earth.pos.x+earth.r*2, earth.pos.y-earth.r*1.2, earth.pos.z,
-            //     sun.pos.x, sun.pos.y, sun.pos.z,
-            //     0, 1, 0
-            // );
+            [camPos, camLook, camUp] = getCamCoords();
         };
 
         p.draw = () => {
@@ -120,17 +90,7 @@ export const timeView = (quarter, time) => {
             earth.rot = -(time + slider.value()) * rate;
             currTime = time + slider.value();
 
-            let earthToSunVec = sun.pos.copy().sub(earth.pos);
-
-            let eFVec = earthToSunVec.copy().normalize();
-            let eUVec = p.createVector(0, 1, 0);
-            let eRVec = eFVec.copy().cross(eUVec);
-            let currPos = earth.pos.copy()
-                .sub(eFVec.mult(300))
-                .sub(eUVec.mult(120))
-                .add(eRVec.mult(100));
-            let currLook = earth.pos.copy().add(earthToSunVec.mult(0.5));
-            let currUp = p.createVector(0, 1, 0);
+            let [currPos, currLook, currUp] = getCamCoords();
 
             cam.camera(
                 currPos.x, currPos.y, currPos.z,
@@ -138,6 +98,7 @@ export const timeView = (quarter, time) => {
                 currUp.x, currUp.y, currUp.z
             );
 
+            let eRVec = getERVec();
             earth.drawPerson(eRVec.normalize(), true);
 
             // p.fill(200);
@@ -148,6 +109,18 @@ export const timeView = (quarter, time) => {
             p.fill(200);
             p.textFont(font.regular());
             draw2DText(p, cam, getTimeText(currTime), 5, [0, -50]);
+
+            let earthToSunVec = sun.pos.copy().sub(earth.pos).normalize();
+            let arrowPos = earth.pos.copy().add(earthToSunVec.copy().mult(earth.r*3));
+            let sunArrow = new Arrow(p, arrowPos, earthToSunVec, 20);
+            if (quarter === 2) {
+                sunArrow.draw();
+                p.textSize(10);
+                p.fill("red");
+                let arrowTextPos = arrowPos.copy().sub(earthToSunVec.mult(10));
+                cameraAwareText(p, cam, "Sun", arrowTextPos);
+            }
+
         };
 
         p.mouseClicked = () => {
@@ -167,5 +140,38 @@ export const timeView = (quarter, time) => {
         p.showSlider = () => {
             if (slider) slider.show();
         };
+
+        function getERVec() {
+            let earthToSunVec = sun.pos.copy().sub(earth.pos);
+            let eFVec = earthToSunVec.copy().normalize();
+            let eUVec = p.createVector(0, 1, 0);
+            let eRVec = eFVec.copy().cross(eUVec);
+            return eRVec;
+        }
+
+        function getCamCoords() {
+            // return [
+            //     p.createVector(0, -1000, 0),
+            //     p.createVector(0, 0, 0),
+            //     p.createVector(0, 0, 1)
+            // ];
+
+            let earthToSunVec = sun.pos.copy().sub(earth.pos);
+            let eFVec = earthToSunVec.copy().normalize();
+            let eUVec = p.createVector(0, 1, 0);
+            let eRVec = eFVec.copy().cross(eUVec);
+            
+            let currPos = earth.pos.copy();
+            let newMoon = quarter === 0;
+            let scale = 1;
+            currPos
+                .sub(eFVec.mult((newMoon ? 300 : -300) * scale))
+                .sub(eUVec.mult(120 * scale))
+                .add(eRVec.mult((newMoon ? 100 : -100) * scale));
+            let currLook = earth.pos.copy();
+            let currUp = p.createVector(0, 1, 0);
+
+            return [currPos, currLook, currUp];
+        }
     };
 };
