@@ -12,7 +12,6 @@ export const lunarEclipse = (p) => {
     let moon;
     let sunEarthOrbit;
     let earthMoonOrbit;
-    let rate = p.TWO_PI/80;
     let slider;
     let camPos = p.createVector(0, -1000, 0);
     let camLook = p.createVector(0, 0, 0);
@@ -109,7 +108,6 @@ export const solarEclipse = (p) => {
     let moon;
     let sunEarthOrbit;
     let earthMoonOrbit;
-    let rate = p.TWO_PI/80;
     let slider;
     let camPos = p.createVector(0, -1000, 0);
     let camLook = p.createVector(0, 0, 0);
