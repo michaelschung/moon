@@ -1,6 +1,6 @@
 import { moonPhases, moonRevolve, moonQuarters, phaseView } from "./phases.js";
 import { lunarEclipse, solarEclipse, moonTilt } from "./eclipses.js";
-import { timeView } from "./fov.js";
+import { timeView, everythingView } from "./fov.js";
 
 // Map ids to p5 instances
 const sketchMap = {
@@ -24,7 +24,8 @@ const sketchMap = {
     moonTilt: moonTilt(true),
     // What about daytime?
     timeViewNew: timeView(0, 0),
-    timeViewFull: timeView(2, 40)
+    timeViewFull: timeView(2, 40),
+    everythingView: everythingView
 };
 
 // Store active p5 instances
