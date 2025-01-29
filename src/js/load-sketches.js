@@ -24,6 +24,7 @@ const sketchMap = {
     moonTilt: moonTilt(true),
     // What about daytime?
     timeViewNew: timeView(0, 0),
+    timeViewFull: timeView(2, 40)
 };
 
 // Store active p5 instances

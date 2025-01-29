@@ -67,23 +67,24 @@ export class Body {
         this.shadowOn = false;
     }
 
-    drawPerson(time, vec, showFOV=false) {
+    drawPerson(vec, showFOV=false) {
         const [p, pos, r, c, rot, res, light] = this.instanceVars();
-        let timeAngle = (-rot + time * res) % p.TWO_PI;
 
-        p.push();
-        p.translate(pos);
-        p.rotateY(timeAngle);
-        p.translate(r, 0, 0);
-        p.rotateZ(-p.PI/4);
-        alignWithVector(p, vec);
-        p.fill(255, 255, 0, 20);
-        p.cone(r*2, 0);
-        p.pop();
+        if (showFOV) {
+            p.push();
+            p.translate(pos);
+            p.rotateY(-rot);
+            p.translate(r, 0, 0);
+            p.rotateZ(-p.PI/4);
+            alignWithVector(p, vec);
+            p.fill(255, 255, 0, 20);
+            p.cone(r*3, 0);
+            p.pop();
+        }
         
         p.push();
         p.translate(pos);
-        p.rotateY(timeAngle);
+        p.rotateY(-rot);
         p.translate(r+2, 0, 0);
         p.fill("red");
         p.sphere(4);

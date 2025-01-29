@@ -31,6 +31,18 @@ export const sketchTemplate = (p) => {
     };
 };
 
+export function getTimeText(time) {
+    let hourNum = Math.floor(time / 80 * 24) % 24;
+    time -= hourNum * 80/24;
+    let minNum = Math.round(time * 18 % 60);
+    let hour = hourNum % 12 === 0
+        ? "12"
+        : String(hourNum % 12);
+    let min = String(minNum).padStart(2, 0);
+    let meridian = hourNum < 12 ? "AM" : "PM";
+    return `${hour}:${min} ${meridian}`;
+};
+
 /**
  * Interpolates between two vectors based on slider value
  * 

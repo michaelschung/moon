@@ -1,6 +1,6 @@
 import { Moon, Earth, Sun } from "./body.js";
 import { Orbit } from "./orbit.js";
-import { mouseInCanvas, interpolate, draw2DText, Font } from "./utils.js";
+import { mouseInCanvas, interpolate, draw2DText, Font, getTimeText } from "./utils.js";
 
 const width = document.getElementById("main").getBoundingClientRect().width;
 
@@ -15,13 +15,12 @@ export const timeView = (quarter, time) => {
         let earthMoonOrbit;
         let rate = p.TWO_PI/80;
         let slider;
-        let camPos = p.createVector(1000, -120, -100);
-        let camLook = p.createVector(350, 0, 0);
-        let camUp = p.createVector(0, 1, 0);
+        let camPos, camLook, camUp;
         // let camPos = p.createVector(0, -1500, 0);
         // let camLook = p.createVector(0, 0, 0);
         // let camUp = p.createVector(0, 0, 1);
         let doAnimate = false;
+        let currTime = time;
 
         p.preload = () => {
             font = new Font(p, "Roboto", true);
@@ -35,6 +34,15 @@ export const timeView = (quarter, time) => {
 
             p.textFont(font.regular());
 
+            if (quarter === 0) {
+                camPos = p.createVector(1000, -120, -100);
+                camLook = p.createVector(350, 0, 0);
+            } else {
+                camPos = p.createVector(0, 0, 0);
+                camLook = p.createVector(0, 0, 0);
+            }
+            camUp = p.createVector(0, 1, 0);
+
             cam = p.createCamera();
             cam.camera(
                 camPos.x, camPos.y, camPos.z,
@@ -46,7 +54,7 @@ export const timeView = (quarter, time) => {
             let sunPos = p.createVector(-900, 0, 0);
             sun = new Sun(p, sunPos, 150, 0);
             earth = new Earth(p, null, 60, 0);
-            moon = new Moon(p, null, 15, 0);
+            moon = new Moon(p, null, 30, 0);
             sunEarthOrbit = new Orbit(p, sun, earth, 1600, p.createVector(0, -1, 0));
             sunEarthOrbit.rev = -p.HALF_PI;
             let moonTiltAngle = p.radians(5);
@@ -101,7 +109,7 @@ export const timeView = (quarter, time) => {
                 // earthMoonOrbit.revolve(earthOrbitRate * 12);
                 // earth.light -= earthOrbitRate;
                 // moon.light -= earthOrbitRate;
-                earth.rotate(1);
+                // earth.rotate(1);
                 moon.rotate(1);
             } else {
                 // p.fill(255, 255, 255, 200);
@@ -109,7 +117,8 @@ export const timeView = (quarter, time) => {
                 // draw2DText(p, cam, "Click to start animation", 5, [0, -90]);
             }
 
-            earth.rot = -slider.value() * rate;
+            earth.rot = -(time + slider.value()) * rate;
+            currTime = time + slider.value();
 
             let earthToSunVec = sun.pos.copy().sub(earth.pos);
 
@@ -129,14 +138,16 @@ export const timeView = (quarter, time) => {
                 currUp.x, currUp.y, currUp.z
             );
 
-            earth.drawPerson(time, eRVec.normalize());
+            earth.drawPerson(eRVec.normalize(), true);
+
+            // p.fill(200);
+            // let captionText = "(Moon's orbit angle exaggerated to 20°)";
+            // p.textFont(font.italic());
+            // draw2DText(p, cam, captionText, 5, [0, 90]);
 
             p.fill(200);
-            let captionText = "(Moon's orbit angle exaggerated to 20°)";
-            p.textFont(font.italic());
-            draw2DText(p, cam, captionText, 5, [0, 90]);
-
-            p.orbitControl();
+            p.textFont(font.regular());
+            draw2DText(p, cam, getTimeText(currTime), 5, [0, -50]);
         };
 
         p.mouseClicked = () => {
