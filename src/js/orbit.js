@@ -47,7 +47,6 @@ export class Orbit {
     }
 
     revolve(angle) {
-        // const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
         this.rev -= angle;
     }
 
@@ -84,10 +83,4 @@ export class Orbit {
     setOrbitAngle(angle) {
         this.rev = angle;
     }
-
-    // drawPerson(time) {
-    //     const [p, pri, sat, r, tilt, rev] = this.instanceVariables();
-    //     let satToPriVec = pri.pos.copy().sub(sat.pos).normalize();
-    //     let pPos = pri.pos.copy().sub();
-    // }
 }
