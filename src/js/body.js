@@ -67,7 +67,7 @@ export class Body {
         this.shadowOn = false;
     }
 
-    drawPerson(vec, showFOV=false) {
+    drawPerson(showFOV=false) {
         const [p, pos, r, c, rot, res, light] = this.instanceVars();
 
         if (showFOV) {

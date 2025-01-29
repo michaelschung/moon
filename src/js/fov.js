@@ -77,8 +77,7 @@ export const timeView = (quarter, time) => {
 
             setCamera(cam, ...getCamCoords());
 
-            let eRVec = getERVec();
-            earth.drawPerson(eRVec.normalize(), true);
+            earth.drawPerson(true);
 
             p.fill(200);
             p.textFont(font.regular());
@@ -151,7 +150,7 @@ export const everythingView = (p) => {
     p.preload = () => {
         font = new Font(p, "Roboto", true);
         slider = p.createSlider(0, 80, 0);
-        vSlider = p.createSlider(0, 100, 50);
+        vSlider = p.createSlider(0, 100, 0);
     }
 
     p.setup = () => {
@@ -221,16 +220,14 @@ export const everythingView = (p) => {
 
         if (mouseInCanvas(p) && p.mouseIsPressed) {
             earthMoonOrbit.revolve(rate);
-            earth.rotate(28);
             moon.rotate(1);
             totalRotate += rate;
         } else {
-            let eRVec = getERVec();
-            earth.drawPerson(eRVec.normalize(), true);
-
             p.textFont(font.italic());
             draw2DText(p, cam, "Hold mouse to move Moon", 4, [0, 90]);
         }
+        
+        earth.drawPerson(true);
 
         p.fill(200);
         p.textFont(font.regular());
