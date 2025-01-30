@@ -214,6 +214,7 @@ export class Font {
         const [p, fam] = [this.p, this.fam];
         let ext = this.isTTF ? ".ttf" : ".otf";
         let nodeEnv = import.meta.env.NODE_ENV;
+        console.log(`NODE_ENV: ${nodeEnv}`);
         let ci = import.meta.env.CI;
         // let prefix = nodeEnv === "local" ? "" : (mode === "production" ? "/moon" : "");
         // let prefix = nodeEnv === "production" ? "/moon" : "";
