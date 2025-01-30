@@ -1,9 +1,14 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
 
 export default defineConfig({
-  root: './',
-  publicDir: 'public',
+  root: "./",
+  publicDir: "public",
+  base: "/moon/",
   build: {
-    outDir: 'dist',
+    outDir: "dist",
+    rollupOptions: {
+      // Prevent Vite from injecting scripts into <head>
+      input: "index.html"
+    }
   },
 });
