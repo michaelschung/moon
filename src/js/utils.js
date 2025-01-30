@@ -213,10 +213,10 @@ export class Font {
     loadFonts() {
         const [p, fam] = [this.p, this.fam];
         let ext = this.isTTF ? ".ttf" : ".otf";
-        let regular = p.loadFont(`/assets/${fam}/${fam}-Regular${ext}`);
-        let bold = p.loadFont(`/assets/${fam}/${fam}-Bold${ext}`);
-        let italic = p.loadFont(`/assets/${fam}/${fam}-Italic${ext}`);
-        let bolditalic = p.loadFont(`/assets/${fam}/${fam}-BoldItalic${ext}`);
+        let regular = p.loadFont(new URL(`/assets/${fam}/${fam}-Regular${ext}`, import.meta.url).href);
+        let bold = p.loadFont(new URL(`/assets/${fam}/${fam}-Bold${ext}`, import.meta.url).href);
+        let italic = p.loadFont(new URL(`/assets/${fam}/${fam}-Italic${ext}`, import.meta.url).href);
+        let bolditalic = p.loadFont(new URL(`/assets/${fam}/${fam}-BoldItalic${ext}`, import.meta.url).href);
         return [regular, bold, italic, bolditalic];
     }
 
