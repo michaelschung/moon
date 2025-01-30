@@ -213,7 +213,8 @@ export class Font {
     loadFonts() {
         const [p, fam] = [this.p, this.fam];
         let ext = this.isTTF ? ".ttf" : ".otf";
-        let prefix = import.meta.env.NODE_ENV === "production" ? "/moon" : "";
+        let prefix = import.meta.env.NODE_ENV === "production" && import.meta.env.MODE === "production"
+            ? "/moon" : "";
         let regular = p.loadFont(`${prefix}/assets/${fam}/${fam}-Regular${ext}`);
         let bold = p.loadFont(`${prefix}/assets/${fam}/${fam}-Bold${ext}`);
         let italic = p.loadFont(`${prefix}/assets/${fam}/${fam}-Italic${ext}`);
