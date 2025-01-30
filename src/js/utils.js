@@ -214,11 +214,11 @@ export class Font {
         const [p, fam] = [this.p, this.fam];
         let ext = this.isTTF ? ".ttf" : ".otf";
         let base = import.meta.env.VITE_BASE_PATH;
-        console.log(base);
+        // console.log(base);
         // let prefix = nodeEnv === "local" ? "" : (mode === "production" ? "/moon" : "");
         // let prefix = nodeEnv === "production" ? "/moon" : "";
         let ci = import.meta.env.CI;
-        let prefix = ci ? "/moon" : "";
+        let prefix = base || "";
         let regular = p.loadFont(`${prefix}/assets/${fam}/${fam}-Regular${ext}`);
         let bold = p.loadFont(`${prefix}/assets/${fam}/${fam}-Bold${ext}`);
         let italic = p.loadFont(`${prefix}/assets/${fam}/${fam}-Italic${ext}`);
