@@ -217,6 +217,7 @@ export class Font {
         console.log(base);
         // let prefix = nodeEnv === "local" ? "" : (mode === "production" ? "/moon" : "");
         // let prefix = nodeEnv === "production" ? "/moon" : "";
+        let ci = import.meta.env.CI;
         let prefix = ci ? "/moon" : "";
         let regular = p.loadFont(`${prefix}/assets/${fam}/${fam}-Regular${ext}`);
         let bold = p.loadFont(`${prefix}/assets/${fam}/${fam}-Bold${ext}`);
