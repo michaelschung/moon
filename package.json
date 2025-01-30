@@ -10,8 +10,11 @@
   "author": "Michael Chung",
   "license": "ISC",
   "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
     "express": "^4.21.2",
-    "p5": "^1.11.2"
+    "p5": "^1.11.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "vite": "^6.0.7"
