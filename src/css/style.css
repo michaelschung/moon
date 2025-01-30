@@ -92,8 +92,3 @@ term {
 .solution li {
     font-style: italic;
 }
-
-#test {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-}
