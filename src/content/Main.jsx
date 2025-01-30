@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+
 import {
     Introduction,
     Phases,
@@ -10,11 +11,13 @@ import {
 } from ".";
 
 function Main() {
+    const mainRef = useRef(null);  // Create a ref for the main element
+
     return (
-        <main id="main">
+        <main ref={mainRef} id="main">
             <h1>The Phases of the Moon</h1>
             <Introduction />
-            <Phases />
+            <Phases mainRef={mainRef} />
             <DoneNotDone />
             <Eclipses />
             <FieldOfView />

@@ -1,7 +1,7 @@
 {
   "name": "moon",
-  "version": "1.0.0",
-  "description": "a little explainer for the phases of the moon",
+  "version": "2.0",
+  "description": "A little explainer for the phases of the moon, using React!",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
