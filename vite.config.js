@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     outDir: "dist",
     assetsDir: "assets",
-    assetsBase: "/",
+    assetsBase: process.env.NODE_ENV === "production" ? "moon" : "/",
     rollupOptions: {
       // Prevent Vite from injecting scripts into <head>
       input: "index.html"
