@@ -62,7 +62,7 @@ This dynamic sketch loading is necessary since rendering all sketches simultaneo
 
 ### Releases
 
-- **1.0.0**: Initial release (1/16/2025)
+- **1.0**: Initial release (1/16/2025)
 
 ### Roadmap
 
