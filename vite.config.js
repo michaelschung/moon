@@ -7,7 +7,6 @@ export default defineConfig({
   build: {
     outDir: "dist",
     assetsDir: "assets",
-    // Does this do anything?
     assetsBase: "/moon",
     rollupOptions: {
       // Prevent Vite from injecting scripts into <head>
