@@ -213,9 +213,8 @@ export class Font {
     loadFonts() {
         const [p, fam] = [this.p, this.fam];
         let ext = this.isTTF ? ".ttf" : ".otf";
-        let nodeEnv = import.meta.env.NODE_ENV;
-        console.log(`NODE_ENV: ${nodeEnv}`);
-        let ci = import.meta.env.CI;
+        let base = import.meta.env.VITE_BASE_PATH;
+        console.log(base);
         // let prefix = nodeEnv === "local" ? "" : (mode === "production" ? "/moon" : "");
         // let prefix = nodeEnv === "production" ? "/moon" : "";
         let prefix = ci ? "/moon" : "";
