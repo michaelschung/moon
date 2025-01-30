@@ -21,8 +21,8 @@ jobs:
       - name: Clone GH pages via HTTPS
         run: |
           git clone https://github.com/michaelschung/michaelschung.github.io.git --depth=1
-          rm -rf michaelschung.github.io/OTHER/moon  # Remove old deployment (optional)
-          mv dist michaelschung.github.io/OTHER/moon
+          rm -rf michaelschung.github.io/moon  # Remove old deployment (optional)
+          mv dist michaelschung.github.io/moon
 
       - name: Commit and Push to GH pages
         run: |
