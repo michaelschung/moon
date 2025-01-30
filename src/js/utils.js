@@ -213,7 +213,6 @@ export class Font {
     loadFonts() {
         const [p, fam] = [this.p, this.fam];
         let ext = this.isTTF ? ".ttf" : ".otf";
-        console.log(import.meta.env.MODE);
         let prefix = import.meta.env.VITE_BASE_PATH || "";
         let regular = p.loadFont(`${prefix}/assets/${fam}/${fam}-Regular${ext}`);
         let bold = p.loadFont(`${prefix}/assets/${fam}/${fam}-Bold${ext}`);
