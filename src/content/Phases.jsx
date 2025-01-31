@@ -103,6 +103,22 @@ function Phases({mainRef}) {
                 <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={3.5} allowAnimate={false} />
             </div>
             <br />
+
+            <p>
+                These are the in-between phases, which are given two-part names
+                according to their shape and their place in the cycle. The thin slice
+                of moon is called a <term>crescent</term>, while the not-quite-full
+                moon is called a <term>gibbous</term>. To distinguish between the
+                crescents and gibbouses, we classify them as either <term>waxing</term>&nbsp;
+                (growing towards full moon) or <term>waning</term> (shrinking towards
+                new moon). This gives us four new phase names:&nbsp;
+                <term>waxing crescent</term>, <term>waxing gibbous</term>,&nbsp;
+                <term>waning gibbous</term>, and <term>waning crescent</term>.
+            </p>
+            <p>Thus, we have all eight phases of the moon.</p>
+
+            <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0} allowAnimate={true} />
+            <br />
         </>
     );
 }
