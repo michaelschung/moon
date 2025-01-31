@@ -7,14 +7,15 @@ export function createMoonPhasesScene(container) {
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer();
 
-    // const bgTexture = new THREE.TextureLoader().load("/img/sky.png");
-    // const bgGeometry = new THREE.SphereGeometry(500, 32, 32);
-    // const bgMaterial = new THREE.MeshStandardMaterial({
-    //     map: bgTexture,
-    //     side: THREE.BackSide
-    // });
-    // const bgSphere = new THREE.Mesh(bgGeometry, bgMaterial);
-    // scene.add(bgSphere);
+    const bgTexture = new THREE.TextureLoader().load("/img/sky.png");
+    const bgGeometry = new THREE.SphereGeometry(500, 32, 32);
+    const bgMaterial = new THREE.MeshBasicMaterial({
+        map: bgTexture,
+        side: THREE.BackSide
+    });
+    bgMaterial.color.setScalar(0.02);
+    const bgSphere = new THREE.Mesh(bgGeometry, bgMaterial);
+    scene.add(bgSphere);
     
     // Match renderer size to the container
     function updateSize() {
