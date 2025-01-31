@@ -14,7 +14,9 @@
     "express": "^4.21.2",
     "p5": "^1.11.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "lil-gui": "^0.20.0",
+    "three": "^0.173.0"
   },
   "devDependencies": {
     "vite": "^6.0.7"

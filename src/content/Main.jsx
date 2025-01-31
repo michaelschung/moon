@@ -11,13 +11,10 @@ import {
 } from ".";
 
 function Main() {
-    const mainRef = useRef(null);  // Create a ref for the main element
-
     return (
-        <main ref={mainRef} id="main">
-            <h1>The Phases of the Moon</h1>
+        <main id="main">
             <Introduction />
-            <Phases mainRef={mainRef} />
+            <Phases />
             <DoneNotDone />
             <Eclipses />
             <FieldOfView />

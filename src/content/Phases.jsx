@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Sketch from "./Sketch";
 
 import { moonPhases, moonRevolve, moonQuarters, phaseView } from "../utils/phases";
 
-function Phases({mainRef}) {
+import { createMoonPhasesScene } from "../three/MoonPhases";
+
+function Phases() {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+
+        // Initialize Three.js scene
+        const { dispose } = createMoonPhasesScene(containerRef.current);
+
+        // Cleanup on unmount
+        return () => dispose();
+    }, []);
+
     return (
         <>
             <hr />
@@ -16,7 +30,9 @@ function Phases({mainRef}) {
                 real thing, but it'll do.
             </p>
 
-            <Sketch sketchInstance={moonPhases} containerRef={mainRef} />
+            <div className="sketch-container" ref={containerRef} style={{ width: "100%", height: "400px" }}></div>
+
+            {/* <Sketch sketchInstance={moonPhases} containerRef={mainRef} /> */}
 
             <p>
                 The key to everything lies in the position of the Moon relative to the
@@ -29,7 +45,7 @@ function Phases({mainRef}) {
                 &nbsp;to scale).
             </p>
 
-            <Sketch sketchInstance={moonRevolve} containerRef={mainRef} />
+            {/* <Sketch sketchInstance={moonRevolve} containerRef={mainRef} /> */}
 
             <p>
                 Both bodies are illuminated on the same side -- this is due to the
@@ -49,7 +65,7 @@ function Phases({mainRef}) {
                 between each quarter.
             </p>
 
-            <Sketch sketchInstance={moonQuarters} containerRef={mainRef} />
+            {/* <Sketch sketchInstance={moonQuarters} containerRef={mainRef} /> */}
 
             <p>
                 Not coincidentally, these are four of the phases of the moon:
@@ -63,13 +79,13 @@ function Phases({mainRef}) {
             </p>
 
             <div className="photo-row">
-                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0} allowAnimate={false} />
-                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={1} allowAnimate={false} />
+                {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0} allowAnimate={false} />
+                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={1} allowAnimate={false} /> */}
             </div>
             <br />
             <div className="photo-row">
-                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={2} allowAnimate={false} />
-                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={3} allowAnimate={false} />
+                {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={2} allowAnimate={false} />
+                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={3} allowAnimate={false} /> */}
             </div>
             <br />
 
@@ -94,13 +110,13 @@ function Phases({mainRef}) {
             </p>
 
             <div className="photo-row">
-                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0.5} allowAnimate={false} />
-                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={1.5} allowAnimate={false} />
+                {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0.5} allowAnimate={false} />
+                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={1.5} allowAnimate={false} /> */}
             </div>
             <br />
             <div className="photo-row">
-                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={2.5} allowAnimate={false} />
-                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={3.5} allowAnimate={false} />
+                {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={2.5} allowAnimate={false} />
+                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={3.5} allowAnimate={false} /> */}
             </div>
             <br />
 
@@ -117,7 +133,7 @@ function Phases({mainRef}) {
             </p>
             <p>Thus, we have all eight phases of the moon.</p>
 
-            <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0} allowAnimate={true} />
+            {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0} allowAnimate={true} /> */}
             <br />
         </>
     );

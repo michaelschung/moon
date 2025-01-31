@@ -3,6 +3,8 @@ import React from "react";
 function Introduction() {
     return (
         <>
+            <h1>The Phases of the Moon</h1>
+            
             <hr />
             <h3>Introduction</h3>
 
