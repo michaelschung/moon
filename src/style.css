@@ -96,8 +96,3 @@ term {
     flex-direction: column;
     align-items: center;
 }
-
-#test {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-}
