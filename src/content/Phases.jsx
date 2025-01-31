@@ -1,13 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Sketch from "./Sketch";
-import p5 from "p5";
 
 import { moonPhases, moonRevolve, moonQuarters, phaseView } from "../utils/phases";
 
 function Phases({mainRef}) {
-    const [quarter, setQuarter] = useState(0);
-    const [allowAnimate, setAllowAnimate] = useState(false);
-
     return (
         <>
             <hr />
@@ -77,7 +73,36 @@ function Phases({mainRef}) {
             </div>
             <br />
 
-            
+            <p>
+            <i>
+                Note: the first quarter and third quarter Moon are often referred to
+                as <term>half moon</term>, due to the fact that it appears
+                half-illuminated as compared to the full moon. This is sometimes
+                slightly confusing since the full moon occurs halfway through the
+                lunar cycle; but it should remain clear as long as you separate the
+                terms describing the lunar orbit (first quarter, etc.) from those
+                describing the appearance of the Moon (half moon, etc.).
+            </i>
+            </p>
+            <p>
+                So that's what happens at each quarter. But what happens in between?
+            </p>
+            <p>
+                Here are four more sketches, very similar to the previous ones. But
+                this time, each is frozen at a point between quarters. Note what
+                happens now when you lower yourself to Earth.
+            </p>
+
+            <div className="photo-row">
+                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0.5} allowAnimate={false} />
+                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={1.5} allowAnimate={false} />
+            </div>
+            <br />
+            <div className="photo-row">
+                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={2.5} allowAnimate={false} />
+                <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={3.5} allowAnimate={false} />
+            </div>
+            <br />
         </>
     );
 }
