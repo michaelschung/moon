@@ -11,7 +11,7 @@ function Phases() {
     useEffect(() => {
         if (!containerRef.current) return;
 
-        // Initialize Three.js scene
+        // Initialize scene
         const { dispose } = createMoonPhasesScene(containerRef.current);
 
         // Cleanup on unmount

@@ -2,22 +2,23 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 export function createMoonPhasesScene(container) {
-    // Create Scene, Camera, and Renderer
+    // Setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer();
 
+    // Starry night sky background
     const bgTexture = new THREE.TextureLoader().load("/img/sky.png");
     const bgGeometry = new THREE.SphereGeometry(500, 32, 32);
     const bgMaterial = new THREE.MeshBasicMaterial({
         map: bgTexture,
         side: THREE.BackSide
     });
-    bgMaterial.color.setScalar(0.02);
+    bgMaterial.color.setScalar(0.03);
     const bgSphere = new THREE.Mesh(bgGeometry, bgMaterial);
     scene.add(bgSphere);
     
-    // Match renderer size to the container
+    // Match renderer size to container
     function updateSize() {
         const { clientWidth, clientHeight } = container;
         renderer.setSize(clientWidth, clientHeight);
@@ -28,24 +29,24 @@ export function createMoonPhasesScene(container) {
     updateSize();
     container.appendChild(renderer.domElement);
 
-    // Add Orbit Controls
+    // Orbit control
     // const controls = new OrbitControls(camera, renderer.domElement);
 
-    // Create Moon Sphere
+    // Moon
     const texture = new THREE.TextureLoader().load("/img/moon-texture.jpg");
     const geometry = new THREE.SphereGeometry(2);
     const material = new THREE.MeshLambertMaterial({ map: texture });
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    // Add Lights
+    // Lights
     const directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(-1, 0, 0);
     directionalLight.target = sphere;
     scene.add(directionalLight);
     scene.add(new THREE.AmbientLight(0xffffff, 0.02));
 
-    // Camera & Animation Variables
+    // Camera setup
     let angle = 0;
     const camDistance = 5;
     const speed = 0.01;
@@ -65,11 +66,9 @@ export function createMoonPhasesScene(container) {
     }
 
     animate();
-
-    // Resize Handling
     window.addEventListener("resize", updateSize);
 
-    // Cleanup Function
+    // Cleanup
     function dispose() {
         window.removeEventListener("resize", updateSize);
         container.removeChild(renderer.domElement);
