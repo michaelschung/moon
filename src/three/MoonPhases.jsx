@@ -1,16 +1,48 @@
 import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls as OC } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls as OC, PerspectiveCamera } from "@react-three/drei";
+
+function RevolvingCamera() {
+    const camRef = useRef();
+    const camDistance = 5;
+    const speed = 0.5;
+    let angle = useRef(0);
+
+    useFrame(({ clock }) => {
+        angle.current = clock.getElapsedTime() * speed;
+        const x = camDistance * Math.cos(angle.current);
+        const z = -camDistance * Math.sin(angle.current);
+
+        if (camRef.current) {
+            camRef.current.position.set(x, 0, z);
+            camRef.current.lookAt(0, 0, 0);
+        }
+    });
+
+    return (
+        <PerspectiveCamera
+            ref={camRef}
+            makeDefault
+            position={[camDistance, 2, 0]}
+            fov={75}
+            near={0.1}
+            far={1000}
+        />
+    );
+}
 
 export function MoonPhases() {
+    let angle = 0;
+    const camDistance = 50;
+    const speed = 0.01;
+
     return (
-        <Canvas
-            className="sketch-container three-two"
-            camera={{ position: [0, 0, 5], fov: 75 }}
-        >
-            <color attach="background" args={["hotpink"]} />
+        <Canvas className="sketch-container three-two">
+            {/* perspectivecamera={{ position: [camDistance, 0, 0], fov: 75 }} */}
+            <RevolvingCamera />
+            <color attach="background" args={["grey"]} />
 
             {/* Ambient light to illuminate all objects equally */}
             <ambientLight intensity={0.5} />
