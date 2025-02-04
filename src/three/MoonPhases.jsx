@@ -9,7 +9,7 @@ export function createMoonPhasesScene(container) {
 
     // Starry night sky background
     const bgTexture = new THREE.TextureLoader().load("/img/sky.png");
-    const bgGeometry = new THREE.SphereGeometry(500, 32, 32);
+    const bgGeometry = new THREE.SphereGeometry(1000, 32, 32);
     const bgMaterial = new THREE.MeshBasicMaterial({
         map: bgTexture,
         side: THREE.BackSide
@@ -34,7 +34,7 @@ export function createMoonPhasesScene(container) {
 
     // Moon
     const texture = new THREE.TextureLoader().load("/img/moon-texture.jpg");
-    const geometry = new THREE.SphereGeometry(2);
+    const geometry = new THREE.SphereGeometry(20);
     const material = new THREE.MeshLambertMaterial({ map: texture });
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
@@ -48,7 +48,7 @@ export function createMoonPhasesScene(container) {
 
     // Camera setup
     let angle = 0;
-    const camDistance = 5;
+    const camDistance = 50;
     const speed = 0.01;
 
     camera.position.set(camDistance, 0, 0);
