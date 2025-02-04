@@ -1,5 +1,26 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls as OC } from "@react-three/drei";
+
+export function MoonPhases() {
+    return (
+        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+            <color attach="background" args={["hotpink"]} />
+
+            {/* Ambient light to illuminate all objects equally */}
+            <ambientLight intensity={0.5} />
+
+            {/* Directional light to simulate sunlight */}
+            <directionalLight position={[5, 5, 5]} intensity={1} />
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry />
+                <meshStandardMaterial color="orange" />
+            </mesh>
+            <OC />
+        </Canvas>
+    );
+}
 
 export function createMoonPhasesScene(container) {
     // Setup
