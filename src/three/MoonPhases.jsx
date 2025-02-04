@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { Canvas } from "@react-three/fiber";
@@ -5,7 +6,10 @@ import { OrbitControls as OC } from "@react-three/drei";
 
 export function MoonPhases() {
     return (
-        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+        <Canvas
+            className="sketch-container three-two"
+            camera={{ position: [0, 0, 5], fov: 75 }}
+        >
             <color attach="background" args={["hotpink"]} />
 
             {/* Ambient light to illuminate all objects equally */}

@@ -67,6 +67,14 @@ term {
     margin: 1em 0 2em;
 }
 
+.one-one {
+    aspect-ratio: 1 / 1;
+}
+
+.three-two {
+    aspect-ratio: 3 / 2;
+}
+
 .caption {
     color: rgb(200, 200, 200);
     font-size: 0.5em;
