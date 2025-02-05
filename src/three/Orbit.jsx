@@ -9,12 +9,14 @@ export function Orbit({attrs}) {
     const revAngle = useRef(0);
 
     useFrame(() => {
-        const satX = attrs.pos[0] - attrs.r * Math.cos(revAngle.current);
-        // TODO: update this to include tilt
-        const satY = attrs.pos[1];
-        const satZ = attrs.pos[2] + attrs.r * Math.sin(revAngle.current);
-        setSatPos([satX, satY, satZ]);
-        revAngle.current += 0.01;
+        if (attrs.doRevolve) {
+            const satX = attrs.pos[0] - attrs.r * Math.cos(revAngle.current);
+            // TODO: update this to include tilt
+            const satY = attrs.pos[1];
+            const satZ = attrs.pos[2] + attrs.r * Math.sin(revAngle.current);
+            setSatPos([satX, satY, satZ]);
+            revAngle.current += 0.01;
+        }
     });
 
     return (attrs.lvl === 0)

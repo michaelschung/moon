@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useRef, useState, useEffect } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 import { Sunlight, StarryBackground, Camera } from "./Utils";
@@ -48,7 +48,8 @@ export function MoonRevolve() {
             <Orbit attrs={{
                 lvl: 0,
                 pos: [0, 0, 0],
-                r: 400
+                r: 400,
+                doRevolve: true
             }} />
         </>
     );
@@ -56,6 +57,37 @@ export function MoonRevolve() {
 
 export function MoonQuarters() {
     const originRef = useRef();
+    const {gl} = useThree();
+    const totalRotate = useRef(0);
+    const nextStop = useRef(0);
+    const isMoving = useRef(false);
+    // Exists purely to force a re-render
+    const [_, triggerRerender] = useState(0);
+
+    function handleClick() {
+        // Ignore clicks between quarters
+        if (isMoving.current) return;
+        isMoving.current = true;
+        nextStop.current += Math.PI/2;
+        triggerRerender((val) => val + 1);
+    }
+
+    useFrame(() => {
+        // Move as long as we haven't reached the next quarter
+        if (isMoving.current) {
+            totalRotate.current += 0.01;
+            if (totalRotate.current >= nextStop.current) {
+                totalRotate.current = nextStop.current;
+                isMoving.current = false;
+                triggerRerender((val) => val + 1);
+            }
+        }
+    });
+
+    useEffect(() => {
+        gl.domElement.addEventListener("pointerdown", handleClick);
+        return () => gl.domElement.removeEventListener("pointerdown", handleClick);
+    }, [gl]);
 
     return (
         <>
@@ -73,7 +105,8 @@ export function MoonQuarters() {
             <Orbit attrs={{
                 lvl: 0,
                 pos: [0, 0, 0],
-                r: 400
+                r: 400,
+                doRevolve: isMoving.current
             }} />
         </>
     );
