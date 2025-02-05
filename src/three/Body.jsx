@@ -48,7 +48,19 @@ export function Earth({pos, doRotate}) {
             name: "earth",
             pos: pos,
             r: 80,
-            texture: useTexture("/img/why-does-the-moon.png"),
+            texture: useTexture("/img/earth-texture.jpg"),
+            doRotate: doRotate
+        }} />
+    );
+}
+
+export function Sun({pos, doRotate}) {
+    return (
+        <Body attrs={{
+            name: "sun",
+            pos: pos,
+            r: 8720,
+            texture: useTexture("/img/sun-texture.jpg"),
             doRotate: doRotate
         }} />
     );

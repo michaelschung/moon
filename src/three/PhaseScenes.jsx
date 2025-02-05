@@ -2,12 +2,18 @@ import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
-import { Sunlight, StarryBackground, RevolvingCamera, StaticCamera } from "./Utils";
+import { Sunlight, StarryBackground, RevolvingCamera, StaticCamera, Camera } from "./Utils";
 import { Moon, Earth } from "./Body";
 import { Orbit } from "./Orbit";
 
 export function MoonPhases() {
     const originRef = useRef();
+    const camAttrs = {
+        pos: [50, 0, 0],
+        fov: 75,
+        target: originRef,
+        isRevolving: true,
+    };
 
     return (
         <>
@@ -15,7 +21,7 @@ export function MoonPhases() {
             <StarryBackground />
             <Sunlight targetRef={originRef} brightness={5} />
 
-            <RevolvingCamera targetRef={originRef} />
+            <Camera attrs={camAttrs} />
 
             <Moon pos={[0, 0, 0]} doRotate={true} />
 
@@ -26,6 +32,12 @@ export function MoonPhases() {
 
 export function MoonRevolve() {
     const originRef = useRef();
+    const camAttrs = {
+        pos: [0, 1000, 0],
+        fov: 50,
+        target: originRef,
+        isRevolving: false
+    };
 
     return (
         <>
@@ -33,15 +45,31 @@ export function MoonRevolve() {
             <StarryBackground />
             <Sunlight targetRef={originRef} brightness={5} />
 
-            <StaticCamera pos={[0, 1000, 0]} fov={50} />
+            <Camera attrs={camAttrs} />
 
             <Orbit lvl={0} pos={[0, 0, 0]} r={400} />
-
-            <OrbitControls />
         </>
     );
 }
 
 export function MoonQuarters() {
-    // 
+    const originRef = useRef();
+    const camAttrs = {
+        pos: [0, 1000, 0],
+        fov: 60,
+        target: originRef,
+        isRevolving: false
+    };
+
+    return (
+        <>
+            <object3D ref={originRef} position={[0, 0, 0]} />
+            <StarryBackground />
+            <Sunlight targetRef={originRef} brightness={5} />
+
+            <Camera attrs={camAttrs} />
+
+            <Orbit lvl={0} pos={[0, 0, 0]} r={400} />
+        </>
+    );
 }

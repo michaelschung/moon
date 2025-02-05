@@ -7,7 +7,7 @@ import {
   phaseView,
 } from "../utils/phases";
 
-import { MoonPhases, MoonRevolve } from "../three/PhaseScenes";
+import { MoonPhases, MoonRevolve, MoonQuarters } from "../three/PhaseScenes";
 
 function Phases() {
     // const containerRef = useRef(null);
@@ -75,6 +75,10 @@ function Phases() {
             and the Sun. Click on the sketch below to move the Moon between each
             quarter.
         </p>
+
+        <Canvas className="sketch-container one-one">
+            <MoonQuarters />
+        </Canvas>
 
         {/* <Sketch sketchInstance={moonQuarters} containerRef={mainRef} /> */}
 
