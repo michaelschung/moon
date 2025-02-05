@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { Canvas } from "@react-three/fiber";
 import {
   moonPhases,
   moonRevolve,
@@ -6,20 +7,20 @@ import {
   phaseView,
 } from "../utils/phases";
 
-import { MoonPhases, createMoonPhasesScene } from "../three/MoonPhases";
+import { MoonPhases } from "../three/MoonPhases";
 
 function Phases() {
-    const containerRef = useRef(null);
+    // const containerRef = useRef(null);
 
-    useEffect(() => {
-        if (!containerRef.current) return;
+    // useEffect(() => {
+    //     if (!containerRef.current) return;
 
-        // Initialize scene
-        const { dispose } = createMoonPhasesScene(containerRef.current);
+    //     // Initialize scene
+    //     const { dispose } = createMoonPhasesScene(containerRef.current);
 
-        // Cleanup on unmount
-        return () => dispose();
-    }, []);
+    //     // Cleanup on unmount
+    //     return () => dispose();
+    // }, []);
 
     return (
         <>
@@ -33,8 +34,10 @@ function Phases() {
             real thing, but it'll do.
         </p>
 
-        <div className="sketch-container" ref={containerRef} style={{ width: "100%", height: "400px" }}></div>
-        <MoonPhases />
+        {/* <div className="sketch-container" ref={containerRef} style={{ width: "100%", height: "400px" }}></div> */}
+        <Canvas className="sketch-container three-two">
+            <MoonPhases />
+        </Canvas>
 
         {/* <Sketch sketchInstance={moonPhases} containerRef={mainRef} /> */}
 
