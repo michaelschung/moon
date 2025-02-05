@@ -8,9 +8,9 @@ function Body({attrs}) {
     const [isRotating, setIsRotating] = useState(attrs.doRotate);
 
     function handleClick() {
-        if (attrs.r > 20) {
-            setIsRotating(!isRotating);
-        }
+        // if (attrs.name !== "moon") {
+        //     setIsRotating(!isRotating);
+        // }
     }
 
     useFrame(() => {
@@ -30,24 +30,26 @@ function Body({attrs}) {
     );
 }
 
-export function Moon({pos}) {
-    return <Body
-        attrs={{
+export function Moon({pos, doRotate}) {
+    return (
+        <Body attrs={{
+            name: "moon",
             pos: pos,
             r: 20,
             texture: useTexture("/img/moon-texture.jpg"),
-            doRotate: true
-        }}
-    />;
+            doRotate: doRotate
+        }} />
+    );
 }
 
-export function Earth({pos}) {
-    return <Body
-        attrs={{
+export function Earth({pos, doRotate}) {
+    return (
+        <Body attrs={{
+            name: "earth",
             pos: pos,
             r: 80,
             texture: useTexture("/img/why-does-the-moon.png"),
-            doRotate: false
-        }}
-    />;
+            doRotate: doRotate
+        }} />
+    );
 }

@@ -45,12 +45,12 @@ export function RevolvingCamera({targetRef}) {
     );
 }
 
-export function Sunlight({targetRef}) {
+export function Sunlight({targetRef, brightness}) {
     return (
         <>
             <directionalLight
                 color="#ffffff"
-                intensity={2}
+                intensity={brightness}
                 position={[-1, 0, 0]}
                 target={targetRef.current}
             />

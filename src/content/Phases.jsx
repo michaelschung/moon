@@ -52,7 +52,7 @@ function Phases() {
             &nbsp;to scale).
         </p>
 
-        <Canvas className="sketch-container one-one">
+        <Canvas className="sketch-container three-two">
             <MoonRevolve />
         </Canvas>
 
