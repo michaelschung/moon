@@ -4,20 +4,20 @@ import { OrbitControls } from "@react-three/drei";
 
 import { Sunlight, StarryBackground, RevolvingCamera, StaticCamera } from "./Utils";
 import { Moon, Earth } from "./Body";
+import { Orbit } from "./Orbit";
 
 export function MoonPhases() {
     const originRef = useRef();
-    const moonPos = [0, 0, 0];
 
     return (
         <>
             <object3D ref={originRef} position={[0, 0, 0]} />
             <StarryBackground />
-            <Sunlight targetRef={originRef} />
+            <Sunlight targetRef={originRef} brightness={5} />
 
-            <RevolvingCamera targetRef={originRef} brightness={2} />
+            <RevolvingCamera targetRef={originRef} />
 
-            <Moon pos={moonPos} />
+            <Moon pos={[0, 0, 0]} doRotate={true} />
 
             <OrbitControls />
         </>
@@ -26,17 +26,6 @@ export function MoonPhases() {
 
 export function MoonRevolve() {
     const originRef = useRef();
-    const earthPos = [0, 0, 0];
-    const [moonPos, setMoonPos] = useState([-400, 0, 0]);
-
-    const revAngle = useRef(0);
-
-    useFrame(() => {
-        const moonX = -400 * Math.cos(revAngle.current);
-        const moonZ = 400 * Math.sin(revAngle.current);
-        setMoonPos([moonX, 0, moonZ]);
-        revAngle.current += 0.01;
-    });
 
     return (
         <>
@@ -44,12 +33,15 @@ export function MoonRevolve() {
             <StarryBackground />
             <Sunlight targetRef={originRef} brightness={5} />
 
-            <StaticCamera pos={[0, 600, 0]} />
+            <StaticCamera pos={[0, 1000, 0]} fov={50} />
 
-            <Earth pos={earthPos} doRotate={false} />
-            <Moon pos={moonPos} doRotate={true} />
+            <Orbit lvl={0} pos={[0, 0, 0]} r={400} />
 
             <OrbitControls />
         </>
     );
+}
+
+export function MoonQuarters() {
+    // 
 }

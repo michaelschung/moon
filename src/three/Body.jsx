@@ -8,9 +8,9 @@ function Body({attrs}) {
     const [isRotating, setIsRotating] = useState(attrs.doRotate);
 
     function handleClick() {
-        // if (attrs.name !== "moon") {
-        //     setIsRotating(!isRotating);
-        // }
+        if (attrs.name !== "moon") {
+            setIsRotating(!isRotating);
+        }
     }
 
     useFrame(() => {

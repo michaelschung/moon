@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture } from "@react-three/drei";
 
-export function StaticCamera({pos}) {
+export function StaticCamera({pos, fov}) {
     const camRef = useRef();
 
     return (
@@ -11,7 +11,7 @@ export function StaticCamera({pos}) {
             ref={camRef}
             makeDefault
             position={pos}
-            fov={75}
+            fov={fov}
             near={0.1}
             far={2000}
         />
