@@ -25,7 +25,9 @@ function Body({attrs}) {
     return (
         <mesh ref={bodyRef} position={attrs.pos} onClick={handleClick}>
             <sphereGeometry args={[attrs.r, 32, 32]} />
-            <meshLambertMaterial map={attrs.texture} />
+            {attrs.name === "sun"
+                ? <meshBasicMaterial map={attrs.texture} />
+                : <meshLambertMaterial map={attrs.texture} />}
         </mesh>
     );
 }
@@ -59,7 +61,8 @@ export function Sun({pos, doRotate}) {
         <Body attrs={{
             name: "sun",
             pos: pos,
-            r: 8720,
+            // r: 8720,
+            r: 100,
             texture: useTexture("/img/sun-texture.jpg"),
             doRotate: doRotate
         }} />
