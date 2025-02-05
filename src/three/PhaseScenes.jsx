@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
-import { Sunlight, StarryBackground, RevolvingCamera, StaticCamera, Camera } from "./Utils";
+import { Sunlight, StarryBackground, Camera } from "./Utils";
 import { Moon, Earth } from "./Body";
 import { Orbit } from "./Orbit";
 

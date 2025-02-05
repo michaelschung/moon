@@ -37,56 +37,6 @@ export function Camera({attrs}) {
     );
 }
 
-export function StaticCamera({pos, target, fov}) {
-    const camRef = useRef();
-
-    // const { size, set } = useThree(); // Get canvas size and update function
-
-    useEffect(() => {
-        if (camRef.current) {
-            camRef.current.lookAt(target.current.position);
-        }
-    }, [target]);
-
-    return (
-        <PerspectiveCamera
-            ref={camRef}
-            makeDefault
-            position={pos}
-            fov={fov}
-            near={0.1}
-            far={2000}
-        />
-    );
-}
-
-export function RevolvingCamera({targetRef}) {
-    const camRef = useRef();
-    const camDistance = 50;
-    const angle = useRef(0);
-
-    useFrame(() => {
-        const x = camDistance * Math.cos(angle.current);
-        const z = -camDistance * Math.sin(angle.current);
-        if (camRef.current) {
-            camRef.current.position.set(x, 0, z);
-            camRef.current.lookAt(targetRef.current.position);
-            angle.current += 0.01;
-        }
-    })
-
-    return (
-        <PerspectiveCamera
-            ref={camRef}
-            makeDefault
-            position={[camDistance, 0, 0]}
-            fov={75}
-            near={0.1}
-            far={1000}
-        />
-    );
-}
-
 export function Sunlight({targetRef, brightness}) {
     return (
         <>
