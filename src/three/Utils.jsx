@@ -1,7 +1,22 @@
 import { useRef } from "react";
 import * as THREE from "three";
-import { useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls as OC, PerspectiveCamera, useTexture } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { PerspectiveCamera, useTexture } from "@react-three/drei";
+
+export function StaticCamera({pos}) {
+    const camRef = useRef();
+
+    return (
+        <PerspectiveCamera
+            ref={camRef}
+            makeDefault
+            position={pos}
+            fov={75}
+            near={0.1}
+            far={2000}
+        />
+    );
+}
 
 export function RevolvingCamera({targetRef}) {
     const camRef = useRef();
@@ -27,6 +42,20 @@ export function RevolvingCamera({targetRef}) {
             near={0.1}
             far={1000}
         />
+    );
+}
+
+export function Sunlight({targetRef}) {
+    return (
+        <>
+            <directionalLight
+                color="#ffffff"
+                intensity={2}
+                position={[-1, 0, 0]}
+                target={targetRef.current}
+            />
+            <ambientLight color="#ffffff" intensity={0.1} />
+        </>
     );
 }
 

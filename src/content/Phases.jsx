@@ -7,7 +7,7 @@ import {
   phaseView,
 } from "../utils/phases";
 
-import { MoonPhases } from "../three/MoonPhases";
+import { MoonPhases, MoonRevolve } from "../three/PhaseScenes";
 
 function Phases() {
     // const containerRef = useRef(null);
@@ -51,6 +51,10 @@ function Phases() {
             That looks something like this (sizes to scale, distances <i>not</i>
             &nbsp;to scale).
         </p>
+
+        <Canvas className="sketch-container one-one">
+            <MoonRevolve />
+        </Canvas>
 
         {/* <Sketch sketchInstance={moonRevolve} containerRef={mainRef} /> */}
 
