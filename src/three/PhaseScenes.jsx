@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
-import { Sunlight, StarryBackground, Camera, Text2D } from "./Utils";
+import { Sunlight, StarryBackground, Camera, TextToCamera } from "./Utils";
 import { Moon, Earth } from "./Body";
 import { Orbit } from "./Orbit";
 
@@ -123,11 +123,14 @@ export function MoonQuarters() {
                 showLabel: true
             }} />
 
-            <Text2D attrs={{
+            <TextToCamera attrs={{
                 text: "Click for\nnext quarter",
                 size: "1em",
+                pos: [0, 81, 0],
                 camRef: camRef
             }} />
+
+            <OrbitControls />
         </>
     );
 }

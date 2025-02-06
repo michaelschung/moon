@@ -3,34 +3,33 @@ import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html, Text } from "@react-three/drei";
 
-export function Text2D({attrs}) {
-    const textPos = useRef([0, 0, 0]);
+export function TextToCamera({attrs}) {
+    const textRef = useRef();
+    const meshRef = useRef();
 
     useFrame(() => {
-        if (attrs.camRef.current) {
-            const camPos = attrs.camRef.current.position;
-            const camDir = attrs.camRef.current.getWorldDirection(new THREE.Vector3());
-
-            textPos.current = [
-                camPos.x + camDir.x * 10,
-                camPos.y + camDir.y * 10,
-                camPos.z + camDir.z * 10
-            ];
+        if (meshRef.current && attrs.camRef.current) {
+            meshRef.current.lookAt(attrs.camRef.current.position);
         }
     });
 
     return (
-        <Html position={textPos.current}>
-            <div className="text2D" style={{ fontSize: attrs.size }}>
-                {/* Insert <br> tags in place of each \n */}
-                {attrs.text.split("\n").map((line, index) => (
-                    <React.Fragment key={index}>
-                        {line}
-                        {index < attrs.text.length - 1 && <br />}
-                    </React.Fragment>
-                ))}
-            </div>
-        </Html>
+        <>
+            <mesh ref={meshRef} position={attrs.pos} visible={false}>
+                <sphereGeometry args={[0.1, 1, 1]} />
+            </mesh>
+            <Html position={attrs.pos} ref={textRef}>
+                <div className="text2D" style={{ fontSize: attrs.size }}>
+                    {/* Insert <br> tags in place of each \n */}
+                    {attrs.text.split("\n").map((line, index) => (
+                        <React.Fragment key={index}>
+                            {line}
+                            {index < attrs.text.length - 1 && <br />}
+                        </React.Fragment>
+                    ))}
+                </div>
+            </Html>
+        </>
     );
 }
 
