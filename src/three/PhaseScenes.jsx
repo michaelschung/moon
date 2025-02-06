@@ -119,6 +119,7 @@ export function MoonQuarters() {
                 lvl: 0,
                 pos: [0, 0, 0],
                 r: 400,
+                angle: totalRotate.current,
                 doRevolve: isMoving.current,
                 showLabel: true
             }} />

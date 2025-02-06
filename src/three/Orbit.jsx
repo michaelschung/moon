@@ -10,7 +10,7 @@ export function Orbit({attrs}) {
     const [satPos, setSatPos] = useState([-attrs.r, 0, 0]);
     const revAngle = useRef(0);
 
-    const offset = attrs.lvl === 0 ? 100 : 100;
+    const offset = attrs.lvl === 0 ? 120 : 100;
     const [labelPos, setLabelPos] = useState(calcLabelPos());
 
     function calcLabelPos() {
@@ -19,6 +19,14 @@ export function Orbit({attrs}) {
         const dir = new THREE.Vector3().subVectors(pos, outPos).normalize();
         const newPos = new THREE.Vector3().addVectors(outPos, dir.multiplyScalar(offset));
         return [newPos.x, newPos.y, newPos.z];
+    }
+
+    function getPhaseText() {
+        const angle = revAngle.current % (2*Math.PI);
+        if (angle === 0) return "new moon";
+        if (angle === Math.PI/2) return "first quarter";
+        if (angle === Math.PI) return "full moon";
+        return "third quarter";
     }
 
     useFrame(() => {
@@ -30,18 +38,20 @@ export function Orbit({attrs}) {
             setSatPos([satX, satY, satZ]);
             setLabelPos(calcLabelPos());
             revAngle.current += 0.01;
+        } else {
+            // Stop only at quadrantal angles
+            revAngle.current = Math.round(revAngle.current / (Math.PI / 2)) * (Math.PI / 2);
         }
     });
 
-    // TODO: make label show only when not moving
     return (attrs.lvl === 0)
         ? (
             <>
                 <Earth pos={attrs.pos} doRotate={false} />
                 <Moon pos={satPos} doRotate={true} />
-                {attrs.showLabel && 
+                {attrs.showLabel && Math.abs(revAngle.current % (Math.PI/2)) < 0.01 &&
                     <TextToCamera attrs={{
-                        text: "phase",
+                        text: getPhaseText(),
                         size: "1em",
                         pos: labelPos
                     }} />
