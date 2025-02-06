@@ -129,8 +129,6 @@ export function MoonQuarters() {
                 pos: [0, 81, 0],
                 camRef: camRef
             }} />
-
-            <OrbitControls />
         </>
     );
 }
