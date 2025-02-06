@@ -5,31 +5,19 @@ import { PerspectiveCamera, useTexture, Html, Text } from "@react-three/drei";
 
 export function TextToCamera({attrs}) {
     const textRef = useRef();
-    const meshRef = useRef();
-
-    useFrame(() => {
-        if (meshRef.current && attrs.camRef.current) {
-            meshRef.current.lookAt(attrs.camRef.current.position);
-        }
-    });
 
     return (
-        <>
-            <mesh ref={meshRef} position={attrs.pos} visible={false}>
-                <sphereGeometry args={[0.1, 1, 1]} />
-            </mesh>
-            <Html position={attrs.pos} ref={textRef}>
-                <div className="text2D" style={{ fontSize: attrs.size }}>
-                    {/* Insert <br> tags in place of each \n */}
-                    {attrs.text.split("\n").map((line, index) => (
-                        <React.Fragment key={index}>
-                            {line}
-                            {index < attrs.text.length - 1 && <br />}
-                        </React.Fragment>
-                    ))}
-                </div>
-            </Html>
-        </>
+        <Html position={attrs.pos} ref={textRef}>
+            <div className="text2D" style={{ fontSize: attrs.size }}>
+                {/* Insert <br> tags in place of each \n */}
+                {attrs.text.split("\n").map((line, index) => (
+                    <React.Fragment key={index}>
+                        {line}
+                        {index < attrs.text.length - 1 && <br />}
+                    </React.Fragment>
+                ))}
+            </div>
+        </Html>
     );
 }
 
