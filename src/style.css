@@ -97,6 +97,15 @@ term {
     font-style: italic;
 }
 
+.text2D {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    white-space: nowrap;
+    width: auto;
+    transform: translate(-50%, -50%);
+}
+
 #root {
     width: 100%;
     font-family: 'Roboto';

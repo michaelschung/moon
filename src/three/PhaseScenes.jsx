@@ -2,12 +2,13 @@ import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
-import { Sunlight, StarryBackground, Camera } from "./Utils";
+import { Sunlight, StarryBackground, Camera, Text2D } from "./Utils";
 import { Moon, Earth } from "./Body";
 import { Orbit } from "./Orbit";
 
 export function MoonPhases() {
     const originRef = useRef();
+    const camRef = useRef();
 
     return (
         <>
@@ -15,12 +16,15 @@ export function MoonPhases() {
             <StarryBackground />
             <Sunlight targetRef={originRef} brightness={5} />
 
-            <Camera attrs={{
-                pos: [50, 0, 0],
-                fov: 75,
-                target: originRef,
-                isRevolving: true,
-            }} />
+            <Camera
+                ref={camRef}
+                attrs={{
+                    pos: [50, 0, 0],
+                    fov: 75,
+                    target: originRef,
+                    isRevolving: true,
+                }}
+            />
 
             <Moon pos={[0, 0, 0]} doRotate={true} />
 
@@ -31,6 +35,7 @@ export function MoonPhases() {
 
 export function MoonRevolve() {
     const originRef = useRef();
+    const camRef = useRef();
 
     return (
         <>
@@ -38,12 +43,15 @@ export function MoonRevolve() {
             <StarryBackground />
             <Sunlight targetRef={originRef} brightness={5} />
 
-            <Camera attrs={{
-                pos: [0, 1000, 0],
-                fov: 50,
-                target: originRef,
-                isRevolving: false
-            }} />
+            <Camera
+                ref={camRef}
+                attrs={{
+                    pos: [0, 1000, 0],
+                    fov: 50,
+                    target: originRef,
+                    isRevolving: false
+                }}
+            />
 
             <Orbit attrs={{
                 lvl: 0,
@@ -57,6 +65,8 @@ export function MoonRevolve() {
 
 export function MoonQuarters() {
     const originRef = useRef();
+    const camRef = useRef();
+
     const {gl} = useThree();
     const totalRotate = useRef(0);
     const nextStop = useRef(0);
@@ -95,18 +105,28 @@ export function MoonQuarters() {
             <StarryBackground />
             <Sunlight targetRef={originRef} brightness={5} />
 
-            <Camera attrs={{
-                pos: [0, 1000, 0],
-                fov: 60,
-                target: originRef,
-                isRevolving: false
-            }} />
+            <Camera
+                ref={camRef}
+                attrs={{
+                    pos: [0, 1000, 0],
+                    fov: 50,
+                    target: originRef,
+                    isRevolving: false
+                }}
+            />
 
             <Orbit attrs={{
                 lvl: 0,
                 pos: [0, 0, 0],
                 r: 400,
-                doRevolve: isMoving.current
+                doRevolve: isMoving.current,
+                showLabel: true
+            }} />
+
+            <Text2D attrs={{
+                text: "Click for\nnext quarter",
+                size: "1em",
+                camRef: camRef
             }} />
         </>
     );
