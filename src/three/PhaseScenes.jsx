@@ -3,12 +3,24 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 import { Sunlight, StarryBackground, Camera, TextToCamera } from "./Utils";
-import { Moon, Earth } from "./Body";
+import { Moon, Moon2, Earth } from "./Body";
 import { Orbit } from "./Orbit";
+
+import { createMoonStore, createOrbitStore } from "../stores";
 
 export function MoonPhases() {
     const originRef = useRef();
     const camRef = useRef();
+    const moonStoreRef = useRef(createMoonStore([0, 0, 0], 20, 0));
+    const moonStore = moonStoreRef.current;
+
+    const pos = moonStore((state) => state.pos);
+    const angle = moonStore((state) => state.angle);
+    const rotate = moonStore((state) => state.rotate);
+
+    useFrame(() => {
+        rotate();
+    })
 
     return (
         <>
@@ -26,9 +38,7 @@ export function MoonPhases() {
                 }}
             />
 
-            <Moon pos={[0, 0, 0]} doRotate={true} />
-
-            <OrbitControls />
+            <Moon2 pos={pos} angle={angle} />
         </>
     );
 }

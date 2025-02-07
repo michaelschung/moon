@@ -2,6 +2,33 @@ import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 
+import { createMoonStore } from "../stores";
+
+function Body2({attrs}) {
+    const bodyRef = useRef();
+
+    return (
+        <mesh ref={bodyRef} position={attrs.pos} rotation={[0, attrs.angle, 0]}>
+            <sphereGeometry args={[attrs.r, 32, 32]} />
+            {attrs.name === "sun"
+                ? <meshBasicMaterial map={attrs.texture} />
+                : <meshLambertMaterial map={attrs.texture} />}
+        </mesh>
+    );
+}
+
+export function Moon2({pos, angle}) {
+    return (
+        <Body2 attrs={{
+            name: "moon",
+            pos: pos,
+            r: 20,
+            angle: angle,
+            texture: useTexture("/img/moon-texture.jpg"),
+        }} />
+    );
+}
+
 function Body({attrs}) {
     const bodyRef = useRef();
     const angle = useRef(0);

@@ -10,15 +10,16 @@
   "author": "Michael Chung",
   "license": "ISC",
   "dependencies": {
+    "@react-three/drei": "9.108",
+    "@react-three/fiber": "8.16",
     "@vitejs/plugin-react": "4.3",
     "express": "^4.21.2",
+    "lil-gui": "^0.20.0",
     "p5": "^1.11.2",
     "react": "^18.3",
     "react-dom": "^18.3",
-    "lil-gui": "^0.20.0",
-    "@react-three/fiber": "8.16",
-    "@react-three/drei": "9.108",
-    "three": "^0.166.1"
+    "three": "^0.166.1",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "vite": "^6.0.7"
