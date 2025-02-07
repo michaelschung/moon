@@ -16,5 +16,6 @@ export const createOrbitStore = (primaryStore, satelliteStore, r, tilt) =>
         r: r,
         angle: 0,
         tilt: tilt,
+        setAngle: (newAngle) => set((state) => ({angle: newAngle})),
         revolve: () => set((state) => ({angle: state.angle + 0.01})),
     }));

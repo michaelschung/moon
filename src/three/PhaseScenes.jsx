@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import * as THREE from "three";
 
 import { Sunlight, StarryBackground, Camera, TextToCamera } from "./Utils";
 import { Moon } from "./Body";
-import { Orbit, OldOrbit } from "./Orbit";
+import { Orbit } from "./Orbit";
 
 import { createBodyStore, createOrbitStore } from "../stores";
 
@@ -100,33 +101,66 @@ export function MoonRevolve() {
 export function MoonQuarters() {
     const originRef = useRef();
     const camRef = useRef();
+    const eStoreRef = useRef(createBodyStore([0, 0, 0], 80, 0));
+    const mStoreRef = useRef(createBodyStore([-400, 0, 0], 20, 0));
+    const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, 400, null));
 
+    // No re-rendering needed
+    const orbitState = eMOrbitRef.current.getState();
+    const r = orbitState.r;
+    const priPos = eStoreRef.current.getState().pos;
+
+    // Re-render when these change
+    const setSatPos = mStoreRef.current((state) => state.setPos);
+    const satRotate = mStoreRef.current((state) => state.rotate);
+    const angle = eMOrbitRef.current((state) => state.angle);
+    const revolve = eMOrbitRef.current((state) => state.revolve);
+
+    // Movement control
     const {gl} = useThree();
-    const totalRotate = useRef(0);
     const nextStop = useRef(0);
     const isMoving = useRef(false);
-    // Exists purely to force a re-render
-    const [_, triggerRerender] = useState(0);
+    const setOrbitAngle = eMOrbitRef.current((state) => state.setAngle);
+
+    useFrame(() => {
+        // TODO: update this to include tilt
+        if (isMoving.current) {
+            const satX = priPos[0] - r * Math.cos(angle);
+            const satY = priPos[1];
+            const satZ = priPos[2] + r * Math.sin(angle);
+            setSatPos([satX, satY, satZ]);
+            satRotate();
+            revolve();
+            isMoving.current = angle < nextStop.current;
+        } else {
+            // Snap to nearest quadrantal angle
+            const nearestQuadrant = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2);
+            setOrbitAngle(nearestQuadrant);
+        }
+    });
+
+    function calcLabelPos() {
+        const pos = new THREE.Vector3(...priPos);
+        const satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
+        const dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
+        const labelPos = new THREE.Vector3().addVectors(satPos, dir.multiplyScalar(120));
+        return [labelPos.x, labelPos.y, labelPos.z];
+    }
+
+    function getPhaseText() {
+        const currAngle = angle % (2*Math.PI);
+        if (currAngle < Math.PI/2) return "new moon";
+        if (currAngle < Math.PI) return "first quarter";
+        if (currAngle < Math.PI*3/2) return "full moon";
+        return "third quarter";
+    }
 
     function handleClick() {
         // Ignore clicks between quarters
         if (isMoving.current) return;
         isMoving.current = true;
         nextStop.current += Math.PI/2;
-        triggerRerender((val) => val + 1);
     }
-
-    useFrame(() => {
-        // Move as long as we haven't reached the next quarter
-        if (isMoving.current) {
-            totalRotate.current += 0.01;
-            if (totalRotate.current >= nextStop.current) {
-                totalRotate.current = nextStop.current;
-                isMoving.current = false;
-                triggerRerender((val) => val + 1);
-            }
-        }
-    });
 
     useEffect(() => {
         gl.domElement.addEventListener("pointerdown", handleClick);
@@ -149,21 +183,19 @@ export function MoonQuarters() {
                 }}
             />
 
-            <OldOrbit attrs={{
-                lvl: 0,
-                pos: [0, 0, 0],
-                r: 400,
-                angle: totalRotate.current,
-                doRevolve: isMoving.current,
-                showLabel: true
-            }} />
+            <Orbit
+                lvl={0}
+                pos={[0, 0, 0]}
+                orbitRef={eMOrbitRef.current}
+            />
 
-            <TextToCamera attrs={{
-                text: "Click for\nnext quarter",
-                size: "1em",
-                pos: [0, 81, 0],
-                camRef: camRef
-            }} />
+            {!isMoving.current &&
+                <TextToCamera attrs={{
+                    text: getPhaseText(),
+                    size: "1em",
+                    pos: calcLabelPos()
+                }} />
+            }
         </>
     );
 }
