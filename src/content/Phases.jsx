@@ -1,27 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import {
-  moonPhases,
-  moonRevolve,
-  moonQuarters,
-  phaseView,
-} from "../utils/phases";
 
-import { MoonPhases, MoonRevolve, MoonQuarters } from "../three/PhaseScenes";
+import { MoonPhases, MoonRevolve, MoonQuarters, PhaseView } from "../three/PhaseScenes";
 
 function Phases() {
-    // const containerRef = useRef(null);
-
-    // useEffect(() => {
-    //     if (!containerRef.current) return;
-
-    //     // Initialize scene
-    //     const { dispose } = createMoonPhasesScene(containerRef.current);
-
-    //     // Cleanup on unmount
-    //     return () => dispose();
-    // }, []);
-
     return (
         <>
         <hr />
@@ -34,12 +16,9 @@ function Phases() {
             real thing, but it'll do.
         </p>
 
-        {/* <div className="sketch-container" ref={containerRef} style={{ width: "100%", height: "400px" }}></div> */}
         <Canvas className="sketch-container three-two">
             <MoonPhases />
         </Canvas>
-
-        {/* <Sketch sketchInstance={moonPhases} containerRef={mainRef} /> */}
 
         <p>
             The key to everything lies in the position of the Moon relative to the
@@ -55,8 +34,6 @@ function Phases() {
         <Canvas className="sketch-container three-two">
             <MoonRevolve />
         </Canvas>
-
-        {/* <Sketch sketchInstance={moonRevolve} containerRef={mainRef} /> */}
 
         <p>
             Both bodies are illuminated on the same side -- this is due to the Sun,
@@ -80,8 +57,6 @@ function Phases() {
             <MoonQuarters />
         </Canvas>
 
-        {/* <Sketch sketchInstance={moonQuarters} containerRef={mainRef} /> */}
-
         <p>
             Not coincidentally, these are four of the phases of the moon:
             <term>new moon</term>, <term>first quarter</term>,&nbsp;
@@ -94,13 +69,21 @@ function Phases() {
         </p>
 
         <div className="photo-row">
-            {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0} allowAnimate={false} />
-                    <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={1} allowAnimate={false} /> */}
+            <Canvas className="sketch-container one-one">
+                <PhaseView quarter={0} allowAnimate={false} />
+            </Canvas>
+            <Canvas className="sketch-container one-one">
+                <PhaseView quarter={1} allowAnimate={false} />
+            </Canvas>
         </div>
         <br />
         <div className="photo-row">
-            {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={2} allowAnimate={false} />
-                    <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={3} allowAnimate={false} /> */}
+            <Canvas className="sketch-container one-one">
+                <PhaseView quarter={2} allowAnimate={false} />
+            </Canvas>
+            <Canvas className="sketch-container one-one">
+                <PhaseView quarter={3} allowAnimate={false} />
+            </Canvas>
         </div>
         <br />
 

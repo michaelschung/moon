@@ -9,12 +9,12 @@ export const createBodyStore = (pos, r, angle) =>
         rotate: () => set((state) => ({angle: state.angle + 0.01})),
     }));
 
-export const createOrbitStore = (primaryStore, satelliteStore, r, tilt) =>
+export const createOrbitStore = (primaryStore, satelliteStore, r, angle, tilt) =>
     create((set) => ({
         priStore: primaryStore,
         satStore: satelliteStore,
         r: r,
-        angle: 0,
+        angle: angle,
         tilt: tilt,
         setAngle: (newAngle) => set((state) => ({angle: newAngle})),
         revolve: () => set((state) => ({angle: state.angle + 0.01})),
