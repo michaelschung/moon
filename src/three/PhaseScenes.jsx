@@ -3,20 +3,20 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 import { Sunlight, StarryBackground, Camera, TextToCamera } from "./Utils";
-import { Moon, Moon2, Earth } from "./Body";
-import { Orbit } from "./Orbit";
+import { Moon } from "./Body";
+import { Orbit, OldOrbit } from "./Orbit";
 
-import { createMoonStore, createOrbitStore } from "../stores";
+import { createBodyStore, createOrbitStore } from "../stores";
 
 export function MoonPhases() {
     const originRef = useRef();
     const camRef = useRef();
-    const moonStoreRef = useRef(createMoonStore([0, 0, 0], 20, 0));
-    const moonStore = moonStoreRef.current;
+    const moonStoreRef = useRef(createBodyStore([0, 0, 0], 20, 0));
 
-    const pos = moonStore((state) => state.pos);
-    const angle = moonStore((state) => state.angle);
-    const rotate = moonStore((state) => state.rotate);
+    const moonState = moonStoreRef.current.getState();
+    const pos = moonState.pos;
+    const angle = moonStoreRef.current((state) => state.angle);
+    const rotate = moonStoreRef.current((state) => state.rotate);
 
     useFrame(() => {
         rotate();
@@ -38,14 +38,39 @@ export function MoonPhases() {
                 }}
             />
 
-            <Moon2 pos={pos} angle={angle} />
+            <Moon pos={pos} angle={angle} />
         </>
     );
 }
 
 export function MoonRevolve() {
+    // All refs
     const originRef = useRef();
     const camRef = useRef();
+    const eStoreRef = useRef(createBodyStore([0, 0, 0], 80, 0));
+    const mStoreRef = useRef(createBodyStore([-400, 0, 0], 20, 0));
+    const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, 400, null));
+
+    // No re-rendering needed
+    const orbitState = eMOrbitRef.current.getState();
+    const r = orbitState.r;
+    const priPos = eStoreRef.current.getState().pos;
+
+    // Re-render when these change
+    const setSatPos = mStoreRef.current((state) => state.setPos);
+    const satRotate = mStoreRef.current((state) => state.rotate);
+    const angle = eMOrbitRef.current((state) => state.angle);
+    const revolve = eMOrbitRef.current((state) => state.revolve);
+
+    useFrame(() => {
+        // TODO: update this to include tilt
+        const satX = priPos[0] - r * Math.cos(angle);
+        const satY = priPos[1];
+        const satZ = priPos[2] + r * Math.sin(angle);
+        setSatPos([satX, satY, satZ]);
+        satRotate();
+        revolve();
+    });
 
     return (
         <>
@@ -63,12 +88,11 @@ export function MoonRevolve() {
                 }}
             />
 
-            <Orbit attrs={{
-                lvl: 0,
-                pos: [0, 0, 0],
-                r: 400,
-                doRevolve: true
-            }} />
+            <Orbit
+                lvl={0}
+                pos={[0, 0, 0]}
+                orbitRef={eMOrbitRef.current}
+            />
         </>
     );
 }
@@ -125,7 +149,7 @@ export function MoonQuarters() {
                 }}
             />
 
-            <Orbit attrs={{
+            <OldOrbit attrs={{
                 lvl: 0,
                 pos: [0, 0, 0],
                 r: 400,

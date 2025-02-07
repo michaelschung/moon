@@ -2,9 +2,7 @@ import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 
-import { createMoonStore } from "../stores";
-
-function Body2({attrs}) {
+function Body({attrs}) {
     const bodyRef = useRef();
 
     return (
@@ -17,9 +15,9 @@ function Body2({attrs}) {
     );
 }
 
-export function Moon2({pos, angle}) {
+export function Moon({pos, angle}) {
     return (
-        <Body2 attrs={{
+        <Body attrs={{
             name: "moon",
             pos: pos,
             r: 20,
@@ -29,7 +27,32 @@ export function Moon2({pos, angle}) {
     );
 }
 
-function Body({attrs}) {
+export function Earth({pos, angle}) {
+    return (
+        <Body attrs={{
+            name: "earth",
+            pos: pos,
+            r: 80,
+            angle: angle,
+            texture: useTexture("/img/earth-texture.jpg"),
+        }} />
+    );
+}
+
+export function Sun({pos, angle}) {
+    return (
+        <Body attrs={{
+            name: "sun",
+            pos: pos,
+            // r: 8720,
+            r: 100,
+            angle: angle,
+            texture: useTexture("/img/sun-texture.jpg"),
+        }} />
+    );
+}
+
+function OldBody({attrs}) {
     const bodyRef = useRef();
     const angle = useRef(0);
     const [isRotating, setIsRotating] = useState(attrs.doRotate);
@@ -56,42 +79,5 @@ function Body({attrs}) {
                 ? <meshBasicMaterial map={attrs.texture} />
                 : <meshLambertMaterial map={attrs.texture} />}
         </mesh>
-    );
-}
-
-export function Moon({pos, doRotate}) {
-    return (
-        <Body attrs={{
-            name: "moon",
-            pos: pos,
-            r: 20,
-            texture: useTexture("/img/moon-texture.jpg"),
-            doRotate: doRotate
-        }} />
-    );
-}
-
-export function Earth({pos, doRotate}) {
-    return (
-        <Body attrs={{
-            name: "earth",
-            pos: pos,
-            r: 80,
-            texture: useTexture("/img/earth-texture.jpg"),
-            doRotate: doRotate
-        }} />
-    );
-}
-
-export function Sun({pos, doRotate}) {
-    return (
-        <Body attrs={{
-            name: "sun",
-            pos: pos,
-            // r: 8720,
-            r: 100,
-            texture: useTexture("/img/sun-texture.jpg"),
-            doRotate: doRotate
-        }} />
     );
 }
