@@ -140,10 +140,11 @@ export function MoonQuarters() {
     });
 
     function calcLabelPos() {
-        const pos = new THREE.Vector3(...priPos);
-        const satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
-        const dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
-        const labelPos = new THREE.Vector3().addVectors(satPos, dir.multiplyScalar(120));
+        let pos = new THREE.Vector3(...priPos);
+        let satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
+        let dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
+        let dist = (angle % Math.PI === 0) ? 120 : 60;
+        let labelPos = new THREE.Vector3().addVectors(satPos, dir.multiplyScalar(dist));
         return [labelPos.x, labelPos.y, labelPos.z];
     }
 
@@ -190,11 +191,19 @@ export function MoonQuarters() {
             />
 
             {!isMoving.current &&
-                <TextToCamera attrs={{
-                    text: getPhaseText(),
-                    size: "1em",
-                    pos: calcLabelPos()
-                }} />
+                <>
+                    <TextToCamera attrs={{
+                        text: "Click for\nnext quarter",
+                        pos: [0, 0, 0],
+                        color: "#dddddd",
+                        style: "italic"
+                    }} />
+
+                    <TextToCamera attrs={{
+                        text: getPhaseText(),
+                        pos: calcLabelPos()
+                    }} />
+                </>
             }
         </>
     );
@@ -260,17 +269,17 @@ export function PhaseView({quarter, allowAnimate}) {
         return "third quarter";
     }
 
-    function handleClick() {
-        // Ignore clicks between quarters
-        if (isMoving.current) return;
-        isMoving.current = true;
-        nextStop.current += Math.PI/2;
-    }
+    // function handleClick() {
+    //     // Ignore clicks between quarters
+    //     if (isMoving.current) return;
+    //     isMoving.current = true;
+    //     nextStop.current += Math.PI/2;
+    // }
 
-    useEffect(() => {
-        gl.domElement.addEventListener("pointerdown", handleClick);
-        return () => gl.domElement.removeEventListener("pointerdown", handleClick);
-    }, [gl]);
+    // useEffect(() => {
+    //     gl.domElement.addEventListener("pointerdown", handleClick);
+    //     return () => gl.domElement.removeEventListener("pointerdown", handleClick);
+    // }, [gl]);
 
     return (
         <>

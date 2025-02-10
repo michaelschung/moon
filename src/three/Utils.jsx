@@ -8,7 +8,11 @@ export function TextToCamera({attrs}) {
 
     return (
         <Html position={attrs.pos} ref={textRef}>
-            <div className="text2D" style={{ fontSize: attrs.size }}>
+            <div className="text2D" style={{
+                fontSize: attrs.size || "1em",
+                fontStyle: attrs.style || "normal",
+                color: attrs.color || "white"
+            }}>
                 {/* Insert <br> tags in place of each \n */}
                 {attrs.text.split("\n").map((line, index) => (
                     <React.Fragment key={index}>
