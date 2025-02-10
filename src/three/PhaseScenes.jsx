@@ -359,9 +359,9 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
                 <TextToCamera attrs={{
                     text: "Click to start\nanimation",
                     size: allowAnimate ? "1em" : "0.75em",
-                    pos: [0, 0, 0],
+                    pos: [0, 100, 0],
                     color: "#dddddd",
-                    style: "italic"
+                    style: "italic",
                 }} />
             }
         </>

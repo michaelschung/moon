@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, forwardRef } from "react";
 import * as THREE from "three";
-import { useFrame, useThree } from "@react-three/fiber";
-import { PerspectiveCamera, useTexture, Html, Text } from "@react-three/drei";
+import { useFrame, useThree, useLoader } from "@react-three/fiber";
+import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
+import { Text } from "troika-three-text";
 
 export function interpolate(start, end, val, specialCase=false) {
     if (specialCase) {
@@ -63,9 +64,10 @@ export function TextToCamera({attrs}) {
             <div className="text2D" style={{
                 fontSize: attrs.size || "1em",
                 fontStyle: attrs.style || "normal",
-                color: attrs.color || "white"
+                color: attrs.color || "white",
+                userSelect: "none"
             }}>
-                {/* Insert <br> tags in place of each \n */}
+                {/* Inserts <br> tags in place of each \n */}
                 {attrs.text.split("\n").map((line, index) => (
                     <React.Fragment key={index}>
                         {line}
