@@ -44,11 +44,11 @@ function Phases() {
             is illuminated at all times, no matter where it is in its orbit around
             the Earth. This tells us that the phases we observe are all a matter of
             perspective. But more on that in a bit -- let's first take a moment to
-            define a bit of terminology that we'll need moving forward.
+            define a bit of spaninology that we'll need moving forward.
         </p>
         <p>
             The lunar cycle is split into four quarters, beginning and ending with
-            the <term>new moon</term>, when the Moon is directly between the Earth
+            the <span>new moon</span>, when the Moon is directly between the Earth
             and the Sun. Click on the sketch below to move the Moon between each
             quarter.
         </p>
@@ -58,10 +58,10 @@ function Phases() {
         </Canvas>
 
         <p>
-            Not coincidentally, these are four of the phases of the moon:
-            <term>new moon</term>, <term>first quarter</term>,&nbsp;
-            <term>full moon</term>, and <term>third quarter</term> (a.k.a.&nbsp;
-            <term>last quarter</term>). Perhaps you can already see how these names
+            Not coincidentally, these are four of the phases of the moon:&nbsp;
+            <span>new moon</span>, <span>first quarter</span>,&nbsp;
+            <span>full moon</span>, and <span>third quarter</span> (a.k.a.&nbsp;
+            <span>last quarter</span>). Perhaps you can already see how these names
             and positions translate to the corresponding Earthbound visuals that
             we're familiar with, but here are four sketches to fully make the
             connection. Try moving the sliders to transition from orbit view to
@@ -69,32 +69,44 @@ function Phases() {
         </p>
 
         <div className="photo-row">
-            <Canvas className="sketch-container one-one">
-                <PhaseView quarter={0} allowAnimate={false} />
-            </Canvas>
-            <Canvas className="sketch-container one-one">
-                <PhaseView quarter={1} allowAnimate={false} />
-            </Canvas>
+            <div className="slider-container">
+                <Canvas className="sketch-container one-one with-slider">
+                    <PhaseView quarter={0} allowAnimate={false} />
+                </Canvas>
+                <input type="range" min="0" max="100" value="0" />
+            </div>
+            <div className="slider-container">
+                <Canvas className="sketch-container one-one with-slider">
+                    <PhaseView quarter={1} allowAnimate={false} />
+                </Canvas>
+                <input type="range" min="0" max="100" value="0" />
+            </div>
         </div>
         <br />
         <div className="photo-row">
-            <Canvas className="sketch-container one-one">
-                <PhaseView quarter={2} allowAnimate={false} />
-            </Canvas>
-            <Canvas className="sketch-container one-one">
-                <PhaseView quarter={3} allowAnimate={false} />
-            </Canvas>
+            <div className="slider-container">
+                <Canvas className="sketch-container one-one with-slider">
+                    <PhaseView quarter={2} allowAnimate={false} />
+                </Canvas>
+                <input type="range" min="0" max="100" value="0" />
+            </div>
+            <div className="slider-container">
+                <Canvas className="sketch-container one-one with-slider">
+                    <PhaseView quarter={3} allowAnimate={false} />
+                </Canvas>
+                <input type="range" min="0" max="100" value="0" />
+            </div>
         </div>
         <br />
 
         <p>
             <i>
             Note: the first quarter and third quarter Moon are often referred to
-            as <term>half moon</term>, due to the fact that it appears
+            as <span>half moon</span>, due to the fact that it appears
             half-illuminated as compared to the full moon. This is sometimes
             slightly confusing since the full moon occurs halfway through the
             lunar cycle; but it should remain clear as long as you separate the
-            terms describing the lunar orbit (first quarter, etc.) from those
+            spans describing the lunar orbit (first quarter, etc.) from those
             describing the appearance of the Moon (half moon, etc.).
             </i>
         </p>
@@ -121,13 +133,13 @@ function Phases() {
         <p>
             These are the in-between phases, which are given two-part names
             according to their shape and their place in the cycle. The thin slice of
-            moon is called a <term>crescent</term>, while the not-quite-full moon is
-            called a <term>gibbous</term>. To distinguish between the crescents and
-            gibbouses, we classify them as either <term>waxing</term>&nbsp; (growing
-            towards full moon) or <term>waning</term> (shrinking towards new moon).
+            moon is called a <span>crescent</span>, while the not-quite-full moon is
+            called a <span>gibbous</span>. To distinguish between the crescents and
+            gibbouses, we classify them as either <span>waxing</span>&nbsp; (growing
+            towards full moon) or <span>waning</span> (shrinking towards new moon).
             This gives us four new phase names:&nbsp;
-            <term>waxing crescent</term>, <term>waxing gibbous</term>,&nbsp;
-            <term>waning gibbous</term>, and <term>waning crescent</term>.
+            <span>waxing crescent</span>, <span>waxing gibbous</span>,&nbsp;
+            <span>waning gibbous</span>, and <span>waning crescent</span>.
         </p>
         <p>Thus, we have all eight phases of the moon.</p>
 

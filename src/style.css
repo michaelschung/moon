@@ -51,9 +51,14 @@ img {
     margin-bottom: 1em;
 }
 
-term {
+span {
     font-weight: bold;
     font-style: italic;
+    color: #888;
+}
+
+input {
+    margin: 1em 0 0 !important;
 }
 
 .photo-row {
@@ -63,8 +68,23 @@ term {
     gap: 1%;
 }
 
+.photo-row > * {
+    flex: 1;
+    aspect-ratio: 1 / 1;
+    min-width: 0;
+}
+
 .sketch-container {
     margin: 1em 0 2em;
+}
+
+.sketch-container.with-slider {
+    margin: 0;
+}
+
+.slider-container {
+    /* margin: -1em 0 -2em;
+    padding: 0; */
 }
 
 .one-one {
