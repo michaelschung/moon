@@ -34,6 +34,27 @@ export const Slider = forwardRef((_, ref) => {
     );
 });
 
+export function Text2D({attrs}) {
+    const textRef = useRef();
+
+    return (
+        <Html position={attrs.pos} ref={textRef}>
+            <div className="text2D" style={{
+                fontSize: attrs.size || "1em",
+                fontStyle: attrs.style || "normal",
+                color: attrs.color || "white"
+            }}>
+                {attrs.text.split("\n").map((line, index) => (
+                    <React.Fragment key={index}>
+                        {line}
+                        {index < attrs.text.length - 1 && <br />}
+                    </React.Fragment>
+                ))}
+            </div>
+        </Html>
+    );
+}
+
 export function TextToCamera({attrs}) {
     const textRef = useRef();
 

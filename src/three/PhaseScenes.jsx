@@ -3,7 +3,15 @@ import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
-import { Sunlight, StarryBackground, Camera, TextToCamera, Slider, interpolate } from "./Utils";
+import {
+    Sunlight,
+    StarryBackground,
+    Camera,
+    TextToCamera,
+    Text2D,
+    Slider,
+    interpolate
+} from "./Utils";
 import { Moon } from "./Body";
 import { Orbit } from "./Orbit";
 
@@ -21,7 +29,7 @@ export function MoonPhases() {
 
     useFrame(() => {
         rotate();
-    })
+    });
 
     return (
         <>
@@ -143,7 +151,7 @@ export function MoonQuarters() {
         let pos = new THREE.Vector3(...priPos);
         let satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
         let dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
-        let dist = (angle % Math.PI === 0) ? 120 : 60;
+        let dist = (angle % Math.PI < 0.1) ? 120 : 60;
         let labelPos = new THREE.Vector3().addVectors(satPos, dir.multiplyScalar(dist));
         return [labelPos.x, labelPos.y, labelPos.z];
     }
@@ -228,6 +236,7 @@ export function PhaseScene({quarter, allowAnimate}) {
 export function PhaseView({quarter, allowAnimate, sliderRef}) {
     const originRef = useRef();
     const camRef = useRef();
+
     const eStoreRef = useRef(createBodyStore([0, 0, 0], 80, 0));
     const orbR = 300;
     let moonStartAngle = useRef(quarter * Math.PI / 2);
@@ -242,16 +251,13 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
 
     // Re-render when these change
     const setSatPos = mStoreRef.current((state) => state.setPos);
-    const setSatAngle = mStoreRef.current((state) => state.setAngle);
     const satRotate = mStoreRef.current((state) => state.rotate);
     const angle = eMOrbitRef.current((state) => state.angle);
     const revolve = eMOrbitRef.current((state) => state.revolve);
 
     // Movement control
     const {gl} = useThree();
-    const nextStop = useRef(0);
     const isMoving = useRef(false);
-    const setOrbitAngle = eMOrbitRef.current((state) => state.setAngle);
 
     let initLabelPos = moonStartPos.slice();
     initLabelPos[2] += 50;
@@ -259,19 +265,13 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
 
     useFrame(() => {
         // TODO: update this to include tilt
-        if (isMoving.current) {
+        if (allowAnimate && isMoving.current) {
             let satX = priPos[0] - r * Math.cos(angle);
             let satY = priPos[1];
             let satZ = priPos[2] + r * Math.sin(angle);
             setSatPos([satX, satY, satZ]);
             satRotate();
             revolve();
-            isMoving.current = angle < nextStop.current;
-        } else {
-            // Snap to nearest semi-quadrantal angle
-            let nearestAngle = Math.round(angle / (Math.PI / 4)) * (Math.PI / 4);
-            setOrbitAngle(nearestAngle);
-            setSatAngle(nearestAngle);
         }
 
         if (sliderRef.current && camRef.current) {
@@ -298,7 +298,7 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
         if (camRef.current) {
             let camDown = camRef.current.up.clone().multiplyScalar(-1);
             const satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
-            const newLabelPos = new THREE.Vector3().addVectors(satPos, camDown.multiplyScalar(50));
+            const newLabelPos = new THREE.Vector3().addVectors(satPos, camDown.multiplyScalar(75));
             setLabelPos([newLabelPos.x, newLabelPos.y, newLabelPos.z]);
         }
     }
@@ -314,21 +314,18 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
             "third quarter",
             "waning crescent"
         ];
-        let currAngle = angle % (2*Math.PI);
+        let currAngle = (angle+Math.PI/8) % (2*Math.PI);
         return phaseNames[Math.floor(currAngle / (Math.PI/4))];
     }
 
-    // function handleClick() {
-    //     // Ignore clicks between quarters
-    //     if (isMoving.current) return;
-    //     isMoving.current = true;
-    //     nextStop.current += Math.PI/2;
-    // }
+    function handleClick() {
+        isMoving.current = !isMoving.current;
+    }
 
-    // useEffect(() => {
-    //     gl.domElement.addEventListener("pointerdown", handleClick);
-    //     return () => gl.domElement.removeEventListener("pointerdown", handleClick);
-    // }, [gl]);
+    useEffect(() => {
+        gl.domElement.addEventListener("pointerdown", handleClick);
+        return () => gl.domElement.removeEventListener("pointerdown", handleClick);
+    }, [gl]);
 
     return (
         <>
@@ -352,11 +349,19 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
                 orbitRef={eMOrbitRef.current}
             />
 
-            {!isMoving.current &&
+            <TextToCamera attrs={{
+                text: getPhaseText(),
+                size: allowAnimate ? "1em" : "0.75em",
+                pos: labelPos
+            }} />
+
+            {allowAnimate && !isMoving.current &&
                 <TextToCamera attrs={{
-                    text: getPhaseText(),
-                    size: "0.75em",
-                    pos: labelPos
+                    text: "Click to start\nanimation",
+                    size: allowAnimate ? "1em" : "0.75em",
+                    pos: [0, 0, 0],
+                    color: "#dddddd",
+                    style: "italic"
                 }} />
             }
         </>

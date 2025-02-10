@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 
-import { Slider } from "../three/Utils";
 import { MoonPhases, MoonRevolve, MoonQuarters, PhaseView, PhaseScene } from "../three/PhaseScenes";
 
 function Phases() {
@@ -140,7 +139,9 @@ function Phases() {
         </p>
         <p>Thus, we have all eight phases of the moon.</p>
 
-        {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0} allowAnimate={true} /> */}
+        <div className="slider-container">
+                <PhaseScene quarter={0} allowAnimate={true} />
+            </div>
         <br />
         </>
     );
