@@ -297,20 +297,25 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
     function calcLabelPos() {
         if (camRef.current) {
             let camDown = camRef.current.up.clone().multiplyScalar(-1);
-            // const pos = new THREE.Vector3(...priPos);
             const satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
-            // const dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
             const newLabelPos = new THREE.Vector3().addVectors(satPos, camDown.multiplyScalar(50));
             setLabelPos([newLabelPos.x, newLabelPos.y, newLabelPos.z]);
         }
     }
 
     function getPhaseText() {
-        const currAngle = angle % (2*Math.PI);
-        if (currAngle < Math.PI/2) return "new moon";
-        if (currAngle < Math.PI) return "first quarter";
-        if (currAngle < Math.PI*3/2) return "full moon";
-        return "third quarter";
+        let phaseNames = [
+            "new moon",
+            "waxing crescent",
+            "first quarter",
+            "waxing gibbous",
+            "full moon",
+            "waning gibbous",
+            "third quarter",
+            "waning crescent"
+        ];
+        let currAngle = angle % (2*Math.PI);
+        return phaseNames[Math.floor(currAngle / (Math.PI/4))];
     }
 
     // function handleClick() {

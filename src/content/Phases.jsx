@@ -132,7 +132,7 @@ function Phases() {
             according to their shape and their place in the cycle. The thin slice of
             moon is called a <span>crescent</span>, while the not-quite-full moon is
             called a <span>gibbous</span>. To distinguish between the crescents and
-            gibbouses, we classify them as either <span>waxing</span>&nbsp; (growing
+            gibbouses, we classify them as either <span>waxing</span> (growing
             towards full moon) or <span>waning</span> (shrinking towards new moon).
             This gives us four new phase names:&nbsp;
             <span>waxing crescent</span>, <span>waxing gibbous</span>,&nbsp;
