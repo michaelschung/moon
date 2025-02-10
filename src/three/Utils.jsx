@@ -1,7 +1,38 @@
-import React, { useRef, useEffect, forwardRef } from "react";
+import React, { useState, useRef, useEffect, forwardRef } from "react";
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html, Text } from "@react-three/drei";
+
+export function interpolate(start, end, val, specialCase=false) {
+    if (specialCase) {
+        let startVec, endVec;
+        if (val <= 0.5) {
+            startVec = new THREE.Vector3(0, 0, -1);
+            endVec = new THREE.Vector3(1, 1, 0);
+        } else {
+            startVec = new THREE.Vector3(1, 1, 0);
+            endVec = new THREE.Vector3(0, 1, 0);
+        }
+        const currVec = new THREE.Vector3().lerpVectors(startVec, endVec, (val <= 0.5) ? val * 2 : (val - 0.5) * 2);
+        return [currVec.x, currVec.y, currVec.z];
+    }
+    const startVec = new THREE.Vector3(...start);
+    const endVec = new THREE.Vector3(...end);
+    const currVec = new THREE.Vector3().lerpVectors(startVec, endVec, val);
+    return [currVec.x, currVec.y, currVec.z];
+}
+
+export const Slider = forwardRef((_, ref) => {
+    return (
+        <input
+            ref={ref}
+            type="range"
+            min="0"
+            max="100"
+            defaultValue={0}
+        />
+    );
+});
 
 export function TextToCamera({attrs}) {
     const textRef = useRef();

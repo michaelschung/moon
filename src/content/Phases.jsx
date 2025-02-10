@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 
-import { MoonPhases, MoonRevolve, MoonQuarters, PhaseView } from "../three/PhaseScenes";
+import { Slider } from "../three/Utils";
+import { MoonPhases, MoonRevolve, MoonQuarters, PhaseView, PhaseScene } from "../three/PhaseScenes";
 
 function Phases() {
     return (
@@ -70,31 +71,19 @@ function Phases() {
 
         <div className="photo-row">
             <div className="slider-container">
-                <Canvas className="sketch-container one-one with-slider">
-                    <PhaseView quarter={0} allowAnimate={false} />
-                </Canvas>
-                <input type="range" min="0" max="100" value="0" />
+                <PhaseScene quarter={0} allowAnimate={false} />
             </div>
             <div className="slider-container">
-                <Canvas className="sketch-container one-one with-slider">
-                    <PhaseView quarter={1} allowAnimate={false} />
-                </Canvas>
-                <input type="range" min="0" max="100" value="0" />
+                <PhaseScene quarter={1} allowAnimate={false} />
             </div>
         </div>
         <br />
         <div className="photo-row">
             <div className="slider-container">
-                <Canvas className="sketch-container one-one with-slider">
-                    <PhaseView quarter={2} allowAnimate={false} />
-                </Canvas>
-                <input type="range" min="0" max="100" value="0" />
+                <PhaseScene quarter={2} allowAnimate={false} />
             </div>
             <div className="slider-container">
-                <Canvas className="sketch-container one-one with-slider">
-                    <PhaseView quarter={3} allowAnimate={false} />
-                </Canvas>
-                <input type="range" min="0" max="100" value="0" />
+                <PhaseScene quarter={3} allowAnimate={false} />
             </div>
         </div>
         <br />
@@ -120,13 +109,21 @@ function Phases() {
         </p>
 
         <div className="photo-row">
-            {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={0.5} allowAnimate={false} />
-                    <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={1.5} allowAnimate={false} /> */}
+            <div className="slider-container">
+                <PhaseScene quarter={0.5} allowAnimate={false} />
+            </div>
+            <div className="slider-container">
+                <PhaseScene quarter={1.5} allowAnimate={false} />
+            </div>
         </div>
         <br />
         <div className="photo-row">
-            {/* <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={2.5} allowAnimate={false} />
-                    <Sketch sketchInstance={phaseView} containerRef={mainRef} quarter={3.5} allowAnimate={false} /> */}
+            <div className="slider-container">
+                <PhaseScene quarter={2.5} allowAnimate={false} />
+            </div>
+            <div className="slider-container">
+                <PhaseScene quarter={3.5} allowAnimate={false} />
+            </div>
         </div>
         <br />
 

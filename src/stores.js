@@ -6,6 +6,7 @@ export const createBodyStore = (pos, r, angle) =>
         r: r,
         angle: angle,
         setPos: (newPos) => set((state) => ({pos: newPos})),
+        setAngle: (newAngle) => set((state) => ({angle: newAngle})),
         rotate: () => set((state) => ({angle: state.angle + 0.01})),
     }));
 

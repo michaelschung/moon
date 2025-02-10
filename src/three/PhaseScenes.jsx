@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
-import { Sunlight, StarryBackground, Camera, TextToCamera } from "./Utils";
+import { Sunlight, StarryBackground, Camera, TextToCamera, Slider, interpolate } from "./Utils";
 import { Moon } from "./Body";
 import { Orbit } from "./Orbit";
 
@@ -209,13 +209,29 @@ export function MoonQuarters() {
     );
 }
 
-export function PhaseView({quarter, allowAnimate}) {
+export function PhaseScene({quarter, allowAnimate}) {
+    const sliderRef = useRef(null);
+    return (
+        <>
+            <Canvas className="sketch-container one-one with-slider">
+                <PhaseView
+                    quarter={quarter}
+                    allowAnimate={allowAnimate}
+                    sliderRef={sliderRef}
+                />
+            </Canvas>
+            <Slider ref={sliderRef} />
+        </>
+    );
+}
+
+export function PhaseView({quarter, allowAnimate, sliderRef}) {
     const originRef = useRef();
     const camRef = useRef();
     const eStoreRef = useRef(createBodyStore([0, 0, 0], 80, 0));
     const orbR = 300;
-    const moonStartAngle = useRef(quarter * Math.PI / 2);
-    const moonStartPos = [-orbR*Math.cos(moonStartAngle.current), 0, orbR*Math.sin(moonStartAngle.current)];
+    let moonStartAngle = useRef(quarter * Math.PI / 2);
+    let moonStartPos = [-orbR*Math.cos(moonStartAngle.current), 0, orbR*Math.sin(moonStartAngle.current)];
     const mStoreRef = useRef(createBodyStore(moonStartPos, 20, 0));
     const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, orbR, moonStartAngle.current, null));
 
@@ -226,6 +242,7 @@ export function PhaseView({quarter, allowAnimate}) {
 
     // Re-render when these change
     const setSatPos = mStoreRef.current((state) => state.setPos);
+    const setSatAngle = mStoreRef.current((state) => state.setAngle);
     const satRotate = mStoreRef.current((state) => state.rotate);
     const angle = eMOrbitRef.current((state) => state.angle);
     const revolve = eMOrbitRef.current((state) => state.revolve);
@@ -236,29 +253,56 @@ export function PhaseView({quarter, allowAnimate}) {
     const isMoving = useRef(false);
     const setOrbitAngle = eMOrbitRef.current((state) => state.setAngle);
 
+    let initLabelPos = moonStartPos.slice();
+    initLabelPos[2] += 50;
+    const [labelPos, setLabelPos] = useState(initLabelPos);
+
     useFrame(() => {
         // TODO: update this to include tilt
         if (isMoving.current) {
-            const satX = priPos[0] - r * Math.cos(angle);
-            const satY = priPos[1];
-            const satZ = priPos[2] + r * Math.sin(angle);
+            let satX = priPos[0] - r * Math.cos(angle);
+            let satY = priPos[1];
+            let satZ = priPos[2] + r * Math.sin(angle);
             setSatPos([satX, satY, satZ]);
             satRotate();
             revolve();
             isMoving.current = angle < nextStop.current;
         } else {
-            // Snap to nearest quadrantal angle
-            const nearestQuadrant = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2);
-            setOrbitAngle(nearestQuadrant);
+            // Snap to nearest semi-quadrantal angle
+            let nearestAngle = Math.round(angle / (Math.PI / 4)) * (Math.PI / 4);
+            setOrbitAngle(nearestAngle);
+            setSatAngle(nearestAngle);
+        }
+
+        if (sliderRef.current && camRef.current) {
+            let sliderVal = Number(sliderRef.current.value) / 100;
+
+            // Update camera with interpolated values
+            let pos = new THREE.Vector3(...priPos);
+            let satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
+            let dir = new THREE.Vector3().subVectors(satPos, pos).normalize();
+            let earthR = eStoreRef.current.getState().r;
+            let endVec = new THREE.Vector3().addVectors(pos, dir.multiplyScalar(earthR));
+            let endPos = [endVec.x, endVec.y, endVec.z];
+            camRef.current.position.set(...interpolate([0, 1000, 0], endPos, sliderVal));
+            let moonPos = mStoreRef.current.getState().pos;
+            camRef.current.lookAt(...interpolate([0, 0, 0], moonPos, sliderVal));
+            let specialCase = !allowAnimate && quarter === 1;
+            camRef.current.up.set(...interpolate([0, 0, -1], [0, 1, 0], sliderVal, specialCase));
+
+            calcLabelPos();
         }
     });
 
     function calcLabelPos() {
-        const pos = new THREE.Vector3(...priPos);
-        const satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
-        const dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
-        const labelPos = new THREE.Vector3().addVectors(satPos, dir.multiplyScalar(120));
-        return [labelPos.x, labelPos.y, labelPos.z];
+        if (camRef.current) {
+            let camDown = camRef.current.up.clone().multiplyScalar(-1);
+            // const pos = new THREE.Vector3(...priPos);
+            const satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
+            // const dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
+            const newLabelPos = new THREE.Vector3().addVectors(satPos, camDown.multiplyScalar(50));
+            setLabelPos([newLabelPos.x, newLabelPos.y, newLabelPos.z]);
+        }
     }
 
     function getPhaseText() {
@@ -307,7 +351,7 @@ export function PhaseView({quarter, allowAnimate}) {
                 <TextToCamera attrs={{
                     text: getPhaseText(),
                     size: "0.75em",
-                    pos: calcLabelPos()
+                    pos: labelPos
                 }} />
             }
         </>
