@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, forwardRef } from "react";
 import * as THREE from "three";
 import { useFrame, useThree, useLoader } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
-import { Text } from "troika-three-text";
 
 export function interpolate(start, end, val, specialCase=false) {
     if (specialCase) {

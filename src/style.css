@@ -92,10 +92,9 @@ input {
     opacity: 1;
 }
 
-/* .slider-container {
-    margin: -1em 0 -2em;
-    padding: 0;
-} */
+.slider-container {
+    width: 100%;
+}
 
 .one-one {
     aspect-ratio: 1 / 1;
@@ -106,7 +105,7 @@ input {
 }
 
 .caption {
-    color: rgb(200, 200, 200);
+    color: #c8c8c8;
     font-size: 0.5em;
     font-style: italic;
     position: relative;
@@ -114,6 +113,20 @@ input {
     top: -1em;
     width:fit-content;
     transform: translate(-105%, 0);
+}
+
+.instructions {
+    color: #ddd;
+    height: 0;
+    text-align: center;
+    z-index: 100;
+    position: relative;
+    top: 1em;
+    font-style: italic;
+}
+
+.hidden {
+    display: none;
 }
 
 .solution {
@@ -128,7 +141,7 @@ input {
 }
 
 .text2D {
-    color: white;
+    color: #fff;
     font-size: 20px;
     text-align: center;
     white-space: nowrap;

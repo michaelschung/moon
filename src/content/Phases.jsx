@@ -140,8 +140,9 @@ function Phases() {
         <p>Thus, we have all eight phases of the moon.</p>
 
         <div className="slider-container">
-                <PhaseScene quarter={0} allowAnimate={true} />
-            </div>
+            <div id="all-phases-instr" className="instructions">Click to start animation</div>
+            <PhaseScene quarter={0} allowAnimate={true} />
+        </div>
         <br />
         </>
     );

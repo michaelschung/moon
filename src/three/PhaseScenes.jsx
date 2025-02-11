@@ -320,6 +320,9 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
 
     function handleClick() {
         isMoving.current = !isMoving.current;
+        if (allowAnimate) {
+            document.getElementById("all-phases-instr").classList.toggle("hidden");
+        }
     }
 
     useEffect(() => {
@@ -355,7 +358,7 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
                 pos: labelPos
             }} />
 
-            {allowAnimate && !isMoving.current &&
+            {/* {allowAnimate && !isMoving.current &&
                 <TextToCamera attrs={{
                     text: "Click to start\nanimation",
                     size: allowAnimate ? "1em" : "0.75em",
@@ -363,7 +366,7 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
                     color: "#dddddd",
                     style: "italic",
                 }} />
-            }
+            } */}
         </>
     );
 }
