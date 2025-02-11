@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree, Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
 import {
@@ -8,7 +7,6 @@ import {
     StarryBackground,
     Camera,
     TextToCamera,
-    Text2D,
     Slider,
     interpolate
 } from "./Utils";

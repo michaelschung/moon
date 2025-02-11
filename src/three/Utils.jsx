@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, forwardRef } from "react";
+import React, { useRef, useEffect, forwardRef } from "react";
 import * as THREE from "three";
-import { useFrame, useThree, useLoader } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
 
 export function interpolate(start, end, val, specialCase=false) {
@@ -33,27 +33,6 @@ export const Slider = forwardRef((_, ref) => {
         />
     );
 });
-
-export function Text2D({attrs}) {
-    const textRef = useRef();
-
-    return (
-        <Html position={attrs.pos} ref={textRef}>
-            <div className="text2D" style={{
-                fontSize: attrs.size || "1em",
-                fontStyle: attrs.style || "normal",
-                color: attrs.color || "white"
-            }}>
-                {attrs.text.split("\n").map((line, index) => (
-                    <React.Fragment key={index}>
-                        {line}
-                        {index < attrs.text.length - 1 && <br />}
-                    </React.Fragment>
-                ))}
-            </div>
-        </Html>
-    );
-}
 
 export function TextToCamera({attrs}) {
     const textRef = useRef();
