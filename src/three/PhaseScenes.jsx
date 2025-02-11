@@ -27,7 +27,7 @@ export function MoonPhases() {
     const rotate = moonStoreRef.current((state) => state.rotate);
 
     useFrame(() => {
-        rotate();
+        rotate(0.01);
     });
 
     return (
@@ -82,8 +82,8 @@ export function MoonRevolve() {
         const satY = priPos[1];
         const satZ = priPos[2] + r * Math.sin(angle);
         setSatPos([satX, satY, satZ]);
-        satRotate();
-        revolve();
+        satRotate(0.01);
+        revolve(0.01);
     });
 
     return (
@@ -149,8 +149,8 @@ export function MoonQuarters() {
             const satY = priPos[1];
             const satZ = priPos[2] + r * Math.sin(angle);
             setSatPos([satX, satY, satZ]);
-            satRotate();
-            revolve();
+            satRotate(0.01);
+            revolve(0.01);
             isMoving.current = angle < nextStop.current;
         } else {
             // Snap to nearest quadrantal angle
@@ -253,7 +253,7 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
     const orbR = 300;
     let moonStartAngle = useRef(quarter * Math.PI / 2);
     let moonStartPos = [-orbR*Math.cos(moonStartAngle.current), 0, orbR*Math.sin(moonStartAngle.current)];
-    const mStoreRef = useRef(createBodyStore(moonStartPos, 20, 0));
+    const mStoreRef = useRef(createBodyStore(moonStartPos, 20, moonStartAngle.current));
     const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, orbR, moonStartAngle.current, null));
 
     // No re-rendering needed
@@ -282,8 +282,8 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
             let satY = priPos[1];
             let satZ = priPos[2] + r * Math.sin(angle);
             setSatPos([satX, satY, satZ]);
-            satRotate();
-            revolve();
+            satRotate(0.01);
+            revolve(0.01);
         }
 
         if (sliderRef.current && camRef.current) {

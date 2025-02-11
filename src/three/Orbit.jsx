@@ -8,21 +8,22 @@ import { TextToCamera } from "./Utils";
 // lvl: 0 is Earth/Moon, 1 is Sun/Earth
 export function Orbit({lvl, pos, orbitRef, showPrimary}) {
     const orbitState = orbitRef.getState();
-    const revAngle = orbitState.angle;
     const satPos = orbitState.satStore.getState().pos;
     const satAngle = orbitState.satStore.getState().angle;
 
     return (lvl === 0)
         ? (
             <>
-                <Earth pos={pos} angle={0} />
+                {showPrimary &&
+                    <Earth pos={pos} angle={0} />
+                }
                 <Moon pos={satPos} angle={satAngle} />
             </>
         )
         : (
             <>
                 <Sun pos={pos} angle={0} />
-                <Earth pos={pos} angle={0} />
+                <Earth pos={satPos} angle={satAngle} />
             </>
         );
 }

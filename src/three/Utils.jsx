@@ -3,6 +3,13 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
 
+export function calcSatPos(pos, r, angle) {
+    let x = pos.x - r * Math.cos(angle);
+    let y = pos.y;
+    let z = pos.z + r * Math.sin(angle);
+    return [x, y, z];
+}
+
 export function toggleInstructions(id, auto=false) {
     const domElement = document.getElementById(id);
     let currHidden = domElement.classList.contains("hidden");
@@ -93,7 +100,7 @@ export const Camera = forwardRef(({attrs}, ref) => {
             position={attrs.pos}
             fov={attrs.fov}
             near={0.1}
-            far={2000}
+            far={2400}
         />
     );
 });
@@ -108,7 +115,7 @@ export function Sunlight({pos, targetRef, brightness, shadows, ambient}) {
                 shadow-mapSize-width={mapSize}
                 shadow-mapSize-height={mapSize}
                 shadow-camera-near={0.5}
-                shadow-camera-far={1000}
+                shadow-camera-far={1200}
                 shadow-camera-left={-camBound}
                 shadow-camera-right={camBound}
                 shadow-camera-top={camBound}
@@ -128,7 +135,7 @@ export function StarryBackground() {
 
     return (
         <mesh position={[0, 0, 0]}>
-            <sphereGeometry args={[1000, 32, 32]} />
+            <sphereGeometry args={[1200, 32, 32]} />
             <meshBasicMaterial
                 map={texture}
                 side={THREE.BackSide}

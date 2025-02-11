@@ -7,7 +7,7 @@ export const createBodyStore = (pos, r, angle) =>
         angle: angle,
         setPos: (newPos) => set((state) => ({pos: newPos})),
         setAngle: (newAngle) => set((state) => ({angle: newAngle})),
-        rotate: () => set((state) => ({angle: state.angle + 0.01})),
+        rotate: (rate) => set((state) => ({angle: state.angle + rate})),
     }));
 
 export const createOrbitStore = (primaryStore, satelliteStore, r, angle, tilt) =>
@@ -18,5 +18,5 @@ export const createOrbitStore = (primaryStore, satelliteStore, r, angle, tilt) =
         angle: angle,
         tilt: tilt,
         setAngle: (newAngle) => set((state) => ({angle: newAngle})),
-        revolve: () => set((state) => ({angle: state.angle + 0.01})),
+        revolve: (rate) => set((state) => ({angle: state.angle + rate})),
     }));

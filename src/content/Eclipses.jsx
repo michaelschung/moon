@@ -1,6 +1,6 @@
 import React from "react";
 
-import { EclipseScene } from "../three/EclipseScenes";
+import { AllEclipticScene, EclipseScene } from "../three/EclipseScenes";
 
 function Eclipses() {
     return (
@@ -40,7 +40,11 @@ function Eclipses() {
                 Take a look at this setup of the Sun, Earth, and Moon.
             </p>
 
-            <div id="allEcliptic" className="sketch-container"></div>
+            <div className="slider-container">
+                <div id="ecliptic-instr1" className="instructions top">Click to start animation</div>
+                <AllEclipticScene tilt={false} />
+                <div id="ecliptic-instr2" className="instructions bottom">(Sizes and distances not to scale)</div>
+            </div>
             <br />
 
             <p>
