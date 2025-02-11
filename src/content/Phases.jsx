@@ -53,9 +53,12 @@ function Phases() {
             quarter.
         </p>
 
-        <Canvas className="sketch-container one-one">
-            <MoonQuarters />
-        </Canvas>
+        <div>
+            <div id="next-quarter-instr" className="instructions no-slider">Click for next quarter</div>
+            <Canvas className="sketch-container one-one">
+                <MoonQuarters />
+            </Canvas>
+        </div>
 
         <p>
             Not coincidentally, these are four of the phases of the moon:&nbsp;

@@ -3,6 +3,14 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
 
+export function toggleInstructions(id, auto=false) {
+    const domElement = document.getElementById(id);
+    let currHidden = domElement.classList.contains("hidden");
+    if (!auto || currHidden) {
+        domElement.classList.toggle("hidden");
+    }
+}
+
 export function interpolate(start, end, val, specialCase=false) {
     if (specialCase) {
         let startVec, endVec;

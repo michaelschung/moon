@@ -125,6 +125,11 @@ input {
     font-style: italic;
 }
 
+.instructions.no-slider {
+    margin-top: -1em;
+    top: 2em;
+}
+
 .hidden {
     display: none;
 }

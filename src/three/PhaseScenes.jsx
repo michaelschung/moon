@@ -8,7 +8,8 @@ import {
     Camera,
     TextToCamera,
     Slider,
-    interpolate
+    interpolate,
+    toggleInstructions
 } from "./Utils";
 import { Moon } from "./Body";
 import { Orbit } from "./Orbit";
@@ -108,8 +109,8 @@ export function MoonQuarters() {
     const originRef = useRef();
     const camRef = useRef();
     const eStoreRef = useRef(createBodyStore([0, 0, 0], 80, 0));
-    const mStoreRef = useRef(createBodyStore([-400, 0, 0], 20, 0));
-    const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, 400, 0, null));
+    const mStoreRef = useRef(createBodyStore([-350, 0, 0], 20, 0));
+    const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, 350, 0, null));
 
     // No re-rendering needed
     const orbitState = eMOrbitRef.current.getState();
@@ -142,6 +143,7 @@ export function MoonQuarters() {
             // Snap to nearest quadrantal angle
             const nearestQuadrant = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2);
             setOrbitAngle(nearestQuadrant);
+            toggleInstructions("next-quarter-instr", true);
         }
     });
 
@@ -167,6 +169,7 @@ export function MoonQuarters() {
         if (isMoving.current) return;
         isMoving.current = true;
         nextStop.current += Math.PI/2;
+        toggleInstructions("next-quarter-instr");
     }
 
     useEffect(() => {
@@ -197,19 +200,10 @@ export function MoonQuarters() {
             />
 
             {!isMoving.current &&
-                <>
-                    <TextToCamera attrs={{
-                        text: "Click for\nnext quarter",
-                        pos: [0, 0, 0],
-                        color: "#dddddd",
-                        style: "italic"
-                    }} />
-
-                    <TextToCamera attrs={{
-                        text: getPhaseText(),
-                        pos: calcLabelPos()
-                    }} />
-                </>
+                <TextToCamera attrs={{
+                    text: getPhaseText(),
+                    pos: calcLabelPos()
+                }} />
             }
         </>
     );
@@ -319,7 +313,7 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
     function handleClick() {
         isMoving.current = !isMoving.current;
         if (allowAnimate) {
-            document.getElementById("all-phases-instr").classList.toggle("hidden");
+            toggleInstructions("all-phases-instr");
         }
     }
 
@@ -355,16 +349,6 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
                 size: allowAnimate ? "1em" : "0.75em",
                 pos: labelPos
             }} />
-
-            {/* {allowAnimate && !isMoving.current &&
-                <TextToCamera attrs={{
-                    text: "Click to start\nanimation",
-                    size: allowAnimate ? "1em" : "0.75em",
-                    pos: [0, 100, 0],
-                    color: "#dddddd",
-                    style: "italic",
-                }} />
-            } */}
         </>
     );
 }
