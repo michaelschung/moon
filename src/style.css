@@ -68,7 +68,7 @@ input {
     gap: 1%;
 }
 
-.photo-row > * {
+.photo-row > div {
     flex: 1;
     aspect-ratio: 1 / 1;
     min-width: 0;
@@ -104,6 +104,10 @@ input {
     aspect-ratio: 3 / 2;
 }
 
+.three-one {
+    aspect-ratio: 3 / 1;
+}
+
 .caption {
     color: #c8c8c8;
     font-size: 0.5em;
@@ -116,13 +120,20 @@ input {
 }
 
 .instructions {
-    color: #ddd;
+    color: #ccc;
     height: 0;
     text-align: center;
     z-index: 100;
     position: relative;
-    top: 1em;
     font-style: italic;
+}
+
+.instructions.top {
+    top: 1em;
+}
+
+.instructions.bottom {
+    bottom: 5em;
 }
 
 .instructions.no-slider {

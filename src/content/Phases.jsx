@@ -54,7 +54,7 @@ function Phases() {
         </p>
 
         <div>
-            <div id="next-quarter-instr" className="instructions no-slider">Click for next quarter</div>
+            <div id="next-quarter-instr" className="instructions top no-slider">Click for next quarter</div>
             <Canvas className="sketch-container one-one">
                 <MoonQuarters />
             </Canvas>
@@ -143,7 +143,7 @@ function Phases() {
         <p>Thus, we have all eight phases of the moon.</p>
 
         <div className="slider-container">
-            <div id="all-phases-instr" className="instructions">Click to start animation</div>
+            <div id="all-phases-instr" className="instructions top">Click to start animation</div>
             <PhaseScene quarter={0} allowAnimate={true} />
         </div>
         <br />
