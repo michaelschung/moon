@@ -30,7 +30,10 @@ function Eclipses() {
                 becomes blocked from view.
             </p>
 
-            <div id="solarEclipse" className="sketch-container"></div>
+            <div className="slider-container">
+                <EclipseScene type={"solar"} />
+                <div id="solar-eclipse-instr" className="instructions bottom">(Sizes and distances not to scale)</div>
+            </div>
             <br />
 
             <p>

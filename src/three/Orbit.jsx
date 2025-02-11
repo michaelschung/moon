@@ -6,7 +6,7 @@ import { Moon, Earth, Sun } from "./Body";
 import { TextToCamera } from "./Utils";
 
 // lvl: 0 is Earth/Moon, 1 is Sun/Earth
-export function Orbit({lvl, pos, orbitRef}) {
+export function Orbit({lvl, pos, orbitRef, showPrimary}) {
     const orbitState = orbitRef.getState();
     const revAngle = orbitState.angle;
     const satPos = orbitState.satStore.getState().pos;

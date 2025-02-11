@@ -30,14 +30,14 @@ export function interpolate(start, end, val, specialCase=false) {
     return [currVec.x, currVec.y, currVec.z];
 }
 
-export const Slider = forwardRef((_, ref) => {
+export const Slider = forwardRef((props, ref) => {
     return (
         <input
             ref={ref}
             type="range"
             min="0"
             max="100"
-            defaultValue={0}
+            defaultValue={props.defaultVal}
         />
     );
 });
@@ -98,16 +98,27 @@ export const Camera = forwardRef(({attrs}, ref) => {
     );
 });
 
-export function Sunlight({targetRef, brightness}) {
+export function Sunlight({pos, targetRef, brightness, shadows, ambient}) {
+    let mapSize = 256;
+    let camBound = 1000;
     return (
         <>
             <directionalLight
+                castShadow={shadows}
+                shadow-mapSize-width={mapSize}
+                shadow-mapSize-height={mapSize}
+                shadow-camera-near={0.5}
+                shadow-camera-far={1000}
+                shadow-camera-left={-camBound}
+                shadow-camera-right={camBound}
+                shadow-camera-top={camBound}
+                shadow-camera-bottom={-camBound}
                 color="#ffffff"
                 intensity={brightness}
-                position={[-1, 0, 0]}
+                position={pos}
                 target={targetRef.current}
             />
-            <ambientLight color="#ffffff" intensity={0.1} />
+            <ambientLight color="#ffffff" intensity={ambient} />
         </>
     );
 }

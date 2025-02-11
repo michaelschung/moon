@@ -34,7 +34,13 @@ export function MoonPhases() {
         <>
             <object3D ref={originRef} position={[0, 0, 0]} />
             <StarryBackground />
-            <Sunlight targetRef={originRef} brightness={5} />
+            <Sunlight
+                pos={[-1, 0, 0]}
+                targetRef={originRef}
+                brightness={5}
+                shadows={false}
+                ambient={0.1}
+            />
 
             <Camera
                 ref={camRef}
@@ -84,7 +90,13 @@ export function MoonRevolve() {
         <>
             <object3D ref={originRef} position={[0, 0, 0]} />
             <StarryBackground />
-            <Sunlight targetRef={originRef} brightness={5} />
+            <Sunlight
+                pos={[-1, 0, 0]}
+                targetRef={originRef}
+                brightness={5}
+                shadows={false}
+                ambient={0.1}
+            />
 
             <Camera
                 ref={camRef}
@@ -100,6 +112,7 @@ export function MoonRevolve() {
                 lvl={0}
                 pos={[0, 0, 0]}
                 orbitRef={eMOrbitRef.current}
+                showPrimary={true}
             />
         </>
     );
@@ -181,7 +194,13 @@ export function MoonQuarters() {
         <>
             <object3D ref={originRef} position={[0, 0, 0]} />
             <StarryBackground />
-            <Sunlight targetRef={originRef} brightness={5} />
+            <Sunlight
+                pos={[-1, 0, 0]}
+                targetRef={originRef}
+                brightness={5}
+                shadows={false}
+                ambient={0.1}
+            />
 
             <Camera
                 ref={camRef}
@@ -197,6 +216,7 @@ export function MoonQuarters() {
                 lvl={0}
                 pos={[0, 0, 0]}
                 orbitRef={eMOrbitRef.current}
+                showPrimary={true}
             />
 
             {!isMoving.current &&
@@ -220,7 +240,7 @@ export function PhaseScene({quarter, allowAnimate}) {
                     sliderRef={sliderRef}
                 />
             </Canvas>
-            <Slider ref={sliderRef} />
+            <Slider ref={sliderRef} defaultVal={0} />
         </>
     );
 }
@@ -326,7 +346,13 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
         <>
             <object3D ref={originRef} position={[0, 0, 0]} />
             <StarryBackground />
-            <Sunlight targetRef={originRef} brightness={5} />
+            <Sunlight
+                pos={[-1, 0, 0]}
+                targetRef={originRef}
+                brightness={5}
+                shadows={false}
+                ambient={0.1}
+            />
 
             <Camera
                 ref={camRef}
@@ -342,6 +368,7 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
                 lvl={0}
                 pos={[0, 0, 0]}
                 orbitRef={eMOrbitRef.current}
+                showPrimary={true}
             />
 
             <TextToCamera attrs={{
