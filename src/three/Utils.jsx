@@ -3,6 +3,15 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
 
+export function getQuaternion(targetNorm) {
+    // Default normal for shapes is xy-plane
+    const defaultNorm = new THREE.Vector3(0, 0, 1);
+    const quat = new THREE.Quaternion();
+    // Compute rotation needed to align defaultNorm to targetNorm
+    quat.setFromUnitVectors(defaultNorm, targetNorm);
+    return quat;
+}
+
 export function calcSatPos(pos, r, angle, tilt=new THREE.Vector3(0, 1, 0)) {
     let nHat = tilt.clone();
     let w = new THREE.Vector3(1, 0, 0);
@@ -39,6 +48,22 @@ export function interpolate(start, end, val, specialCase=false) {
     const endVec = new THREE.Vector3(...end);
     const currVec = new THREE.Vector3().lerpVectors(startVec, endVec, val);
     return [currVec.x, currVec.y, currVec.z];
+}
+
+export function Disk({pos, quat, r, color, opacity=0.4, segments=50}) {
+    const geometry = useMemo(() => new THREE.CircleGeometry(r, segments), [r, segments]);
+
+    return (
+        <mesh geometry={geometry} position={pos} quaternion={quat}>
+            {/* <circleGeometry args={[r, segments]} /> */}
+            <meshBasicMaterial
+                attach="material"
+                color={color}
+                transparent={true}
+                opacity={opacity}
+            />
+        </mesh>
+    );
 }
 
 export function Circle({pos, quat, r, color, segments=50}) {

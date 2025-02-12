@@ -1,9 +1,7 @@
-import { useRef, useState, useMemo } from "react";
+import { useMemo } from "react";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
-import { useTexture } from "@react-three/drei";
 import { Moon, Earth, Sun } from "./Body";
-import { TextToCamera, Circle } from "./Utils";
+import { Circle, getQuaternion } from "./Utils";
 
 // lvl: 0 is Earth/Moon, 1 is Sun/Earth
 export function Orbit({lvl, pos, orbitRef, showPrimary, showOrbit=true}) {
@@ -16,18 +14,10 @@ export function Orbit({lvl, pos, orbitRef, showPrimary, showOrbit=true}) {
     const priPos = orbitState.priStore((state) => state.pos);
     const priAngle = orbitState.priStore.getState().angle;
 
-    const quaternion = useMemo(() => {
-        // Circle is by default in xy-plane
-        const defaultNormal = new THREE.Vector3(0, 0, 1);
-        const targetNormal = (tilt)
-            ? tilt.clone().normalize()
-            : new THREE.Vector3(0, 1, 0);
-        const quat = new THREE.Quaternion();
-        
-        // Compute the rotation needed to align defaultNormal to targetNormal
-        quat.setFromUnitVectors(defaultNormal, targetNormal);
-        return quat;
-    }, [tilt]);
+    let targetNorm = (tilt)
+        ? tilt.clone().normalize()
+        : new THREE.Vector3(0, 1, 0);
+    const quaternion = useMemo(() => getQuaternion(targetNorm));
 
     return (lvl === 0)
         ? (

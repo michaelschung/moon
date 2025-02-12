@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -6,11 +6,12 @@ import {
     Sunlight,
     StarryBackground,
     Camera,
-    TextToCamera,
     Slider,
+    Disk,
     interpolate,
     toggleInstructions,
-    calcSatPos
+    calcSatPos,
+    getQuaternion
 } from "./Utils";
 import { Moon } from "./Body";
 import { Orbit } from "./Orbit";
@@ -44,7 +45,7 @@ export function Eclipse({isLunar, sliderRef}) {
 
     const sStoreRef = useRef(createBodyStore([sunX, 0, 0], 150, 0));
     const eStoreRef = useRef(createBodyStore([earthX, 0, 0], 80, 0));
-    const mStoreRef = useRef(createBodyStore([moonX, 0, 0], 20, Math.PI));
+    const mStoreRef = useRef(createBodyStore([moonX, 0, 0], 20, isLunar ? Math.PI: 0));
 
     const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, eMR, mStartAngle.current, null));
     const sEOrbitRef = useRef(createOrbitStore(sStoreRef.current, eStoreRef.current, sER, eStartAngle.current, null));
@@ -139,7 +140,6 @@ export function AllEcliptic({sliderRef, tilt}) {
     let sER = 800;
     let earthX = sunX + sER;
     let eMR = 300;
-    let moonX = earthX - eMR;
 
     let eStartAngle = useRef(Math.PI);
     let mStartAngle = useRef(0);
@@ -215,6 +215,9 @@ export function AllEcliptic({sliderRef, tilt}) {
         return () => gl.domElement.removeEventListener("pointerdown", handleClick);
     }, [gl]);
 
+    let targetNorm = new THREE.Vector3(0, 1, 0);
+    const eclipticQuat = useMemo(() => getQuaternion(targetNorm));
+
     return (
         <>
             <object3D ref={originRef} position={[0, 0, 0]} />
@@ -249,6 +252,14 @@ export function AllEcliptic({sliderRef, tilt}) {
                 pos={[earthX, 0, 0]}
                 orbitRef={eMOrbitRef.current}
                 showPrimary={false}
+            />
+
+            <Disk
+                pos={[0, 0, 0]}
+                quat={eclipticQuat}
+                r={sER+eMR*1.2}
+                color={"#0096ff"}
+                opacity={0.15}
             />
         </>
     );
