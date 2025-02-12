@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useTexture } from "@react-three/drei";
 
 function Body({attrs}) {

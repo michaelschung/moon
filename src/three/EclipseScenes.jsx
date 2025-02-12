@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -13,9 +13,7 @@ import {
     calcSatPos,
     getQuaternion
 } from "./Utils";
-import { Moon } from "./Body";
 import { Orbit } from "./Orbit";
-
 import { createBodyStore, createOrbitStore } from "../stores";
 
 export function EclipseScene({type}) {
