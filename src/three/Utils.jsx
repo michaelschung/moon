@@ -1,13 +1,17 @@
-import React, { useRef, useEffect, forwardRef } from "react";
+import React, { useRef, useEffect, useMemo, forwardRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
 
-export function calcSatPos(pos, r, angle) {
-    let x = pos.x - r * Math.cos(angle);
-    let y = pos.y;
-    let z = pos.z + r * Math.sin(angle);
-    return [x, y, z];
+export function calcSatPos(pos, r, angle, tilt=new THREE.Vector3(0, 1, 0)) {
+    let nHat = tilt.clone();
+    let w = new THREE.Vector3(1, 0, 0);
+    let uHat = nHat.clone().cross(w).normalize();
+    let vHat = nHat.clone().cross(uHat).normalize();
+    let rSinUHat = uHat.multiplyScalar(-r * Math.sin(angle));
+    let rCosVHat = vHat.multiplyScalar(r * Math.cos(angle));
+    let satPos = pos.clone().add(rSinUHat).add(rCosVHat);
+    return [satPos.x, satPos.y, satPos.z];
 }
 
 export function toggleInstructions(id, auto=false) {
@@ -35,6 +39,28 @@ export function interpolate(start, end, val, specialCase=false) {
     const endVec = new THREE.Vector3(...end);
     const currVec = new THREE.Vector3().lerpVectors(startVec, endVec, val);
     return [currVec.x, currVec.y, currVec.z];
+}
+
+export function Circle({pos, quat, r, color, segments=50}) {
+    const geometry = useMemo(() => {
+        const curve = new THREE.EllipseCurve(
+            0, 0,           // coords
+            r, r,           // radii
+            0, 2*Math.PI,   // start, end
+            false,          // clockwise
+            0               // rotation
+        );
+        const points = curve.getPoints(segments);
+        return new THREE.BufferGeometry().setFromPoints(points);
+    }, [r, segments]);
+  
+    return (
+        <group position={pos} quaternion={quat}>
+            <line geometry={geometry}>
+                <lineBasicMaterial attach="material" color={color} />
+            </line>
+        </group>
+    );
 }
 
 export const Slider = forwardRef((props, ref) => {

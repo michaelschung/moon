@@ -41,9 +41,9 @@ function Eclipses() {
             </p>
 
             <div className="slider-container">
-                <div id="ecliptic-instr1" className="instructions top">Click to start animation</div>
+                <div id="ecliptic-instr1-1" className="instructions top">Click to start animation</div>
                 <AllEclipticScene tilt={false} />
-                <div id="ecliptic-instr2" className="instructions bottom">(Sizes and distances not to scale)</div>
+                <div id="ecliptic-instr1-2" className="instructions bottom">(Sizes and distances not to scale)</div>
             </div>
             <br />
 
@@ -65,7 +65,11 @@ function Eclipses() {
                 solar eclipses and the new moon.
             </p>
 
-            <div id="moonTilt" className="sketch-container"></div>
+            <div className="slider-container">
+                <div id="ecliptic-instr2-1" className="instructions top">Click to start animation</div>
+                <AllEclipticScene tilt={true} />
+                <div id="ecliptic-instr2-2" className="instructions bottom">(Sizes and distances not to scale)</div>
+            </div>
             <br />
 
             <p>

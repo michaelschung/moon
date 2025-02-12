@@ -110,6 +110,7 @@ export function LunarEclipse({sliderRef}) {
                 pos={[earthX, 0, 0]}
                 orbitRef={eMOrbitRef.current}
                 showPrimary={false}
+                showOrbit={false}
             />
         </>
     );
@@ -185,6 +186,7 @@ export function SolarEclipse({sliderRef}) {
                 pos={[earthX, 0, 0]}
                 orbitRef={eMOrbitRef.current}
                 showPrimary={false}
+                showOrbit={false}
             />
         </>
     );
@@ -210,17 +212,25 @@ export function AllEcliptic({sliderRef, tilt}) {
     let sunX = 0;
     let sER = 800;
     let earthX = sunX + sER;
-    let eMR = 250;
+    let eMR = 300;
     let moonX = earthX - eMR;
 
     let eStartAngle = useRef(Math.PI);
     let mStartAngle = useRef(0);
 
+    let moonTiltAngle = 20 * Math.PI/180;
+    let moonTiltVec = new THREE.Vector3(
+        tilt ? -Math.sin(moonTiltAngle) : 0,
+        tilt ? Math.cos(moonTiltAngle) : 1,
+        0
+    );
+
     const sStoreRef = useRef(createBodyStore([sunX, 0, 0], 100, 0));
     const eStoreRef = useRef(createBodyStore([earthX, 0, 0], 80, 0));
-    const mStoreRef = useRef(createBodyStore([moonX, 0, 0], 20, 0));
+    let mInitPos = calcSatPos(new THREE.Vector3(earthX, 0, 0), eMR, 0, moonTiltVec);
+    const mStoreRef = useRef(createBodyStore(mInitPos, 20, 0));
 
-    const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, eMR, mStartAngle.current, null));
+    const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, eMR, mStartAngle.current, moonTiltVec));
     const sEOrbitRef = useRef(createOrbitStore(sStoreRef.current, eStoreRef.current, sER, eStartAngle.current, null));
 
     const setMoonPos = mStoreRef.current((state) => state.setPos);
@@ -243,7 +253,7 @@ export function AllEcliptic({sliderRef, tilt}) {
         lightPos.current = ePos.clone().normalize().multiplyScalar(-1);
 
         if (isMoving.current) {
-            setMoonPos(calcSatPos(ePos, eMR, moonAngle));
+            setMoonPos(calcSatPos(ePos, eMR, moonAngle, moonTiltVec));
             moonRotate(0.05);
             moonRevolve(0.05);
             setEarthPos(calcSatPos(sPos, sER, earthAngle));
@@ -267,7 +277,8 @@ export function AllEcliptic({sliderRef, tilt}) {
 
     function handleClick() {
         isMoving.current = !isMoving.current;
-        toggleInstructions("ecliptic-instr1");
+        let version = !tilt ? 1 : 2;
+        toggleInstructions(`ecliptic-instr${version}-1`);
     }
 
     useEffect(() => {
