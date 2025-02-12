@@ -1,5 +1,7 @@
 import React from "react";
 
+import { TimeScene } from "../three/FOVScenes";
+
 function FieldOfView() {
     return (
         <>
@@ -30,7 +32,10 @@ function FieldOfView() {
                 with the Sun, or by night when the Moon is below the horizon.
             </p>
 
-            <div id="timeViewNew" className="sketch-container"></div>
+            <div className="slider-container">
+                <TimeScene type={"new"} />
+                <div id="time-new-instr" className="instructions bottom small">(Sizes and distances not to scale)</div>
+            </div>
             <br />
 
             <p>
@@ -55,7 +60,10 @@ function FieldOfView() {
                 The opposite happens during full moon.
             </p>
 
-            <div id="timeViewFull" className="sketch-container"></div>
+            <div className="slider-container">
+                <TimeScene type={"full"} />
+                <div id="time-full-instr" className="instructions bottom small">(Sizes and distances not to scale)</div>
+            </div>
             <br />
 
             <p>

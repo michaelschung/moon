@@ -50,6 +50,15 @@ export function interpolate(start, end, val, specialCase=false) {
     return [currVec.x, currVec.y, currVec.z];
 }
 
+export function Person({pos, quat}) {
+    return (
+        <mesh position={pos} quaternion={quat}>
+            <sphereGeometry args={[5, 32, 32]} />
+            <meshBasicMaterial attach="material" color={"red"} />
+        </mesh>
+    );
+}
+
 export function Disk({pos, quat, r, color, opacity=0.4, segments=50}) {
     const geometry = useMemo(() => new THREE.CircleGeometry(r, segments), [r, segments]);
 
@@ -61,6 +70,7 @@ export function Disk({pos, quat, r, color, opacity=0.4, segments=50}) {
                 color={color}
                 transparent={true}
                 opacity={opacity}
+                side={THREE.DoubleSide}
             />
         </mesh>
     );

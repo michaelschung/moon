@@ -138,6 +138,11 @@ input {
     bottom: 5em;
 }
 
+.instructions.small {
+    font-size: 0.75em;
+    bottom: 6em;
+}
+
 .instructions.no-slider {
     margin-top: -1em;
     top: 2em;
