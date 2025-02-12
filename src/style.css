@@ -61,6 +61,14 @@ input {
     margin: 1em 0 0 !important;
 }
 
+header {
+    margin-top: 2em;
+}
+
+footer {
+    margin-bottom: 2em;
+}
+
 .photo-row {
     display: flex;
     flex-direction: row;
