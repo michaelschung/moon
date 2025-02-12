@@ -17,6 +17,27 @@ import {
 import { Orbit } from "./Orbit";
 import { createBodyStore, createOrbitStore } from "../stores";
 
+function getTimeText(angle) {
+    angle %= 2*Math.PI;
+    
+    const minsInDay = 24 * 60;
+    const totalCurrMins = Math.round(minsInDay * angle/(2*Math.PI));
+
+    let hour = Math.floor(totalCurrMins / 60);
+    let min = totalCurrMins % 60;
+    let minStr = min.toString().padStart(2, "0");
+
+    let meridian = hour < 12 ? "PM" : "AM";
+    hour %= 12;
+    if (hour === 0) hour = 12;
+
+    let extra = "";
+    if (angle === 0) extra = "<br>(noon)"
+    else if (angle === Math.PI) extra = "<br>(midnight)";
+
+    return `${hour}:${minStr} ${meridian}${extra}`;
+}
+
 export function TimeScene({type}) {
     const sliderRef = useRef(null);
     return (
@@ -93,6 +114,9 @@ export function TimeView({type, sliderRef}) {
             let newFovNorm = new THREE.Vector3(...newPersonPos).sub(ePos).normalize();
             setFovQuat(getQuaternion(newFovNorm));
             setEarthRotate(angleDelta);
+
+            const timeLabel = document.getElementById(`time-${type}-label`);
+            timeLabel.innerHTML = getTimeText(initPersonAngle + angleDelta);
         }
     });
 

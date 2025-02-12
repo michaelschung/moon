@@ -33,6 +33,7 @@ function FieldOfView() {
             </p>
 
             <div className="slider-container">
+                <div id="time-new-label" className="instructions top small">12:00 AM</div>
                 <TimeScene type={"new"} />
                 <div id="time-new-instr" className="instructions bottom small">(Sizes and distances not to scale)</div>
             </div>
@@ -61,6 +62,7 @@ function FieldOfView() {
             </p>
 
             <div className="slider-container">
+                <div id="time-full-label" className="instructions top small">12:00 PM</div>
                 <TimeScene type={"full"} />
                 <div id="time-full-instr" className="instructions bottom small">(Sizes and distances not to scale)</div>
             </div>
