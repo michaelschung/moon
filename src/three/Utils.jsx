@@ -3,6 +3,14 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
 
+export function arrToVec(arr) {
+    return new THREE.Vector3(...arr);
+}
+
+export function vecToArr(vec) {
+    return [vec.x, vec.y, vec.z];
+}
+
 export function getQuaternion(targetNorm) {
     // Default normal for shapes is xy-plane
     const defaultNorm = new THREE.Vector3(0, 0, 1);
@@ -106,8 +114,8 @@ export const Slider = forwardRef((props, ref) => {
             ref={ref}
             type="range"
             min="0"
-            max="100"
-            defaultValue={props.defaultVal}
+            max={props.max || 100}
+            defaultValue={props.defaultVal || 0}
             className={classList.join(" ")}
         />
     );
@@ -164,7 +172,7 @@ export const Camera = forwardRef(({attrs}, ref) => {
             position={attrs.pos}
             fov={attrs.fov}
             near={0.1}
-            far={2400}
+            far={attrs.far || 2400}
         />
     );
 });
