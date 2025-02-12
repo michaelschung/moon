@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TimeScene } from "../three/FOVScenes";
+import { TimeScene, EverythingScene } from "../three/FOVScenes";
 
 function FieldOfView() {
     return (
@@ -95,7 +95,11 @@ function FieldOfView() {
                 Moon is in the sky.
             </p>
 
-            <div id="everythingView" className="sketch-container"></div>
+            <div className="slider-container">
+                <div id="everything-label" className="instructions top small">12:00 AM</div>
+                <EverythingScene />
+                <div id="everything-instr" className="instructions bottom small">Hold mouse to move Moon</div>
+            </div>
             <br />
 
             <p>

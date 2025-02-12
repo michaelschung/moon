@@ -99,6 +99,8 @@ export function Circle({pos, quat, r, color, segments=50}) {
 }
 
 export const Slider = forwardRef((props, ref) => {
+    let classList = ["slider"];
+    if (props.vertical) classList.push("vertical");
     return (
         <input
             ref={ref}
@@ -106,6 +108,7 @@ export const Slider = forwardRef((props, ref) => {
             min="0"
             max="100"
             defaultValue={props.defaultVal}
+            className={classList.join(" ")}
         />
     );
 });
