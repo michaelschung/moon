@@ -243,6 +243,8 @@ export function AllEcliptic({sliderRef, tilt}) {
     const earthAngle = sEOrbitRef.current((state) => state.angle);
     const earthRevolve = sEOrbitRef.current((state) => state.revolve);
 
+    const sunRotate = sStoreRef.current((state) => state.rotate);
+
     // Movement control
     const {gl} = useThree();
     const isMoving = useRef(false);
@@ -254,11 +256,12 @@ export function AllEcliptic({sliderRef, tilt}) {
 
         if (isMoving.current) {
             setMoonPos(calcSatPos(ePos, eMR, moonAngle, moonTiltVec));
-            moonRotate(0.05);
-            moonRevolve(0.05);
+            moonRotate(0.03);
+            moonRevolve(0.03);
             setEarthPos(calcSatPos(sPos, sER, earthAngle));
             earthRotate(0.02);
             earthRevolve(0.005);
+            sunRotate(0.002);
         }
 
         if (sliderRef.current && camRef.current) {
@@ -266,7 +269,7 @@ export function AllEcliptic({sliderRef, tilt}) {
 
             // Update camera with interpolated values
             let sunR = sStoreRef.current.getState().r;
-            let endPos = [0, sunR*4, 0];
+            let endPos = [0, sunR*1.4, 0];
             camRef.current.position.set(...interpolate([0, 1000, 0], endPos, sliderVal));
             let endLook = [ePos.x, ePos.y, ePos.z];
             camRef.current.lookAt(...interpolate([0, 0, 0], endLook, sliderVal));

@@ -11,9 +11,10 @@ export function Orbit({lvl, pos, orbitRef, showPrimary, showOrbit=true}) {
     const satPos = orbitState.satStore.getState().pos;
     const satAngle = orbitState.satStore.getState().angle;
     const r = orbitState.r;
+    const tilt = orbitState.tilt;
 
     const priPos = orbitState.priStore((state) => state.pos);
-    const tilt = orbitState.tilt;
+    const priAngle = orbitState.priStore.getState().angle;
 
     const quaternion = useMemo(() => {
         // Circle is by default in xy-plane
@@ -32,7 +33,7 @@ export function Orbit({lvl, pos, orbitRef, showPrimary, showOrbit=true}) {
         ? (
             <>
                 {showPrimary &&
-                    <Earth pos={pos} angle={0} />
+                    <Earth pos={pos} angle={priAngle} />
                 }
                 <Moon pos={satPos} angle={satAngle} />
                 {showOrbit &&
@@ -47,7 +48,7 @@ export function Orbit({lvl, pos, orbitRef, showPrimary, showOrbit=true}) {
         )
         : (
             <>
-                <Sun pos={pos} angle={0} />
+                <Sun pos={pos} angle={priAngle} />
                 <Earth pos={satPos} angle={satAngle} />
             </>
         );
