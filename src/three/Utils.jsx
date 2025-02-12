@@ -50,12 +50,12 @@ export function interpolate(start, end, val, specialCase=false) {
             endVec = new THREE.Vector3(0, 1, 0);
         }
         const currVec = new THREE.Vector3().lerpVectors(startVec, endVec, (val <= 0.5) ? val * 2 : (val - 0.5) * 2);
-        return [currVec.x, currVec.y, currVec.z];
+        return vecToArr(currVec);
     }
-    const startVec = new THREE.Vector3(...start);
-    const endVec = new THREE.Vector3(...end);
+    const startVec = arrToVec(start);
+    const endVec = arrToVec(end);
     const currVec = new THREE.Vector3().lerpVectors(startVec, endVec, val);
-    return [currVec.x, currVec.y, currVec.z];
+    return vecToArr(currVec);
 }
 
 export function Person({pos, quat}) {
@@ -155,7 +155,7 @@ export const Camera = forwardRef(({attrs}, ref) => {
 
     useFrame(() => {
         if (ref.current && attrs.isRevolving) {
-            const r = new THREE.Vector3(...attrs.pos).distanceTo(attrs.target.current.position);
+            const r = arrToVec(attrs.pos).distanceTo(attrs.target.current.position);
             const x = r * Math.cos(angle.current);
             const z = -r * Math.sin(angle.current);
 

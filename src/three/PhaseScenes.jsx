@@ -3,13 +3,8 @@ import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
 import {
-    Sunlight,
-    StarryBackground,
-    Camera,
-    TextToCamera,
-    Slider,
-    interpolate,
-    toggleInstructions
+    Sunlight, StarryBackground, Camera, Slider, TextToCamera,
+    arrToVec, vecToArr, interpolate, toggleInstructions
 } from "./Utils";
 import { Moon } from "./Body";
 import { Orbit } from "./Orbit";
@@ -161,12 +156,12 @@ export function MoonQuarters() {
     });
 
     function calcLabelPos() {
-        let pos = new THREE.Vector3(...priPos);
-        let satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
+        let pos = arrToVec(priPos);
+        let satPos = arrToVec(mStoreRef.current.getState().pos);
         let dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
         let dist = (angle % Math.PI < 0.1) ? 120 : 60;
         let labelPos = new THREE.Vector3().addVectors(satPos, dir.multiplyScalar(dist));
-        return [labelPos.x, labelPos.y, labelPos.z];
+        return vecToArr(labelPos);
     }
 
     function getPhaseText() {
@@ -290,12 +285,12 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
             let sliderVal = Number(sliderRef.current.value) / 100;
 
             // Update camera with interpolated values
-            let pos = new THREE.Vector3(...priPos);
-            let satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
+            let pos = arrToVec(priPos);
+            let satPos = arrToVec(mStoreRef.current.getState().pos);
             let dir = new THREE.Vector3().subVectors(satPos, pos).normalize();
             let earthR = eStoreRef.current.getState().r;
             let endVec = new THREE.Vector3().addVectors(pos, dir.multiplyScalar(earthR));
-            let endPos = [endVec.x, endVec.y, endVec.z];
+            let endPos = vecToArr(endVec);
             camRef.current.position.set(...interpolate([0, 1000, 0], endPos, sliderVal));
             let moonPos = mStoreRef.current.getState().pos;
             camRef.current.lookAt(...interpolate([0, 0, 0], moonPos, sliderVal));
@@ -309,9 +304,9 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
     function calcLabelPos() {
         if (camRef.current) {
             let camDown = camRef.current.up.clone().multiplyScalar(-1);
-            const satPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
+            const satPos = arrToVec(mStoreRef.current.getState().pos);
             const newLabelPos = new THREE.Vector3().addVectors(satPos, camDown.multiplyScalar(75));
-            setLabelPos([newLabelPos.x, newLabelPos.y, newLabelPos.z]);
+            setLabelPos(vecToArr(newLabelPos));
         }
     }
 

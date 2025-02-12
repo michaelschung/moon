@@ -3,16 +3,9 @@ import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
 import {
-    Sunlight,
-    StarryBackground,
-    Camera,
-    Slider,
-    Disk,
-    interpolate,
-    toggleInstructions,
-    calcSatPos,
-    getQuaternion,
-    Person
+    Sunlight, StarryBackground, Camera, Slider, Disk, Person,
+    arrToVec, vecToArr, interpolate, getQuaternion,
+    toggleInstructions, calcSatPos
 } from "./Utils";
 import { Orbit } from "./Orbit";
 import { createBodyStore, createOrbitStore } from "../stores";
@@ -85,19 +78,20 @@ export function TimeView({type, sliderRef}) {
 
     useFrame(() => {
         if (camRef.current) {
-            let sPos = new THREE.Vector3(...sStoreRef.current.getState().pos);
-            let ePos = new THREE.Vector3(...eStoreRef.current.getState().pos);
+            let sPos = arrToVec(sStoreRef.current.getState().pos);
+            let ePos = arrToVec(eStoreRef.current.getState().pos);
             let eSVec = sPos.clone().sub(ePos.clone());
             
             let camPos = (isNew)
                 ? new THREE.Vector3(earthX+250, 100, -250)
                 : new THREE.Vector3(earthX+300, 150, 250);
-            camRef.current.position.set(camPos.x, camPos.y, camPos.z);
+            camRef.current.position.set(...vecToArr(camPos));
             
             let camLook = (isNew)
                 ? ePos.add(eSVec.multiplyScalar(0.1))
                 : new THREE.Vector3(earthX, 0, 0);
-            camRef.current.lookAt(camLook.x, camLook.y, camLook.z);
+            camRef.current.lookAt(...vecToArr(camLook));
+
             camRef.current.up.set(0, 1, 0);
         }
 
@@ -110,8 +104,8 @@ export function TimeView({type, sliderRef}) {
                 earthR * Math.sin(initPersonAngle + angleDelta)
             ];
             setPersonPos(newPersonPos);
-            let ePos = new THREE.Vector3(...eStoreRef.current.getState().pos);
-            let newFovNorm = new THREE.Vector3(...newPersonPos).sub(ePos).normalize();
+            let ePos = arrToVec(eStoreRef.current.getState().pos);
+            let newFovNorm = arrToVec(newPersonPos).sub(ePos).normalize();
             setFovQuat(getQuaternion(newFovNorm));
             setEarthRotate(angleDelta);
 
@@ -243,7 +237,7 @@ export function EverythingView({timeSliderRef, viewSliderRef}) {
     }, [gl]);
 
     useFrame(() => {
-        let ePos = new THREE.Vector3(...eStoreRef.current.getState().pos);
+        let ePos = arrToVec(eStoreRef.current.getState().pos);
 
         if (mouseIsDown.current) {
             setMoonPos(calcSatPos(ePos, eMR, moonAngle, new THREE.Vector3(0, 1, 0)));
@@ -254,7 +248,7 @@ export function EverythingView({timeSliderRef, viewSliderRef}) {
         if (camRef.current && viewSliderRef.current) {
             let viewSliderVal = Number(viewSliderRef.current.value) / 100;
 
-            let sPos = new THREE.Vector3(...sStoreRef.current.getState().pos);
+            let sPos = arrToVec(sStoreRef.current.getState().pos);
             let eSVec = sPos.clone().sub(ePos.clone());
             
             let startPos = [earthX+500, 200, -150];
@@ -262,7 +256,7 @@ export function EverythingView({timeSliderRef, viewSliderRef}) {
             camRef.current.position.set(...interpolate(startPos, endPos, viewSliderVal));
             
             let initLook = ePos.clone().add(eSVec.multiplyScalar(0.1));
-            let startLook = [initLook.x, initLook.y, initLook.z];
+            let startLook = vecToArr(initLook);
             let endLook = [100, 0, 0];
             camRef.current.lookAt(...interpolate(startLook, endLook, viewSliderVal));
 
@@ -279,7 +273,7 @@ export function EverythingView({timeSliderRef, viewSliderRef}) {
                 earthR * Math.sin(initPersonAngle + angleDelta)
             ];
             setPersonPos(newPersonPos);
-            let newFovNorm = new THREE.Vector3(...newPersonPos).sub(ePos).normalize();
+            let newFovNorm = arrToVec(newPersonPos).sub(ePos).normalize();
             setFovQuat(getQuaternion(newFovNorm));
             setEarthRotate(angleDelta);
 

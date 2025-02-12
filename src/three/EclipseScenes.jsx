@@ -3,15 +3,10 @@ import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
 import {
-    Sunlight,
-    StarryBackground,
-    Camera,
-    Slider,
-    Disk,
-    interpolate,
-    toggleInstructions,
-    calcSatPos,
-    getQuaternion
+    Sunlight, StarryBackground, Camera, Slider, Disk,
+    arrToVec, vecToArr,
+    interpolate, calcSatPos, getQuaternion,
+    toggleInstructions
 } from "./Utils";
 import { Orbit } from "./Orbit";
 import { createBodyStore, createOrbitStore } from "../stores";
@@ -53,9 +48,9 @@ export function Eclipse({isLunar, sliderRef}) {
             let sliderVal = Number(sliderRef.current.value) / 100;
 
             // Update camera with interpolated values
-            let sPos = new THREE.Vector3(...sStoreRef.current.getState().pos);
-            let ePos = new THREE.Vector3(...eStoreRef.current.getState().pos);
-            let mPos = new THREE.Vector3(...mStoreRef.current.getState().pos);
+            let sPos = arrToVec(sStoreRef.current.getState().pos);
+            let ePos = arrToVec(eStoreRef.current.getState().pos);
+            let mPos = arrToVec(mStoreRef.current.getState().pos);
             let eSVec = sPos.clone().sub(ePos.clone());
             let earthR = eStoreRef.current.getState().r;
             let endPos = (isLunar)
@@ -174,8 +169,8 @@ export function AllEcliptic({sliderRef, tilt}) {
     const isMoving = useRef(false);
 
     useFrame(() => {
-        let sPos = new THREE.Vector3(...sStoreRef.current.getState().pos);
-        let ePos = new THREE.Vector3(...eStoreRef.current.getState().pos);
+        let sPos = arrToVec(sStoreRef.current.getState().pos);
+        let ePos = arrToVec(eStoreRef.current.getState().pos);
         lightPos.current = ePos.clone().normalize().multiplyScalar(-1);
 
         if (isMoving.current) {
@@ -195,7 +190,7 @@ export function AllEcliptic({sliderRef, tilt}) {
             let sunR = sStoreRef.current.getState().r;
             let endPos = [0, sunR*1.4, 0];
             camRef.current.position.set(...interpolate([0, 1000, 0], endPos, sliderVal));
-            let endLook = [ePos.x, ePos.y, ePos.z];
+            let endLook = vecToArr(ePos);
             camRef.current.lookAt(...interpolate([0, 0, 0], endLook, sliderVal));
             let endUp = [0, 1, 0];
             camRef.current.up.set(...interpolate([0, 0, -1], endUp, sliderVal));
