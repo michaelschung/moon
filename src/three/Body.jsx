@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import { useTexture } from "@react-three/drei";
 
+const baseUrl = import.meta.env.BASE_URL;
+
 function Body({attrs}) {
     const bodyRef = useRef();
 
@@ -27,7 +29,7 @@ export function Moon({pos, angle}) {
             pos: pos,
             r: 20,
             angle: angle,
-            texture: useTexture("/img/moon-texture.jpg"),
+            texture: useTexture(`${baseUrl}img/moon-texture.jpg`),
             castShadow: true,
             receiveShadow: true
         }} />
@@ -41,7 +43,7 @@ export function Earth({pos, angle}) {
             pos: pos,
             r: 80,
             angle: angle,
-            texture: useTexture("/img/earth-texture.jpg"),
+            texture: useTexture(`${baseUrl}img/earth-texture.jpg`),
             castShadow: true,
             receiveShadow: true
         }} />
@@ -56,7 +58,7 @@ export function Sun({pos, angle}) {
             // r: 8720,
             r: 100,
             angle: angle,
-            texture: useTexture("/img/sun-texture.jpg"),
+            texture: useTexture(`${baseUrl}/img/sun-texture.jpg`),
             castShadow: false,
             receiveShadow: false
         }} />

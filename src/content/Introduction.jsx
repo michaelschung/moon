@@ -2,7 +2,7 @@ import React from "react";
 
 function Introduction() {
     const baseUrl = import.meta.env.BASE_URL;
-    
+
     return (
         <>
             <h1>The Phases of the Moon</h1>
@@ -23,8 +23,8 @@ function Introduction() {
             </p>
 
             <div className="photo-row">
-                <img src={`${baseUrl}why-does-the-moon.png`} width="49.5%" />
-                <img src={`${baseUrl}why-is-the-moon.png`} width="49.5%" />
+                <img src={`${baseUrl}img/why-does-the-moon.png`} width="49.5%" />
+                <img src={`${baseUrl}img/why-is-the-moon.png`} width="49.5%" />
             </div>
 
             <p>

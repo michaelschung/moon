@@ -3,6 +3,8 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
 
+const baseUrl = import.meta.env.BASE_URL;
+
 export function arrToVec(arr) {
     return new THREE.Vector3(...arr);
 }
@@ -203,7 +205,7 @@ export function Sunlight({pos, targetRef, brightness, shadows, ambient}) {
 }
 
 export function StarryBackground() {
-    const texture = useTexture("/img/sky.png");
+    const texture = useTexture(`${baseUrl}img/sky.png`);
 
     return (
         <mesh position={[0, 0, 0]}>
