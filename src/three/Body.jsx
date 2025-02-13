@@ -1,8 +1,6 @@
 import { useRef } from "react";
 import { useTexture } from "@react-three/drei";
 
-// const urlStub = window.location.href.slice(0, -1);
-// const baseUrl = `${urlStub}${import.meta.env.BASE_URL}`;
 const baseUrl = window.location.href;
 
 function Body({attrs}) {
