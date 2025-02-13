@@ -4,7 +4,7 @@
 
 ## Introduction
 
-A simple web page exploring the phases of the moon (and related topics) by way of interactive graphics. Built in HTML/CSS/JavaScript, using p5.js for the visuals.
+An explainer article exploring the phases of the moon (and related topics) by way of interactive graphics. Built as a React app with Three.js graphics.
 
 ## Table of Contents
 
@@ -14,9 +14,9 @@ A simple web page exploring the phases of the moon (and related topics) by way o
 - [Updates](#updates)
 - [License](#license)
 
-## [View live site](https://moon-344h.onrender.com/)
+## [View live site](https://michaelschung.github.io/moon/)
 
-This app is publicly hosted as a [Render](https://render.com/) app -- click above to check it out!
+This app is publicly hosted on my GitHub Pages -- click above to check it out!
 
 ## Local development
 
@@ -38,37 +38,49 @@ This will launch a local server to [`localhost:5173`](http://localhost:5173/) us
 
 ## Technical overview
 
-The architecture of this page is incredibly simple – just a plain, static website that calls in some p5 instances for graphics. The real work was in those graphics. There are seven JS files in this project: six of them organize p5 code into logical groups, and the seventh acts as a module to dynamically load and unload sketches within the page. Here are some highlights.
+As mentioned above, this page is built as a React app with Three.js graphics. But specifically, it uses [React Three Fiber](https://r3f.docs.pmnd.rs/getting-started/introduction) for declarative scene construction and [Zustand](https://github.com/pmndrs/zustand) for easier state management.
 
-**Organizational p5 code**
-- `phases.js`: All sketches found in the "Why does the Moon have phases?" section.
-- `eclipses.js`: All sketches found in the "What about eclipses?" section.
-- `fov.js`: All sketches found in the "What about daytime?" section.
-- `body.js`: Defines a `Body` class, which is extended by `Moon`, `Earth`, and `Sun`. The fun part here is in `drawLitSphere`, which renders a body as a collection of longitudinal slices, colored according to their orientation with respect to a light direction.
-- `orbit.js`: Defines an `Orbit` class, which maintains the relationship between a primary body and its satellite. My favorite function here is `calculateCoords`, which computes the position of the satellite as a function of the orbital radius and angular tilt of the orbital plane.
-- `utils.js`: A whole bunch of functions (and two small classes) for repetitive code. These include:
-  - `rotateToCamera`: Rotates the world axes to align with a given camera. Crucial for drawing legible text on screen.
-  - `cameraAwareText`: Uses `rotateToCamera` to draw text in 3D space that's always oriented toward the camera.
-  - `draw2DText`: Draws text a fixed distance away from the camera, so that it appears fixed to the 2D canvas.
-  - `interpolate`: Calculates a vector in between a given `start` and `end` based on a slider's value, using linear interpolation.
+Admittedly, this page doesn't have a very good reason to be written in React, other than my own desire to learn it as a framework. Also, the previous version was created as plain JavaScript with p5.js graphics, which looked worse and behaved more jankily. But given that the task of simulating bodies in 3D space very much begs an object-oriented approach, I found myself fighting against the aggressively hierarchical nature of React. Thankfully, Zustand came to my rescue, and I learned by negation the types of apps that React is meant for -- perhaps that will be my next project!
 
-**Sketch-loading module: `load-sketches.js`**
-- Maintains a map of sketch IDs to their p5 instances.
-- Uses an `IntersectionObserver` to detect when sketches enter and exit the viewport, loading and unloading as appropriate.
+In any case, this React-powered web page looks and functions much better than the previous version, and I'd like to point out a few technical highlights.
 
-This dynamic sketch loading is necessary since rendering all sketches simultaneously slows them all down. But it exhibits slightly glitchy behavior when scrolling too quickly, or when the taller sketches load or unload and pull the page with them. There may be a smart way to fix this, but I'm already planning to move the whole thing to React which I *think* will be a better long-term solution.
+**React Three Fiber components (`src/three/`)**
+- `PhaseScenes.jsx`/`EclipseScenes.jsx`/`FOVScenes.jsx`: These define all of the full scenes for each major section of the article.
+- `Body.jsx`: Defines a `Body` component that renders a single celestial body according to various parameters, as well as `Moon`, `Earth`, and `Sun` components that are effectively "sub-classes" to `Body`.
+- `Orbit.jsx`: Defines an `Orbit` component that renders an orbital relationship. You can tell that this is where I discovered Zustand.
+- `Utils.jsx`: Various functions and components that are used consistently throughout the article. These include:
+  - `getQuaternion`: Returns a quaternion for rotating shapes to a desired orientation.
+  - `interpolate`: Calculates a vector in between a given `start` and `end` based on a slider's value, using linear interpolation. Used for all camera movements.
+  - `Camera`/`TextToCamera`: Components for the camera within the scene, as well as a way to draw text that always faces towards the camera.
+  - `StarryBackground`/`Sunlight`: Components to simulate the background elements of each scene.
+
+**React components (`src/components/`)**
+- Pretty straightforward. These each define a section of the article, and call in React Three Fiber scenes as necessary.
+- One thing of note: `Main.jsx` uses an `IntersectionObserver` to detect when major sections enter and exit the viewport, loading and unloading as appropriate to avoid too many simultaneous WebGL contexts.
 
 ## Updates
 
 ### Releases
 
 - **1.0**: Initial release (1/29/2025)
+- **2.0**: Updated to React Three Fiber (2/13/2025)
 
 ### Roadmap
 
-There are two main changes that I would like to make:
-- **Remake the app in React** to enhance performance and provide a smoother experience.
-- **Migrate graphics to Three.js** for more powerful 3D rendering.
+This is pretty much in its final state, but here are a few things that I may come back to:
+
+#### Bugs
+
+- In the final scene, it's possible to de-sync the "Hold mouse to move Moon" instructions.
+- The accordions at the very end behave slightly weirdly at smaller screen sizes. This is a Pico problem, so I'm ignoring it for now.
+
+#### Improvements
+
+- Upgrade the "little red sphere" to an actual little figure of a person.
+- Add Sun/Earth/Moon axial tilt/wobble for better realism.
+- Add the solar corona to the solar eclipse scene, only at totality.
+- Attach some kind of label to each slider(?)
+- Standardize the usage of Zustand stores -- currently, earlier components such as `Body` and `Camera` rely on all attributes being passed in individually, which differs from later components like `Orbit`.
 
 ## License
 
