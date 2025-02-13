@@ -21,14 +21,19 @@ function Notes() {
                     Relatedly, the Earth-Moon system is not purely a matter of the Moon
                     orbiting the Earth, but rather of both bodies orbiting their
                     collective center of mass. This also applies when the Sun is brought
-                    into the picture, but with infinitesimally small effect.
+                    into the picture, but with an infinitesimally small effect.
+                </li>
+                <li>
+                    The Moon is the only body for which I even attempted to accurately
+                    portray the rotational and orbital speeds. I adjusted the speeds of
+                    the Earth and the Sun purely based on aesthetics, but relative to the
+                    Moon they should both be rotating <i>much</i> more quickly, and the
+                    Earth should be revolving much more slowly.
                 </li>
                 <li>
                     The Earth's equatorial plane is pictured as aligned with the ecliptic
-                    plane, when it should really be at a 23.4° tilt. I mostly ignored this
-                    because each body is rendered as a collection of longitudinal slices,
-                    and I didn't want to deal with the lighting ramifications of a tilted
-                    Earth. Similar things can be said about the Sun and the Moon.
+                    plane, when it should really be at a 23.4° tilt. Similar things can be
+                    said about the Sun and the Moon.
                 </li>
                 <li>
                     All Earthbound views of the Moon are shown as seen from the Northern
@@ -39,7 +44,7 @@ function Notes() {
                     Relatedly, the exact timing of moonrise/set (as well as sunrise/set)
                     varies widely based on season and latitude. Technically, the sketches
                     shown on this page assume a view from the equator, on either of the
-                    equinoxes -- yet still from the Northern Hemisphere.
+                    equinoxes -- yet somehow still "from the Northern Hemisphere."
                 </li>
             </ul>
         </>

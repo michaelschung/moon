@@ -1,7 +1,6 @@
 import React from "react";
 import "./style.css";
-import { Header, Footer } from "./components";
-import Main from "./content/Main";
+import { Header, Main, Footer } from "./components";
 
 // Example functional component structure for your app
 function App() {
