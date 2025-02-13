@@ -4,7 +4,8 @@ import * as THREE from "three";
 
 import {
     Sunlight, StarryBackground, Camera, Slider, TextToCamera,
-    arrToVec, vecToArr, interpolate, toggleInstructions
+    arrToVec, vecToArr, interpolate, toggleInstructions,
+    calcSatPos
 } from "./Utils";
 import { Moon } from "./Body";
 import { Orbit } from "./Orbit";
@@ -61,24 +62,21 @@ export function MoonRevolve() {
     const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, 400, null));
 
     // No re-rendering needed
-    const orbitState = eMOrbitRef.current.getState();
-    const r = orbitState.r;
-    const priPos = eStoreRef.current.getState().pos;
+    const eMR = eMOrbitRef.current.getState().r;
+    const ePos = eStoreRef.current.getState().pos;
 
     // Re-render when these change
-    const setSatPos = mStoreRef.current((state) => state.setPos);
-    const satRotate = mStoreRef.current((state) => state.rotate);
+    const setMoonPos = mStoreRef.current((state) => state.setPos);
+    const moonRotate = mStoreRef.current((state) => state.rotate);
     const angle = eMOrbitRef.current((state) => state.angle);
-    const revolve = eMOrbitRef.current((state) => state.revolve);
+    const moonRevolve = eMOrbitRef.current((state) => state.revolve);
+    const earthRotate = eStoreRef.current((state) => state.rotate);
 
     useFrame(() => {
-        // TODO: update this to include tilt
-        const satX = priPos[0] - r * Math.cos(angle);
-        const satY = priPos[1];
-        const satZ = priPos[2] + r * Math.sin(angle);
-        setSatPos([satX, satY, satZ]);
-        satRotate(0.01);
-        revolve(0.01);
+        setMoonPos(calcSatPos(arrToVec(ePos), eMR, angle));
+        moonRotate(0.01);
+        moonRevolve(0.01);
+        earthRotate(0.0067);
     });
 
     return (
@@ -109,6 +107,12 @@ export function MoonRevolve() {
                 orbitRef={eMOrbitRef.current}
                 showPrimary={true}
             />
+
+            <TextToCamera attrs={{
+                text: "< Sun",
+                pos: [-550, 0, 0],
+                color: "#ccc"
+            }} />
         </>
     );
 }
@@ -121,15 +125,15 @@ export function MoonQuarters() {
     const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, 350, 0, null));
 
     // No re-rendering needed
-    const orbitState = eMOrbitRef.current.getState();
-    const r = orbitState.r;
-    const priPos = eStoreRef.current.getState().pos;
+    const eMR = eMOrbitRef.current.getState().r;
+    const ePos = eStoreRef.current.getState().pos;
 
     // Re-render when these change
-    const setSatPos = mStoreRef.current((state) => state.setPos);
-    const satRotate = mStoreRef.current((state) => state.rotate);
+    const setMoonPos = mStoreRef.current((state) => state.setPos);
+    const moonRotate = mStoreRef.current((state) => state.rotate);
     const angle = eMOrbitRef.current((state) => state.angle);
-    const revolve = eMOrbitRef.current((state) => state.revolve);
+    const moonRevolve = eMOrbitRef.current((state) => state.revolve);
+    const earthRotate = eStoreRef.current((state) => state.rotate);
 
     // Movement control
     const {gl} = useThree();
@@ -138,14 +142,11 @@ export function MoonQuarters() {
     const setOrbitAngle = eMOrbitRef.current((state) => state.setAngle);
 
     useFrame(() => {
-        // TODO: update this to include tilt
         if (isMoving.current) {
-            const satX = priPos[0] - r * Math.cos(angle);
-            const satY = priPos[1];
-            const satZ = priPos[2] + r * Math.sin(angle);
-            setSatPos([satX, satY, satZ]);
-            satRotate(0.01);
-            revolve(0.01);
+            setMoonPos(calcSatPos(arrToVec(ePos), eMR, angle));
+            moonRotate(0.01);
+            moonRevolve(0.01);
+            earthRotate(0.0067);
             isMoving.current = angle < nextStop.current;
         } else {
             // Snap to nearest quadrantal angle
@@ -156,7 +157,7 @@ export function MoonQuarters() {
     });
 
     function calcLabelPos() {
-        let pos = arrToVec(priPos);
+        let pos = arrToVec(ePos);
         let satPos = arrToVec(mStoreRef.current.getState().pos);
         let dir = new THREE.Vector3().subVectors(pos, satPos).normalize();
         let dist = (angle % Math.PI < 0.1) ? 120 : 60;
@@ -252,15 +253,15 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
     const eMOrbitRef = useRef(createOrbitStore(eStoreRef.current, mStoreRef.current, orbR, moonStartAngle.current, null));
 
     // No re-rendering needed
-    const orbitState = eMOrbitRef.current.getState();
-    const r = orbitState.r;
-    const priPos = eStoreRef.current.getState().pos;
+    const eMR = eMOrbitRef.current.getState().r;
+    const ePos = eStoreRef.current.getState().pos;
 
     // Re-render when these change
-    const setSatPos = mStoreRef.current((state) => state.setPos);
-    const satRotate = mStoreRef.current((state) => state.rotate);
+    const setMoonPos = mStoreRef.current((state) => state.setPos);
+    const moonRotate = mStoreRef.current((state) => state.rotate);
     const angle = eMOrbitRef.current((state) => state.angle);
-    const revolve = eMOrbitRef.current((state) => state.revolve);
+    const moonRevolve = eMOrbitRef.current((state) => state.revolve);
+    const earthRotate = eStoreRef.current((state) => state.rotate);
 
     // Movement control
     const {gl} = useThree();
@@ -271,21 +272,18 @@ export function PhaseView({quarter, allowAnimate, sliderRef}) {
     const [labelPos, setLabelPos] = useState(initLabelPos);
 
     useFrame(() => {
-        // TODO: update this to include tilt
         if (allowAnimate && isMoving.current) {
-            let satX = priPos[0] - r * Math.cos(angle);
-            let satY = priPos[1];
-            let satZ = priPos[2] + r * Math.sin(angle);
-            setSatPos([satX, satY, satZ]);
-            satRotate(0.01);
-            revolve(0.01);
+            setMoonPos(calcSatPos(arrToVec(ePos), eMR, angle));
+            moonRotate(0.01);
+            moonRevolve(0.01);
+            earthRotate(0.0067);
         }
 
         if (sliderRef.current && camRef.current) {
             let sliderVal = Number(sliderRef.current.value) / 100;
 
             // Update camera with interpolated values
-            let pos = arrToVec(priPos);
+            let pos = arrToVec(ePos);
             let satPos = arrToVec(mStoreRef.current.getState().pos);
             let dir = new THREE.Vector3().subVectors(satPos, pos).normalize();
             let earthR = eStoreRef.current.getState().r;

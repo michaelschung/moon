@@ -10,11 +10,11 @@ function Eclipses() {
             <h2>What about eclipses?</h2>
 
             <p>
-                An <span>eclipse</span> is when one celestial body passes into the
+                An <span className="term">eclipse</span> is when one celestial body passes into the
                 shadow of another. On Earth, we experience two main types of eclipses.
             </p>
             <p>
-                A <span>lunar eclipse</span> is when the Moon passes into the shadow
+                A <span className="term">lunar eclipse</span> is when the Moon passes into the shadow
                 of the Earth; from the perspective of the Earth, the Moon goes dark.
             </p>
 
@@ -25,7 +25,7 @@ function Eclipses() {
             <br />
 
             <p>
-                A <span>solar eclipse</span> is when the Earth passes under the
+                A <span className="term">solar eclipse</span> is when the Earth passes under the
                 shadow of the Moon; from the perspective of the Earth, the sun
                 becomes blocked from view.
             </p>
@@ -43,15 +43,14 @@ function Eclipses() {
             <div className="slider-container">
                 <div id="ecliptic-instr1-1" className="instructions top">Click to start animation</div>
                 <AllEclipticScene tilt={false} />
-                <div id="ecliptic-instr1-2" className="instructions bottom">(Sizes and distances not to scale)</div>
+                <div id="ecliptic-instr1-2" className="instructions bottom vert">(Sizes and distances not to scale)</div>
             </div>
-            <br />
 
             <p>
                 If you play with the slider, you'll see that all of the movement is
                 happening in the same plane -- specifically, the plane defined by the
                 orbit of the Earth around the Sun. We call this the&nbsp;
-                <span>ecliptic plane</span>, and it's shown here in blue. If the orbit
+                <span className="term">ecliptic plane</span>, and it's shown here in blue. If the orbit
                 of the Moon lay exactly in the ecliptic plane as shown, then every new
                 and full moon would bring a solar and lunar eclipse, respectively.
             </p>
@@ -68,9 +67,8 @@ function Eclipses() {
             <div className="slider-container">
                 <div id="ecliptic-instr2-1" className="instructions top">Click to start animation</div>
                 <AllEclipticScene tilt={true} />
-                <div id="ecliptic-instr2-2" className="instructions bottom">(Sizes and distances not to scale)</div>
+                <div id="ecliptic-instr2-2" className="instructions bottom vert">(Sizes and distances not to scale)</div>
             </div>
-            <br />
 
             <p>
             <i>
@@ -97,7 +95,7 @@ function Eclipses() {
                 <li>
                     During a lunar eclipse (especially a total lunar eclipse), the bending
                     of sunlight through the Earth's atmosphere turns the moon a
-                    reddish-orange color, often called a <span>blood moon</span>.&nbsp;
+                    reddish-orange color, often called a <span className="term">blood moon</span>.&nbsp;
                     <a href="https://www.nhm.ac.uk/discover/lunar-eclipse-guide-what-they-are-when-to-see-them-and-where.html" target="_blank">
                         Read more about lunar eclipses here.</a>
                 </li>
@@ -113,7 +111,7 @@ function Eclipses() {
                 </li>
                 <li>
                     We actually do have solar eclipses without full coverage of the Sun;
-                    these are called <span>annular solar eclipses</span>, and they're
+                    these are called <span className="term">annular solar eclipses</span>, and they're
                     beautiful in their own right (see upper-right image above). This
                     happens due to the fact that the Moon's orbit is not perfectly circular
                     -- a detail that we're skipping in this page for the sake of simplicity.&nbsp;

@@ -113,8 +113,8 @@ function FieldOfView() {
                     What time will moonrise/moonset be at exactly third quarter?
                 </summary>
                 <div className="solution">
-                    <span>Moonrise: midnight (12:00 AM)</span>
-                    <span>Moonset: noon (12:00 PM)</span>
+                    <span className="term">Moonrise: midnight (12:00 AM)</span>
+                    <span className="term">Moonset: noon (12:00 PM)</span>
                 </div>  
             </details>
 
@@ -124,8 +124,8 @@ function FieldOfView() {
                     on average?
                 </summary>
                 <div className="solution">
-                    <span>Moonrise: ~3:00 PM</span>
-                    <span>Moonset: ~3:00 AM</span>
+                    <span className="term">Moonrise: ~3:00 PM</span>
+                    <span className="term">Moonset: ~3:00 AM</span>
                 </div>
             </details>
 
@@ -135,7 +135,7 @@ function FieldOfView() {
                     right on the horizon. What phase is it in?
                 </summary>
                 <div className="solution">
-                    <span>Waxing crescent.</span>
+                    <span className="term">Waxing crescent.</span>
                     <ul>
                         <li>
                             It's 9 AM, so the Sun is already high in the sky.
@@ -158,7 +158,7 @@ function FieldOfView() {
                     new moon)?
                 </summary>
                 <div className="solution">
-                    <span>
+                    <span className="term">
                         Waning gibbous. Rises ~9:00 PM and sets ~9:00 AM, aligning most
                         closely with regular sleeping hours.
                     </span>

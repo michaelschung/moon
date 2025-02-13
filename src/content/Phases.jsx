@@ -11,8 +11,8 @@ function Phases() {
 
         <p>
             Let's begin by examining the phases of the Moon. For the purpose of
-            demonstration, we'll use this little model. It's not as pretty as the
-            real thing, but it'll do.
+            demonstration, we'll use this render. It's not as pretty as the
+            real thing, but at least it's something we can control.
         </p>
 
         <Canvas className="sketch-container three-two">
@@ -36,18 +36,19 @@ function Phases() {
 
         <p>
             Both bodies are illuminated on the same side -- this is due to the Sun,
-            which is shining from over 90 million miles away.
+            which is shining from over 90 million miles away (i.e., way off to the
+            left).
         </p>
         <p>
             It probably goes without saying, but note that exactly half of the Moon
             is illuminated at all times, no matter where it is in its orbit around
             the Earth. This tells us that the phases we observe are all a matter of
             perspective. But more on that in a bit -- let's first take a moment to
-            define a bit of spaninology that we'll need moving forward.
+            define a bit of terminology that we'll need moving forward.
         </p>
         <p>
             The lunar cycle is split into four quarters, beginning and ending with
-            the <span>new moon</span>, when the Moon is directly between the Earth
+            the <span className="term">new moon</span>, when the Moon is directly between the Earth
             and the Sun. Click on the sketch below to move the Moon between each
             quarter.
         </p>
@@ -61,9 +62,9 @@ function Phases() {
 
         <p>
             Not coincidentally, these are four of the phases of the moon:&nbsp;
-            <span>new moon</span>, <span>first quarter</span>,&nbsp;
-            <span>full moon</span>, and <span>third quarter</span> (a.k.a.&nbsp;
-            <span>last quarter</span>). Perhaps you can already see how these names
+            <span className="term">new moon</span>, <span className="term">first quarter</span>,&nbsp;
+            <span className="term">full moon</span>, and <span className="term">third quarter</span> (a.k.a.&nbsp;
+            <span className="term">last quarter</span>). Perhaps you can already see how these names
             and positions translate to the corresponding Earthbound visuals that
             we're familiar with, but here are four sketches to fully make the
             connection. Try moving the sliders to transition from orbit view to
@@ -92,11 +93,11 @@ function Phases() {
         <p>
             <i>
             Note: the first quarter and third quarter Moon are often referred to
-            as <span>half moon</span>, due to the fact that it appears
+            as <span className="term">half moon</span>, due to the fact that it appears
             half-illuminated as compared to the full moon. This is sometimes
             slightly confusing since the full moon occurs halfway through the
             lunar cycle; but it should remain clear as long as you separate the
-            spans describing the lunar orbit (first quarter, etc.) from those
+            terms describing the lunar orbit (first quarter, etc.) from those
             describing the appearance of the Moon (half moon, etc.).
             </i>
         </p>
@@ -131,13 +132,13 @@ function Phases() {
         <p>
             These are the in-between phases, which are given two-part names
             according to their shape and their place in the cycle. The thin slice of
-            moon is called a <span>crescent</span>, while the not-quite-full moon is
-            called a <span>gibbous</span>. To distinguish between the crescents and
-            gibbouses, we classify them as either <span>waxing</span> (growing
-            towards full moon) or <span>waning</span> (shrinking towards new moon).
+            moon is called a <span className="term">crescent</span>, while the not-quite-full moon is
+            called a <span className="term">gibbous</span>. To distinguish between the crescents and
+            gibbouses, we classify them as either <span className="term">waxing</span> (growing
+            towards full moon) or <span className="term">waning</span> (shrinking towards new moon).
             This gives us four new phase names:&nbsp;
-            <span>waxing crescent</span>, <span>waxing gibbous</span>,&nbsp;
-            <span>waning gibbous</span>, and <span>waning crescent</span>.
+            <span className="term">waxing crescent</span>, <span className="term">waxing gibbous</span>,&nbsp;
+            <span className="term">waning gibbous</span>, and <span className="term">waning crescent</span>.
         </p>
         <p>Thus, we have all eight phases of the moon.</p>
 
@@ -145,7 +146,6 @@ function Phases() {
             <div id="all-phases-instr" className="instructions top">Click to start animation</div>
             <PhaseScene quarter={0} allowAnimate={true} />
         </div>
-        <br />
         </>
     );
 }

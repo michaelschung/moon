@@ -47,14 +47,12 @@ main {
     }
 }
 
-img {
-    margin-bottom: 1em;
+h2 {
+    margin-top: 1em;
 }
 
-span {
-    font-weight: bold;
-    font-style: italic;
-    color: #888;
+img {
+    margin-bottom: 1em;
 }
 
 input {
@@ -67,6 +65,14 @@ header {
 
 footer {
     margin-bottom: 2em;
+    max-width: 60%;
+    text-align: center;
+}
+
+.term {
+    font-weight: bold;
+    font-style: italic;
+    color: #858585;
 }
 
 .photo-row {
@@ -83,6 +89,7 @@ footer {
 }
 
 .sketch-container {
+    width: inherit;
     margin: 1em 0 2em;
 }
 
@@ -97,7 +104,7 @@ footer {
 }
 
 .slider.vertical {
-    width: inherit;
+    width: 100%;
     position: absolute;
     transform-origin: left top;
     transform: rotate(-90deg) translate(1em, 1em);
@@ -105,6 +112,12 @@ footer {
 
 .slider:hover {
     opacity: 1;
+}
+
+.placeholder {
+    width: 100%;
+    height: 0;
+    display: inline-block;
 }
 
 .slider-container {
@@ -160,6 +173,10 @@ footer {
 .instructions.no-slider {
     margin-top: -1em;
     top: 2em;
+}
+
+.instructions.vert {
+    bottom: 4em;
 }
 
 .hidden {

@@ -119,7 +119,8 @@ export function AllEclipticScene({tilt}) {
             <Canvas shadows className="sketch-container one-one with-slider">
                 <AllEcliptic sliderRef={sliderRef} tilt={tilt} />
             </Canvas>
-            <Slider ref={sliderRef} defaultVal={0} />
+            <div className="placeholder"></div>
+            <Slider ref={sliderRef} defaultVal={100} vertical={true} />
         </>
     );
 }
@@ -184,7 +185,7 @@ export function AllEcliptic({sliderRef, tilt}) {
         }
 
         if (sliderRef.current && camRef.current) {
-            let sliderVal = Number(sliderRef.current.value) / 100;
+            let sliderVal = Number(100-sliderRef.current.value) / 100;
 
             // Update camera with interpolated values
             let sunR = sStoreRef.current.getState().r;
