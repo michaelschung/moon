@@ -3,6 +3,8 @@ import React from "react";
 import { AllEclipticScene, EclipseScene } from "../three/EclipseScenes";
 
 function Eclipses() {
+    const baseUrl = import.meta.env.BASE_URL;
+    
     return (
         <>
             <hr />
@@ -84,10 +86,10 @@ function Eclipses() {
             </p>
 
             <div className="photo-row">
-                <img src="/img/eclipse-lunar-total.jpg" width="49.5%" />
-                <img src="/img/eclipse-solar-annular.jpg" width="49.5%" />
+                <img src={`${baseUrl}eclipse-lunar-total.jpg`} width="49.5%" />
+                <img src={`${baseUrl}eclipse-solar-annular.jpg`} width="49.5%" />
             </div>
-            <img src="/img/eclipse-solar-full.jpg" width="100%" style={{marginTop: "-0.6em"}} />
+            <img src={`${baseUrl}eclipse-solar-full.jpg`} width="100%" style={{marginTop: "-0.6em"}} />
             <div className="caption">Images courtesy of NASA.</div>
 
             <p>Extra notes on eclipses:</p>

@@ -1,6 +1,8 @@
 import React from "react";
 
 function Introduction() {
+    const baseUrl = import.meta.env.BASE_URL;
+    
     return (
         <>
             <h1>The Phases of the Moon</h1>
@@ -10,7 +12,7 @@ function Introduction() {
 
             <p>This is the moon.</p>
 
-            <img src={`${import.meta.env.BASE_URL}img/moon-nasa.jpg`} width="inherit" />
+            <img src={`${baseUrl}img/moon-nasa.jpg`} width="inherit" />
             <div className="caption">Image courtesy of NASA.</div>
 
             <p>
@@ -21,8 +23,8 @@ function Introduction() {
             </p>
 
             <div className="photo-row">
-                <img src="/img/why-does-the-moon.png" width="49.5%" />
-                <img src="/img/why-is-the-moon.png" width="49.5%" />
+                <img src={`${baseUrl}why-does-the-moon.png`} width="49.5%" />
+                <img src={`${baseUrl}why-is-the-moon.png`} width="49.5%" />
             </div>
 
             <p>
