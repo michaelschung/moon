@@ -5,7 +5,8 @@ export default defineConfig({
   plugins: [react()],
   root: "./",
   publicDir: "public",
-  base: process.env.NODE_ENV === "production" ? "/moon/" : "/",
+  // base: process.env.NODE_ENV === "production" ? "/moon/" : "/",
+  base: "/",
   build: {
     outDir: "dist",
     assetsDir: "assets",
