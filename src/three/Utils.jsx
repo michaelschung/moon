@@ -3,8 +3,9 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, useTexture, Html } from "@react-three/drei";
 
-const urlStub = window.location.href.slice(0, -1);
-const baseUrl = `${urlStub}${import.meta.env.BASE_URL}`;
+// const urlStub = window.location.href.slice(0, -1);
+// const baseUrl = `${urlStub}${import.meta.env.BASE_URL}`;
+const baseUrl = window.location.href;
 
 export function arrToVec(arr) {
     return new THREE.Vector3(...arr);
