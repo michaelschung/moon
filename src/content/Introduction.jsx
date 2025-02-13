@@ -10,7 +10,7 @@ function Introduction() {
 
             <p>This is the moon.</p>
 
-            <img src="/img/moon-nasa.jpg" width="inherit" />
+            <img src={`${import.meta.env.BASE_URL}img/moon-nasa.jpg`} width="inherit" />
             <div className="caption">Image courtesy of NASA.</div>
 
             <p>
