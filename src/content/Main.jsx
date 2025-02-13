@@ -16,6 +16,7 @@ function Main() {
     const [phasesRef, isPhasesVisible] = useObserver(observerConfig);
     const [eclipsesRef, isEclipsesVisible] = useObserver(observerConfig);
     const [fovRef, isFovVisible] = useObserver(observerConfig);
+    
     return (
         <main id="main">
             <Introduction />

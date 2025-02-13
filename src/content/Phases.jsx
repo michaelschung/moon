@@ -11,8 +11,7 @@ function Phases() {
 
         <p>
             Let's begin by examining the phases of the Moon. For the purpose of
-            demonstration, we'll use this render. It's not as pretty as the
-            real thing, but at least it's something we can control.
+            demonstration, we'll use this render.
         </p>
 
         <Canvas className="sketch-container three-two">
