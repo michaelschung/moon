@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import {
     Introduction,
@@ -26,11 +26,9 @@ function Main() {
             <div ref={eclipsesRef}>
                 {isEclipsesVisible && <Eclipses />}
             </div>
-            {/* <Eclipses /> */}
             <div ref={fovRef}>
                 {isFovVisible && <FieldOfView />}
             </div>
-            {/* <FieldOfView /> */}
             <TheEnd />
             <Notes />
         </main>
