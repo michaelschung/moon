@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta data-rh="true" property="og:title" content="The Phases of the Moon">
+    <meta data-rh="true" property="og:type" content="article">
+    <meta data-rh="true" property="og:image" content="/moon/old/img/moon-nasa.jpg">
+    <!-- <meta data-rh="true" property="og:url" content=""> -->
+    <title>Phases of the Moon</title>
+
+    <link rel="icon" type="image/x-icon" href="/moon/old/img/moon-phase.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <script type="module" crossorigin src="/moon/old/assets/index-9t2jW1Oh.js"></script>
+  <link rel="stylesheet" crossorigin href="/moon/old/assets/index-C_F22GZM.css">
+</head>
+<body class="container">
+    <header>
+        <!-- Created by <a href="https://github.com/michaelschung/moon" target="_blank">Michael Chung</a>. -->
+    </header>
+
+    <main id="main">
+        <h1>The Phases of the Moon</h1>
+
+        <hr>
+
+        <!-- Introduction -->
+
+        <h3>Introduction</h3>
+
+        <p>This is the moon.</p>
+
+        <img src="/moon/old/img/moon-nasa.jpg" width="inherit">
+        <div class="caption">Image courtesy of NASA.</div>
+
+        <p>
+            We've all seen it, and most people are generally aware that its
+            appearance changes according to a periodic cycle. But a peek at
+            common Google searches suggests that our nearest celestial neighbor
+            is frequently misunderstood.
+        </p>
+
+        <div class="photo-row">
+            <img src="/moon/old/img/why-does-the-moon.png" width="49.5%">
+            <img src="/moon/old/img/why-is-the-moon.png" width="49.5%">
+        </div>
+
+        <p>
+            What I find exciting is that the answers to 70% of these questions
+            lie in a basic understanding of the geometry of the Sun-Earth-Moon
+            relationship, so that is what I will attempt to illuminate here. Is
+            this the most important thing in the world? No. But I think it's
+            fascinating anyway, and when seeing the Moon during the day has been
+            cited as evidence of a <a href="https://www.instagram.com/reel/Cm97MoyjmPE/?ig_rid=cba7a786-08a8-42ad-bffe-b5fc9814be82" target="_blank">flat Earth</a>,
+            perhaps it's a topic worth exploring.
+        </p>
+
+        <p>
+        <i>
+            Note that this page will not cover questions about the origins of the
+            Moon, or how it came to be in its current state. For a much deeper
+            cosmological and astrodynamic angle, I refer you to the brilliant
+            work of
+            <a href="https://ciechanow.ski/moon/" target="_blank">
+                Bartosz Ciechanowski</a>.
+        </i>
+        </p>
+
+        <hr>
+
+        <!-- Why does the Moon have phases? -->
+
+        <h2>Why does the Moon have phases?</h2>
+
+        <p>
+            Let's begin by examining the phases of the Moon. For the purpose of
+            demonstration, we'll use this little model. It's not as pretty as the
+            real thing, but it'll do.
+        </p>
+
+        <div id="moonPhases" class="sketch-container"></div>
+
+        <p>
+            The key to everything lies in the position of the Moon relative to the
+            Earth, and the position of the Earth-Moon system relative to the Sun.
+            So let's break that down.
+        </p>
+        <p>
+            The Moon revolves around the Earth just about once every four weeks.
+            That looks something like this (sizes to scale, distances <i>not</i>
+            to scale).
+        </p>
+
+        <div id="moonRevolve" class="sketch-container"></div>
+
+        <p>
+            Both bodies are illuminated on the same side -- this is due to the
+            Sun, which is shining from over 90 million miles away.
+        </p>
+        <p>
+            It probably goes without saying, but note that exactly half of the
+            Moon is illuminated at all times, no matter where it is in its orbit
+            around the Earth. This tells us that the phases we observe are all a
+            matter of perspective. But more on that in a bit -- let's first take a
+            moment to define a bit of terminology that we'll need moving forward.
+        </p>
+        <p>
+            The lunar cycle is split into four quarters, beginning and ending
+            with the <term>new moon</term>, when the Moon is directly between
+            the Earth and the Sun. Click on the sketch below to move the Moon
+            between each quarter.
+        </p>
+
+        <div id="moonQuarters" class="sketch-container"></div>
+
+        <p>
+            Not coincidentally, these are four of the phases of the moon:
+            <term>new moon</term>, <term>first quarter</term>,
+            <term>full moon</term>, and <term>third quarter</term> (a.k.a.
+            <term>last quarter</term>). Perhaps you can already see how these names
+            and positions translate to the corresponding Earthbound visuals that
+            we're familiar with, but here are four sketches to fully make the
+            connection. Try moving the sliders to transition from orbit view to
+            Earth view.
+        </p>
+
+        <div class="photo-row">
+            <div id="quarterView0" class="sketch-container"></div>
+            <div id="quarterView1" class="sketch-container"></div>
+        </div>
+        <br>
+        <div class="photo-row">
+            <div id="quarterView2" class="sketch-container"></div>
+            <div id="quarterView3" class="sketch-container"></div>
+        </div>
+        <br>
+
+        <p>
+        <i>
+            Note: the first quarter and third quarter Moon are often referred to
+            as <term>half moon</term>, due to the fact that it appears
+            half-illuminated as compared to the full moon. This is sometimes
+            slightly confusing since the full moon occurs halfway through the
+            lunar cycle; but it should remain clear as long as you separate the
+            terms describing the lunar orbit (first quarter, etc.) from those
+            describing the appearance of the Moon (half moon, etc.).
+        </i>
+        </p>
+        <p>So that's what happens at each quarter. But what happens in between?</p>
+        <p>
+            Here are four more sketches, very similar to the previous ones. But
+            this time, each is frozen at a point between quarters. Note what
+            happens now when you lower yourself to Earth.
+        </p>
+
+        <div class="photo-row">
+            <div id="waxingCrescent" class="sketch-container"></div>
+            <div id="waxingGibbous" class="sketch-container"></div>
+        </div>
+        <br>
+        <div class="photo-row">
+            <div id="waningGibbous" class="sketch-container"></div>
+            <div id="waningCrescent" class="sketch-container"></div>
+        </div>
+        <br>
+
+        <p>
+            These are the in-between phases, which are given two-part names
+            according to their shape and their place in the cycle. The thin slice
+            of moon is called a <term>crescent</term>, while the not-quite-full
+            moon is called a <term>gibbous</term>. To distinguish between the
+            crescents and gibbouses, we classify them as either <term>waxing</term>
+            (growing towards full moon) or <term>waning</term> (shrinking towards
+            new moon). This gives us four new phase names:
+            <term>waxing crescent</term>, <term>waxing gibbous</term>,
+            <term>waning gibbous</term>, and <term>waning crescent</term>.
+        </p>
+        <p>Thus, we have all eight phases of the moon.</p>
+
+        <div id="phaseView" class="sketch-container"></div>
+        <br>
+
+        <hr>
+
+        <!-- So, we're done...? -->
+
+        <h2>So, we're done...?</h2>
+
+        <p>
+            "But wait!"" you may be thinking, "What about the Sun?" And indeed,
+            what <i>about</i> the Sun?
+        </p>
+        <p>
+            A keen observer at this point will notice two things (or likely even
+            more, but let's focus on these two for now):
+        </p>
+        <ol>
+            <li>
+                What about eclipses? Won't the Moon block the Sun at every new
+                moon, and/or won't the Earth cast its shadow on the Moon at every
+                full moon?
+            </li>
+            <li>
+                What about the daytime? Your little widgets take me down to Earth,
+                but they completely ignore whether it's day or night.
+            </li>
+        </ol>
+        <p>
+            Fantastic questions all around. Let's tackle them in this order, just
+            because the first one is simpler to answer than the second.
+        </p>
+
+        <hr>
+
+        <!-- What about eclipses? -->
+
+        <h2>What about eclipses?</h2>
+
+        <p>
+            An <term>eclipse</term> is when one celestial body passes into the
+            shadow of another. On Earth, we experience two main types of eclipses.
+        </p>
+        <p>
+            A <term>lunar eclipse</term> is when the Moon passes into the shadow
+            of the Earth; from the perspective of the Earth, the Moon goes dark.
+        </p>
+
+        <div id="lunarEclipse" class="sketch-container"></div>
+        <br>
+
+        <p>
+            A <term>solar eclipse</term> is when the Earth passes under the
+            shadow of the Moon; from the perspective of the Earth, the sun
+            becomes blocked from view.
+        </p>
+
+        <div id="solarEclipse" class="sketch-container"></div>
+        <br>
+
+        <p>
+            Take a look at this setup of the Sun, Earth, and Moon.
+        </p>
+
+        <div id="allEcliptic" class="sketch-container"></div>
+        <br>
+
+        <p>
+            If you play with the slider, you'll see that all of the movement is
+            happening in the same plane -- specifically, the plane defined by the
+            orbit of the Earth around the Sun. We call this the
+            <term>ecliptic plane</term>, and it's shown here in blue. If the orbit
+            of the Moon lay exactly in the ecliptic plane as shown, then every new
+            and full moon would bring a solar and lunar eclipse, respectively.
+        </p>
+        <p>
+            In reality, nothing is so perfectly aligned. The Moon's orbital plane
+            lies tilted at a 5° angle from the ecliptic plane, so the three
+            bodies don't usually line up perfectly enough for an eclipse to
+            happen. But it is important to note that while not every full moon
+            brings a lunar eclipse, the full moon is still the only phase in which
+            a lunar eclipse <i>can</i> occur. The same relationship exists between
+            solar eclipses and the new moon.
+        </p>
+
+        <div id="moonTilt" class="sketch-container"></div>
+        <br>
+
+        <p>
+        <i>
+            Note: This sketch exaggerates the Moon's orbital tilt to 20°, just to
+            illustrate the point. Though the true tilt is much smaller, the greater
+            distances involved mean that eclipses of all kinds are far less common
+            than this sketch would make it seem.
+        </i>
+        </p>
+        <p>
+            In any case, wow are we lucky that these sometimes line up, because the
+            results are breathtaking.
+        </p>
+
+        <div class="photo-row">
+            <img src="/moon/old/img/eclipse-lunar-total.jpg" width="49.5%">
+            <img src="/moon/old/img/eclipse-solar-annular.jpg" width="49.5%">
+        </div>
+        <img src="/moon/old/img/eclipse-solar-full.jpg" width="100%" style="margin-top: -0.6em;">
+        <div class="caption">Images courtesy of NASA.</div>
+
+        <p>Extra notes on eclipses:</p>
+        <ul>
+            <li>
+                During a lunar eclipse (especially a total lunar eclipse), the bending
+                of sunlight through the Earth's atmosphere turns the moon a
+                reddish-orange color, often called a <term>blood moon</term>.
+                <a href="https://www.nhm.ac.uk/discover/lunar-eclipse-guide-what-they-are-when-to-see-them-and-where.html" target="_blank">
+                    Read more about lunar eclipses here.</a>
+            </li>
+            <li>
+                Our solar eclipses are a special miracle. The Moon is about 400 times
+                smaller than the Sun, but the Sun is just about 400 times farther away.
+                The result is that from our perspective on Earth, the two bodies appear
+                almost exactly the same size. This has a massive effect on the
+                spectacular visual of the Sun's corona that we experience during a
+                total solar eclipse: if the sizes or distances were shifted just a
+                little bit, we'd either never get full coverage of the Sun, or the much
+                larger Moon would simply blot out the corona.
+            </li>
+            <li>
+                We actually do have solar eclipses without full coverage of the Sun;
+                these are called <term>annular solar eclipses</term>, and they're
+                beautiful in their own right (see upper-right image above). This
+                happens due to the fact that the Moon's orbit is not perfectly circular
+                -- a detail that we're skipping in this page for the sake of simplicity.
+                <a href="https://www.nesdis.noaa.gov/annular-solar-eclipse" target="_blank">
+                    Read more about annular solar eclipses here</a>, or check out the
+                aforementioned <a href="https://ciechanow.ski/moon/" target="_blank">
+                    Bartosz Ciechanowski's</a> blog for a detailed breakdown of
+                elliptical orbits.
+            </li>
+        </ul>
+
+        <hr>
+
+        <!-- What about the daytime? -->
+
+        <h2>What about the daytime?</h2>
+
+        <p>
+            Our final topic is potentially the most confusing, and was actually the
+            primary inspiration for creating this page. I've often been asked by
+            friends and family questions along the lines of: "Where is the Moon
+            tonight?" or "Why can I see the Moon during the day?"
+        </p>
+        <p>
+            Well, surprise, surprise -- these also come down to a discussion of the
+            lunar cycle. But it'll take slightly more careful thought to understand
+            the direct relationship between the phase of the Moon and when it's visible
+            in the sky.
+        </p>
+        <p>
+            Let's begin by anchoring our thinking in the two easiest phases to
+            understand: new moon and full moon.
+        </p>
+        <p>
+            At new moon, the Moon is in the same part of the sky as the Sun, with its
+            dark side facing towards the Earth. Thus, with the exception of a solar
+            eclipse, there is nothing for us to see either by day when the Moon is out
+            with the Sun, or by night when the Moon is below the horizon.
+        </p>
+
+        <div id="timeViewNew" class="sketch-container"></div>
+        <br>
+
+        <p>
+            Take a close look at this sketch. The little red sphere represents
+            a person on Earth, and the yellow circle represents the horizon from that
+            person's perspective. This person begins the sketch at midnight, when
+            they are on the side of the Earth directly opposite the Sun. They obviously
+            can't see anything in the sky that's below their horizon since that would
+            be looking through the Earth, but they can see everything above the horizon
+            -- which in this case corresponds to everything on the non-Earth side of
+            the yellow circle.
+        </p>
+        <p>
+            Move the slider to rotate the Earth, shifting the scene forward in time.
+            Note that the sun comes into the field of view right around 6:00 AM, which
+            is also when the person crosses onto the lit side of the Earth -- this
+            is sunrise. As the day continues until sunset, the Moon is within the
+            person's field of view the entire time, but it's invisible because they
+            are faced with its dark side.
+        </p>
+        <p>
+            The opposite happens during full moon.
+        </p>
+
+        <div id="timeViewFull" class="sketch-container"></div>
+        <br>
+
+        <p>
+            This time, the person starts out at noon, but does not see the Moon until
+            around 6:00 PM (sunset) because it is directly opposite the Sun. Now, as
+            time moves forward, the Moon is within the field of view throughout the
+            entire night, and is visible because its light side is facing the Earth.
+        </p>
+        <p>
+            From these two extremes we learn:
+        </p>
+        <ul>
+            <li>
+                At new moon, the Moon is up for 12 hours, from sunrise to
+                sunset, but it is invisible.
+            </li>
+            <li>
+                At full moon, the Moon is up for 12 hours, from sunset to
+                sunrise, and it is visible.
+            </li>
+        </ul>
+        <p>
+            Extrapolating from here, we can assume that for any point in the
+            lunar cycle between these two, as long as the lunar phase is far
+            enough from new moon for the Moon to be visible from Earth, there
+            will always a 12-hour subset of the 24-hour day during which the
+            Moon is in the sky.
+        </p>
+
+        <div id="everythingView" class="sketch-container"></div>
+        <br>
+
+        <p>
+            Take your time with this sketch -- mess around until all of the pieces
+            click! To check your understanding, answer the following questions (click
+            on each to reveal answers).
+        </p>
+
+        <details>
+            <summary role="button" class="outline secondary">
+                What time will moonrise/moonset be at exactly third quarter?
+            </summary>
+            <div class="solution">
+                <span>Moonrise: midnight (12:00 AM)</span>
+                <span>Moonset: noon (12:00 PM)</span>
+            </div>  
+        </details>
+
+        <details>
+            <summary role="button" class="outline secondary">
+                What time will moonrise/moonset be during the waxing gibbous phase,
+                on average?
+            </summary>
+            <div class="solution">
+                <span>Moonrise: ~3:00 PM</span>
+                <span>Moonset: ~3:00 AM</span>
+            </div>
+        </details>
+
+        <details>
+            <summary role="button" class="outline secondary">
+                You are driving to work at 9 AM, eastbound, and you see the Moon
+                right on the horizon. What phase is it in?
+            </summary>
+            <div class="solution">
+                <span>Waxing crescent.</span>
+                <ul>
+                    <li>
+                        It's 9 AM, so the Sun is already high in the sky.
+                    </li>
+                    <li>
+                        You are looking east, so the Moon is rising -- only a waxing
+                        moon rises during the day.
+                    </li>
+                    <li>
+                        A first quarter Moon would rise at noon, so this is before
+                        first quarter.
+                    </li>
+                </ul>
+            </div>
+        </details>
+
+        <details>
+            <summary role="button" class="outline secondary">
+                What is (most likely) the least-seen phase of the Moon (excluding
+                new moon)?
+            </summary>
+            <div class="solution">
+                <span>
+                    Waning gibbous. Rises ~9:00 PM and sets ~9:00 AM, aligning most
+                    closely with regular sleeping hours.
+                </span>
+                <ul>
+                    <li>
+                        It's okay to disagree with this answer, as long as you can
+                        back up your position.
+                    </li>
+                    <li>
+                        But any waxing phase is almost certainly incorrect, due to
+                        the fact that the waxing moon is up during the day.
+                    </li>
+                </ul>
+            </div>
+        </details>
+
+        <hr>
+
+        <!-- The end -->
+
+        <h2>The end</h2>
+
+        <p>
+            There you have it: the phases of the Moon! Hope you had fun, and keep
+            learning. 🙂
+        </p>
+
+        <hr>
+
+        <!-- Notes -->
+
+        <h3>Notes</h3>
+
+        <p>
+            The simulations on this page made some assumptions for the sake of
+            simplicity. None of these affect the fundamental concepts as presented,
+            but here they are.
+        </p>
+
+        <ul>
+            <li>
+                All orbits are assumed circular. In reality, orbits are elliptical.
+            </li>
+            <li>
+                Relatedly, the Earth-Moon system is not purely a matter of the Moon
+                orbiting the Earth, but rather of both bodies orbiting their
+                collective center of mass. This also applies when the Sun is brought
+                into the picture, but with infinitesimally small effect.
+            </li>
+            <li>
+                The Earth's equatorial plane is pictured as aligned with the ecliptic
+                plane, when it should really be at a 23.4° tilt. I mostly ignored this
+                because each body is rendered as a collection of longitudinal slices,
+                and I didn't want to deal with the lighting ramifications of a tilted
+                Earth. Similar things can be said about the Sun and the Moon.
+            </li>
+            <li>
+                All Earthbound views of the Moon are shown as seen from the Northern
+                Hemisphere. Views from the Southern Hemisphere would be reversed
+                (e.g., a waxing crescent would begin illuminating on the left side).
+            </li>
+            <li>
+                Relatedly, the exact timing of moonrise/set (as well as sunrise/set)
+                varies widely based on season and latitude. Technically, the sketches
+                shown on this page assume a view from the equator, on either of the
+                equinoxes -- yet still from the Northern Hemisphere.
+            </li>
+        </ul>
+    </main>
+
+    <footer>
+        Written and created by
+        <a href="https://github.com/michaelschung/moon" target="_blank">
+            Michael Chung</a>.
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+</body>
+</html>
